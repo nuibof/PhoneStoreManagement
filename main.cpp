@@ -1,5 +1,14 @@
-//
-// Created by Nam B on 9/8/2026.
-//
+#include <QApplication>
+#include <QWidget>
 
-#include "main.h"
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+
+    QWidget window;
+    window.resize(500, 350);
+    window.setWindowTitle("Phone Store Management");
+    window.show();
+
+    return app.exec();
+}
