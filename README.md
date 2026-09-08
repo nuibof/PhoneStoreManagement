@@ -54,7 +54,7 @@ PhoneStoreManagement/
 ### 1. Clone Repository
 
 ```bash
-git clone [<repository-url>](https://github.com/nuibof/PhoneStoreManagement/)
+git clone https://github.com/nuibof/PhoneStoreManagement/
 cd PhoneStoreManagement
 ```
 
