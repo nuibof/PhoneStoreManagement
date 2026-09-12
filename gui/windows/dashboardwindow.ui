@@ -100,12 +100,16 @@
                     border-radius: 12px;
                     }
 
-                    QLabel.cardTitle {
+                    QLabel#productsTitle,
+                    QLabel#ordersTitle,
+                    QLabel#customersTitle {
                     color: #777777;
                     font-size: 13px;
                     }
 
-                    QLabel.cardValue {
+                    QLabel#productsValue,
+                    QLabel#ordersValue,
+                    QLabel#customersValue {
                     color: #202124;
                     font-size: 28px;
                     font-weight: bold;
@@ -127,13 +131,23 @@
 
                     /* ===== OTHER PAGES ===== */
 
-                    QLabel#pageTitle {
+                    QLabel#productsPageTitle,
+                    QLabel#categoriesPageTitle,
+                    QLabel#customersPageTitle,
+                    QLabel#staffPageTitle,
+                    QLabel#ordersPageTitle,
+                    QLabel#invoicesPageTitle {
                     color: #202124;
                     font-size: 26px;
                     font-weight: bold;
                     }
 
-                    QLabel#pageDescription {
+                    QLabel#productsPageDescription,
+                    QLabel#categoriesPageDescription,
+                    QLabel#customersPageDescription,
+                    QLabel#staffPageDescription,
+                    QLabel#ordersPageDescription,
+                    QLabel#invoicesPageDescription {
                     color: #777777;
                     font-size: 14px;
                     }
