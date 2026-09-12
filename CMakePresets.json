@@ -13,7 +13,8 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/cmake-build-debug",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_PREFIX_PATH": "C:/Qt/6.11.2/msvc2022_64"
       }
     },
     {
@@ -22,7 +23,8 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/cmake-build-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_PREFIX_PATH": "C:/Qt/6.11.2/msvc2022_64"
       }
     }
   ],

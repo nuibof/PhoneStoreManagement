@@ -13,19 +13,24 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
 
 add_executable(PhoneStoreManagement
         main.cpp
-        gui/windows/loginwindow.cpp
-        gui/windows/loginwindow.h
-        gui/windows/loginwindow.ui
-        gui/windows/dashboardwindow.cpp
-        gui/windows/dashboardwindow.h
-        gui/windows/dashboardwindow.ui
+
+        gui/windows/LoginWindow.cpp
+        gui/windows/LoginWindow.h
+        gui/windows/LoginWindow.ui
+
+        gui/windows/DashboardWindow.cpp
+        gui/windows/DashboardWindow.h
+        gui/windows/DashboardWindow.ui
+
         src/database/DatabaseConnection.cpp
         include/database/DatabaseConnection.h
+
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
-        gui/widgets/productspage.cpp
-        gui/widgets/productspage.h
-        gui/widgets/productspage.ui
+
+        gui/widgets/ProductsPage.cpp
+        gui/widgets/ProductsPage.h
+        gui/widgets/ProductsPage.ui
 )
 
 target_link_libraries(PhoneStoreManagement
