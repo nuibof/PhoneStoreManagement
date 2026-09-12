@@ -13,6 +13,9 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 add_executable(PhoneStoreManagement
         main.cpp
+        gui/windows/loginwindow.cpp
+        gui/windows/loginwindow.h
+        gui/windows/loginwindow.ui
 )
 
 target_link_libraries(PhoneStoreManagement

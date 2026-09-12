@@ -1,11 +1,11 @@
 //
-// Created by Nam B on 9/8/2026.
+// Created by Nam B on 9/9/2026.
 //
 
 #ifndef PHONESTOREMANAGEMENT_LOGINWINDOW_H
 #define PHONESTOREMANAGEMENT_LOGINWINDOW_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 
 QT_BEGIN_NAMESPACE
@@ -16,7 +16,7 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-class LoginWindow : public QWidget {
+class LoginWindow : public QMainWindow {
     Q_OBJECT
 
 public:

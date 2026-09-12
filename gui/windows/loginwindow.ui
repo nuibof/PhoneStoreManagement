@@ -1,22 +1,315 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <author/>
-    <comment/>
-    <exportmacro/>
     <class>LoginWindow</class>
-    <widget class="QWidget" name="LoginWindow">
+
+    <widget class="QMainWindow" name="LoginWindow">
         <property name="geometry">
             <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>400</width>
-                <height>300</height>
+                <width>700</width>
+                <height>500</height>
             </rect>
         </property>
-        <property name="windowTitle">
-            <string>LoginWindow</string>
+
+        <property name="minimumSize">
+            <size>
+                <width>600</width>
+                <height>450</height>
+            </size>
         </property>
+
+        <property name="windowTitle">
+            <string>Phone Store Management</string>
+        </property>
+
+        <widget class="QWidget" name="centralwidget">
+            <property name="styleSheet">
+                <string notr="true">
+                    QWidget#centralwidget {
+                    background-color: #F5F7FA;
+                    }
+
+                    QLabel {
+                    color: #202124;
+                    }
+
+                    QLabel#lblTitle {
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: #111111;
+                    }
+
+                    QLabel#lblSubtitle {
+                    font-size: 14px;
+                    color: #666666;
+                    }
+
+                    QLabel#lblUsername,
+                    QLabel#lblPassword {
+                    font-size: 13px;
+                    font-weight: bold;
+                    color: #444444;
+                    }
+
+                    QFrame#loginCard {
+                    background-color: #FFFFFF;
+                    border: 1px solid #E0E0E0;
+                    border-radius: 16px;
+                    }
+
+                    QLineEdit {
+                    background-color: #FFFFFF;
+                    color: #222222;
+                    border: 1px solid #D0D0D0;
+                    border-radius: 8px;
+                    padding: 10px 12px;
+                    font-size: 14px;
+                    }
+
+                    QLineEdit:focus {
+                    border: 1px solid #3478F6;
+                    }
+
+                    QPushButton#btnLogin {
+                    background-color: #3478F6;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 11px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    }
+
+                    QPushButton#btnLogin:hover {
+                    background-color: #4A8CFF;
+                    }
+
+                    QPushButton#btnLogin:pressed {
+                    background-color: #2864D7;
+                    }
+
+                    QPushButton#btnExit {
+                    background-color: transparent;
+                    color: #666666;
+                    border: 2px solid #CCCCCC;
+                    border-radius: 8px;
+                    padding: 8px;
+                    font-size: 13px;
+                    }
+
+                    QPushButton#btnExit:hover {
+                    color: #222222;
+                    }
+                </string>
+            </property>
+
+            <layout class="QVBoxLayout" name="mainLayout">
+                <property name="spacing">
+                    <number>0</number>
+                </property>
+                <property name="leftMargin">
+                    <number>40</number>
+                </property>
+                <property name="topMargin">
+                    <number>30</number>
+                </property>
+                <property name="rightMargin">
+                    <number>40</number>
+                </property>
+                <property name="bottomMargin">
+                    <number>30</number>
+                </property>
+
+                <item>
+                    <spacer name="topSpacer">
+                        <property name="orientation">
+                            <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                            <size>
+                                <width>20</width>
+                                <height>40</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </item>
+
+                <item>
+                    <widget class="QLabel" name="lblTitle">
+                        <property name="text">
+                            <string>PHONE STORE</string>
+                        </property>
+                        <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                        </property>
+                    </widget>
+                </item>
+
+                <item>
+                    <widget class="QLabel" name="lblSubtitle">
+                        <property name="text">
+                            <string>Management System</string>
+                        </property>
+                        <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                        </property>
+                    </widget>
+                </item>
+
+                <item>
+                    <spacer name="titleSpacer">
+                        <property name="orientation">
+                            <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                            <size>
+                                <width>20</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </item>
+
+                <item>
+                    <widget class="QFrame" name="loginCard">
+                        <property name="frameShape">
+                            <enum>QFrame::StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                            <enum>QFrame::Raised</enum>
+                        </property>
+
+                        <layout class="QVBoxLayout" name="cardLayout">
+                            <property name="spacing">
+                                <number>14</number>
+                            </property>
+                            <property name="leftMargin">
+                                <number>35</number>
+                            </property>
+                            <property name="topMargin">
+                                <number>30</number>
+                            </property>
+                            <property name="rightMargin">
+                                <number>35</number>
+                            </property>
+                            <property name="bottomMargin">
+                                <number>25</number>
+                            </property>
+
+                            <item>
+                                <widget class="QLabel" name="lblUsername">
+                                    <property name="text">
+                                        <string>Username</string>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QLineEdit" name="txtUsername">
+                                    <property name="placeholderText">
+                                        <string>Enter your username</string>
+                                    </property>
+                                    <property name="clearButtonEnabled">
+                                        <bool>true</bool>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QLabel" name="lblPassword">
+                                    <property name="text">
+                                        <string>Password</string>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QLineEdit" name="txtPassword">
+                                    <property name="echoMode">
+                                        <enum>QLineEdit::Password</enum>
+                                    </property>
+                                    <property name="placeholderText">
+                                        <string>Enter your password</string>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <spacer name="formSpacer">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>20</width>
+                                            <height>10</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
+
+                            <item>
+                                <widget class="QPushButton" name="btnLogin">
+                                    <property name="minimumSize">
+                                        <size>
+                                            <width>0</width>
+                                            <height>42</height>
+                                        </size>
+                                    </property>
+                                    <property name="text">
+                                        <string>LOGIN</string>
+                                    </property>
+                                    <property name="cursor">
+                                        <cursorShape>PointingHandCursor</cursorShape>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QPushButton" name="btnExit">
+                                    <property name="text">
+                                        <string>Exit</string>
+
+                                    </property>
+                                    <property name="cursor">
+                                        <cursorShape>PointingHandCursor</cursorShape>
+                                    </property>
+                                </widget>
+                            </item>
+                        </layout>
+                    </widget>
+                </item>
+
+                <item>
+                    <spacer name="bottomSpacer">
+                        <property name="orientation">
+                            <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                            <size>
+                                <width>20</width>
+                                <height>40</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </item>
+            </layout>
+        </widget>
+
+        <widget class="QMenuBar" name="menubar">
+            <property name="visible">
+                <bool>false</bool>
+            </property>
+        </widget>
+
+        <widget class="QStatusBar" name="statusbar">
+            <property name="visible">
+                <bool>false</bool>
+            </property>
+        </widget>
     </widget>
-    <pixmapfunction/>
+
+    <resources/>
     <connections/>
 </ui>
