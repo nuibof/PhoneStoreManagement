@@ -1,0 +1,916 @@
+-- =========================================================
+-- Phone Store Management
+-- Sample Data
+-- 20 smartphone products
+-- Apple: 7 | Samsung: 7 | Xiaomi: 6
+-- Each product: 2-3 variants
+-- =========================================================
+
+
+-- =========================================================
+-- 1. CATEGORY
+-- =========================================================
+
+INSERT INTO categories (category_name, description)
+VALUES
+    ('Smartphone', 'Điện thoại thông minh')
+ON CONFLICT (category_name) DO NOTHING;
+
+
+-- =========================================================
+-- 2. BRANDS
+-- =========================================================
+
+INSERT INTO brands (brand_name, description)
+VALUES
+    ('Apple', 'Apple Inc.'),
+    ('Samsung', 'Samsung Electronics'),
+    ('Xiaomi', 'Xiaomi Corporation')
+ON CONFLICT (brand_name) DO NOTHING;
+
+
+-- =========================================================
+-- 3. COLORS
+-- =========================================================
+
+INSERT INTO colors (color_name)
+VALUES
+    ('Black'),
+    ('White'),
+    ('Blue'),
+    ('Green'),
+    ('Pink'),
+    ('Purple'),
+    ('Silver'),
+    ('Gold'),
+    ('Titanium'),
+    ('Natural Titanium'),
+    ('Desert Titanium')
+ON CONFLICT (color_name) DO NOTHING;
+
+
+-- =========================================================
+-- 4. STORAGE
+-- =========================================================
+
+INSERT INTO storage_options (storage_name)
+VALUES
+    ('128GB'),
+    ('256GB'),
+    ('512GB'),
+    ('1TB')
+ON CONFLICT (storage_name) DO NOTHING;
+
+
+-- =========================================================
+-- 5. RAM
+-- =========================================================
+
+INSERT INTO ram_options (ram_name)
+VALUES
+    ('6GB'),
+    ('8GB'),
+    ('12GB'),
+    ('16GB')
+ON CONFLICT (ram_name) DO NOTHING;
+
+
+-- =========================================================
+-- 6. PRODUCTS
+-- =========================================================
+
+-- =========================
+-- APPLE
+-- =========================
+
+INSERT INTO products
+(category_id, brand_id, product_name, model, description, warranty_months)
+VALUES
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Apple'),
+    'iPhone 15',
+    'iPhone 15',
+    'iPhone 15 with A16 Bionic',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Apple'),
+    'iPhone 15 Pro',
+    'iPhone 15 Pro',
+    'iPhone 15 Pro with A17 Pro and titanium design',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Apple'),
+    'iPhone 15 Pro Max',
+    'iPhone 15 Pro Max',
+    'Premium iPhone with A17 Pro',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Apple'),
+    'iPhone 16',
+    'iPhone 16',
+    'iPhone 16 with A18 chip',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Apple'),
+    'iPhone 16 Pro',
+    'iPhone 16 Pro',
+    'iPhone 16 Pro with A18 Pro chip',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Apple'),
+    'iPhone 16 Pro Max',
+    'iPhone 16 Pro Max',
+    'Premium iPhone with A18 Pro chip',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Apple'),
+    'iPhone 17',
+    'iPhone 17',
+    'iPhone 17 with A19 chip',
+    12
+);
+
+
+-- =========================
+-- SAMSUNG
+-- =========================
+
+INSERT INTO products
+(category_id, brand_id, product_name, model, description, warranty_months)
+VALUES
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Samsung'),
+    'Galaxy S23',
+    'Galaxy S23',
+    'Samsung Galaxy S23 flagship smartphone',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Samsung'),
+    'Galaxy S23 Ultra',
+    'Galaxy S23 Ultra',
+    'Samsung flagship smartphone with S Pen',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Samsung'),
+    'Galaxy S24',
+    'Galaxy S24',
+    'Samsung Galaxy S24 flagship smartphone',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Samsung'),
+    'Galaxy S24 Ultra',
+    'Galaxy S24 Ultra',
+    'Samsung flagship smartphone with S Pen',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Samsung'),
+    'Galaxy S25',
+    'Galaxy S25',
+    'Samsung Galaxy S25 flagship smartphone',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Samsung'),
+    'Galaxy S25 Ultra',
+    'Galaxy S25 Ultra',
+    'Samsung premium flagship smartphone',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Samsung'),
+    'Galaxy S26 Ultra',
+    'Galaxy S26 Ultra',
+    'Samsung latest premium flagship smartphone',
+    12
+);
+
+
+-- =========================
+-- XIAOMI
+-- =========================
+
+INSERT INTO products
+(category_id, brand_id, product_name, model, description, warranty_months)
+VALUES
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Xiaomi'),
+    'Xiaomi 13',
+    'Xiaomi 13',
+    'Xiaomi flagship smartphone',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Xiaomi'),
+    'Xiaomi 13 Pro',
+    'Xiaomi 13 Pro',
+    'Xiaomi premium flagship with Leica camera',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Xiaomi'),
+    'Xiaomi 13T',
+    'Xiaomi 13T',
+    'Xiaomi T-series smartphone',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Xiaomi'),
+    'Xiaomi 14',
+    'Xiaomi 14',
+    'Xiaomi flagship smartphone with Leica camera',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Xiaomi'),
+    'Xiaomi 14T Pro',
+    'Xiaomi 14T Pro',
+    'Xiaomi premium T-series smartphone',
+    12
+),
+
+(
+    (SELECT category_id FROM categories WHERE category_name = 'Smartphone'),
+    (SELECT brand_id FROM brands WHERE brand_name = 'Xiaomi'),
+    'Xiaomi 15',
+    'Xiaomi 15',
+    'Xiaomi flagship smartphone',
+    12
+);
+
+
+-- =========================================================
+-- 7. PRODUCT VARIANTS
+-- =========================================================
+-- Apple: RAM = NULL
+-- Samsung/Xiaomi: RAM is specified
+-- =========================================================
+
+
+-- =========================
+-- APPLE VARIANTS
+-- =========================
+
+-- iPhone 15
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 15'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '128GB'),
+    NULL,
+    'IP15-BLK-128',
+    15000000, 18990000, 15
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 15'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    NULL,
+    'IP15-BLU-256',
+    17500000, 21990000, 10
+);
+
+
+-- iPhone 15 Pro
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 15 Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Natural Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    NULL,
+    'IP15P-NAT-256',
+    22000000, 28990000, 8
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 15 Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    NULL,
+    'IP15P-BLU-512',
+    26000000, 32990000, 5
+);
+
+
+-- iPhone 15 Pro Max
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 15 Pro Max'),
+    (SELECT color_id FROM colors WHERE color_name = 'Natural Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    NULL,
+    'IP15PM-NAT-256',
+    25000000, 32990000, 7
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 15 Pro Max'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    NULL,
+    'IP15PM-BLU-512',
+    30000000, 38990000, 4
+);
+
+
+-- iPhone 16
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 16'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '128GB'),
+    NULL,
+    'IP16-BLK-128',
+    18000000, 22990000, 12
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 16'),
+    (SELECT color_id FROM colors WHERE color_name = 'Pink'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    NULL,
+    'IP16-PNK-256',
+    20500000, 25990000, 8
+);
+
+
+-- iPhone 16 Pro
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 16 Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '128GB'),
+    NULL,
+    'IP16P-TIT-128',
+    23000000, 28990000, 8
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 16 Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Desert Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    NULL,
+    'IP16P-DES-256',
+    25500000, 31990000, 6
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 16 Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    NULL,
+    'IP16P-TIT-512',
+    29000000, 35990000, 4
+);
+
+
+-- iPhone 16 Pro Max
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 16 Pro Max'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    NULL,
+    'IP16PM-TIT-256',
+    27000000, 34990000, 6
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 16 Pro Max'),
+    (SELECT color_id FROM colors WHERE color_name = 'Desert Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    NULL,
+    'IP16PM-DES-512',
+    31000000, 39990000, 3
+);
+
+
+-- iPhone 17
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 17'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    NULL,
+    'IP17-BLK-256',
+    21000000, 24999000, 10
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'iPhone 17'),
+    (SELECT color_id FROM colors WHERE color_name = 'White'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    NULL,
+    'IP17-WHT-512',
+    26000000, 30999000, 5
+);
+
+
+-- =========================
+-- SAMSUNG VARIANTS
+-- =========================
+
+-- Galaxy S23
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S23'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '128GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '8GB'),
+    'SS23-BLK-128',
+    13000000, 16990000, 12
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S23'),
+    (SELECT color_id FROM colors WHERE color_name = 'Green'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '8GB'),
+    'SS23-GRN-256',
+    15000000, 18990000, 8
+);
+
+
+-- Galaxy S23 Ultra
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S23 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '8GB'),
+    'SS23U-BLK-256',
+    20000000, 26990000, 7
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S23 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Green'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS23U-GRN-512',
+    23000000, 29990000, 5
+);
+
+
+-- Galaxy S24
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S24'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '8GB'),
+    'SS24-BLK-256',
+    16000000, 21990000, 12
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S24'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '8GB'),
+    'SS24-BLU-256',
+    16000000, 21990000, 8
+);
+
+
+-- Galaxy S24 Ultra
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S24 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS24U-TIT-256',
+    22000000, 29990000, 7
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S24 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS24U-TIT-512',
+    25000000, 33990000, 5
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S24 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '1TB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS24U-TIT-1TB',
+    29000000, 37990000, 3
+);
+
+
+-- Galaxy S25
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S25'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS25-BLK-256',
+    18000000, 22990000, 10
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S25'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS25-BLU-512',
+    21000000, 26990000, 5
+);
+
+
+-- Galaxy S25 Ultra
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S25 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS25U-TIT-256',
+    23000000, 33990000, 7
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S25 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS25U-TIT-512',
+    26000000, 36990000, 5
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S25 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '1TB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS25U-TIT-1TB',
+    29000000, 39990000, 3
+);
+
+
+-- Galaxy S26 Ultra
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S26 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'SS26U-TIT-256',
+    28000000, 39990000, 5
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Galaxy S26 Ultra'),
+    (SELECT color_id FROM colors WHERE color_name = 'Titanium'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '16GB'),
+    'SS26U-TIT-512',
+    32000000, 44990000, 3
+);
+
+
+-- =========================
+-- XIAOMI VARIANTS
+-- =========================
+
+-- Xiaomi 13
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 13'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '8GB'),
+    'XM13-BLK-256',
+    11000000, 14990000, 10
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 13'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM13-BLU-256',
+    12000000, 15990000, 7
+);
+
+
+-- Xiaomi 13 Pro
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 13 Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM13P-BLK-256',
+    17000000, 22990000, 6
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 13 Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'White'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM13P-WHT-512',
+    19000000, 24990000, 4
+);
+
+
+-- Xiaomi 13T
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 13T'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '8GB'),
+    'XM13T-BLK-256',
+    7500000, 9990000, 12
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 13T'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM13T-BLU-256',
+    8000000, 10990000, 8
+);
+
+
+-- Xiaomi 14
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 14'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM14-BLK-256',
+    13000000, 19990000, 10
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 14'),
+    (SELECT color_id FROM colors WHERE color_name = 'White'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM14-WHT-512',
+    16000000, 22990000, 5
+);
+
+
+-- Xiaomi 14T Pro
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 14T Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM14TP-BLK-512',
+    11000000, 15990000, 8
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 14T Pro'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '1TB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM14TP-BLU-1TB',
+    13000000, 17990000, 4
+);
+
+
+-- Xiaomi 15
+INSERT INTO product_variants
+(product_id, color_id, storage_id, ram_id, sku,
+ cost_price, selling_price, stock_quantity)
+VALUES
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 15'),
+    (SELECT color_id FROM colors WHERE color_name = 'Black'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '256GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM15-BLK-256',
+    15000000, 22990000, 10
+),
+(
+    (SELECT product_id FROM products WHERE product_name = 'Xiaomi 15'),
+    (SELECT color_id FROM colors WHERE color_name = 'Blue'),
+    (SELECT storage_id FROM storage_options WHERE storage_name = '512GB'),
+    (SELECT ram_id FROM ram_options WHERE ram_name = '12GB'),
+    'XM15-BLU-512',
+    18000000, 25990000, 5
+);
+
+
+-- =========================================================
+-- 8. CUSTOMERS
+-- =========================================================
+
+INSERT INTO customers
+(full_name, phone, email, address)
+VALUES
+(
+    'Nguyen Van An',
+    '0901234567',
+    'an.nguyen@gmail.com',
+    'Thu Duc, Ho Chi Minh City'
+),
+(
+    'Tran Thi Binh',
+    '0912345678',
+    'binh.tran@gmail.com',
+    'Binh Thanh, Ho Chi Minh City'
+),
+(
+    'Le Minh Hoang',
+    '0923456789',
+    'hoang.le@gmail.com',
+    'District 1, Ho Chi Minh City'
+);
+
+
+-- =========================================================
+-- 9. EMPLOYEES
+-- =========================================================
+
+INSERT INTO employees
+(full_name, phone, email, position, username, password)
+VALUES
+(
+    'Administrator',
+    '0900000001',
+    'admin@phonestore.com',
+    'Manager',
+    'admin',
+    '1234'
+),
+(
+    'Nguyen Thanh Nam',
+    '0900000002',
+    'nam@phonestore.com',
+    'Sales',
+    'staff',
+    '1234'
+);
+
+
+-- =========================================================
+-- 10. SAMPLE ORDER
+-- =========================================================
+
+INSERT INTO orders
+(customer_id, employee_id, status, total_amount)
+VALUES
+(
+    (SELECT customer_id
+     FROM customers
+     WHERE phone = '0901234567'),
+
+    (SELECT employee_id
+     FROM employees
+     WHERE username = 'staff'),
+
+    'Completed',
+    18990000
+);
+
+
+-- =========================================================
+-- 11. ORDER DETAIL
+-- =========================================================
+
+INSERT INTO order_details
+(order_id, variant_id, quantity, unit_price)
+VALUES
+(
+    (SELECT MAX(order_id) FROM orders),
+
+    (SELECT variant_id
+     FROM product_variants
+     WHERE sku = 'IP15-BLK-128'),
+
+    1,
+    18990000
+);
+
+
+-- =========================================================
+-- 12. INVOICE
+-- =========================================================
+
+INSERT INTO invoices
+(order_id, payment_method, payment_status, total_amount)
+VALUES
+(
+    (SELECT MAX(order_id) FROM orders),
+    'Cash',
+    'Paid',
+    18990000
+);
+
+
+-- =========================================================
+-- 13. INVOICE DETAIL
+-- =========================================================
+
+INSERT INTO invoice_details
+(invoice_id, variant_id, quantity, unit_price)
+VALUES
+(
+    (SELECT MAX(invoice_id) FROM invoices),
+
+    (SELECT variant_id
+     FROM product_variants
+     WHERE sku = 'IP15-BLK-128'),
+
+    1,
+    18990000
+);

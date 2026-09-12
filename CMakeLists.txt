@@ -16,6 +16,9 @@ add_executable(PhoneStoreManagement
         gui/windows/loginwindow.cpp
         gui/windows/loginwindow.h
         gui/windows/loginwindow.ui
+        gui/windows/dashboardwindow.cpp
+        gui/windows/dashboardwindow.h
+        gui/windows/dashboardwindow.ui
 )
 
 target_link_libraries(PhoneStoreManagement

@@ -8,6 +8,7 @@
 #include "ui_LoginWindow.h"
 #include "QPushButton"
 #include "QMessageBox"
+#include "dashboardwindow.h"
 
 LoginWindow::LoginWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::LoginWindow) {
     ui->setupUi(this);
@@ -15,18 +16,28 @@ LoginWindow::LoginWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Logi
     //account for testing
     const QString testUsername = "test";
     const QString testPassword = "password";
-    //click btnLogin ok show popup logged
+    //add test user for txtUsername and txtPassword
+    ui->txtUsername->setText(testUsername);
+    ui->txtPassword->setText(testPassword);
+    //click btnLogin ok open dashboard window
     connect(ui->btnLogin, &QPushButton::clicked, this, [this, testUsername, testPassword]() {
         QString username = ui->txtUsername->text();
         QString password = ui->txtPassword->text();
         if (username == testUsername && password == testPassword) {
-            QMessageBox::information(this, "Login", "Đăng nhập thành công!");
-            // Open main window
-            this->hide();
-            // You can create and show your main window here
+            //open dashboard window
+            auto *dashboardWindow = new DashboardWindow();
+            dashboardWindow->show();
+            this->close();
         } else {
-            QMessageBox::warning(this, "Login", "Sai tài khoản hoặc mật khẩu!");
+            QMessageBox::warning(this, "Login Failed", "Sai tên đăng nhập hoặc mật khẩu.");
         }
+    });
+    //click Enter key on txtPassword or txtUsername ok open dashboard window
+    connect(ui->txtPassword, &QLineEdit::returnPressed, this, [this, testUsername, testPassword]() {
+        ui->btnLogin->click();
+    });
+    connect(ui->txtUsername, &QLineEdit::returnPressed, this, [this, testUsername, testPassword]() {
+        ui->btnLogin->click();
     });
     //click btnExit show yes no popup
     connect(ui->btnExit, &QPushButton::clicked, this, [this]() {

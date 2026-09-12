@@ -1,0 +1,367 @@
+-- =========================================
+-- PHONE STORE MANAGEMENT
+-- PostgreSQL
+-- OOP Project
+-- =========================================
+
+DROP TABLE IF EXISTS invoice_details CASCADE;
+DROP TABLE IF EXISTS invoices CASCADE;
+DROP TABLE IF EXISTS order_details CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS product_variants CASCADE;
+DROP TABLE IF EXISTS ram_options CASCADE;
+DROP TABLE IF EXISTS storage_options CASCADE;
+DROP TABLE IF EXISTS colors CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS brands CASCADE;
+DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS customers CASCADE;
+DROP TABLE IF EXISTS employees CASCADE;
+
+
+-- =========================================
+-- 1. CATEGORIES
+-- =========================================
+
+CREATE TABLE categories (
+    category_id SERIAL PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT
+);
+
+
+-- =========================================
+-- 2. BRANDS
+-- =========================================
+
+CREATE TABLE brands (
+    brand_id SERIAL PRIMARY KEY,
+    brand_name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT
+);
+
+
+-- =========================================
+-- 3. PRODUCTS
+-- Thông tin chung của một model sản phẩm
+-- =========================================
+
+CREATE TABLE products (
+    product_id SERIAL PRIMARY KEY,
+    category_id INT NOT NULL,
+    brand_id INT NOT NULL,
+
+    product_name VARCHAR(150) NOT NULL,
+    model VARCHAR(100),
+    description TEXT,
+
+    warranty_months INT NOT NULL DEFAULT 12
+        CHECK (warranty_months >= 0),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_product_category
+        FOREIGN KEY (category_id)
+        REFERENCES categories(category_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_product_brand
+        FOREIGN KEY (brand_id)
+        REFERENCES brands(brand_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+
+-- =========================================
+-- 4. COLORS
+-- =========================================
+
+CREATE TABLE colors (
+    color_id SERIAL PRIMARY KEY,
+    color_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+-- =========================================
+-- 5. STORAGE OPTIONS
+-- =========================================
+
+CREATE TABLE storage_options (
+    storage_id SERIAL PRIMARY KEY,
+    storage_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+-- =========================================
+-- 6. RAM OPTIONS
+-- =========================================
+
+CREATE TABLE ram_options (
+    ram_id SERIAL PRIMARY KEY,
+    ram_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+-- =========================================
+-- 7. PRODUCT VARIANTS
+-- Đây là phiên bản thực tế được bán và quản lý tồn kho
+-- =========================================
+
+CREATE TABLE product_variants (
+    variant_id SERIAL PRIMARY KEY,
+
+    product_id INT NOT NULL,
+    color_id INT NOT NULL,
+    storage_id INT NOT NULL,
+    ram_id INT,
+
+    sku VARCHAR(100) NOT NULL UNIQUE,
+
+    cost_price NUMERIC(15,2) NOT NULL
+        CHECK (cost_price >= 0),
+
+    selling_price NUMERIC(15,2) NOT NULL
+        CHECK (selling_price >= 0),
+
+    stock_quantity INT NOT NULL DEFAULT 0
+        CHECK (stock_quantity >= 0),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_variant_product
+        FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_variant_color
+        FOREIGN KEY (color_id)
+        REFERENCES colors(color_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_variant_storage
+        FOREIGN KEY (storage_id)
+        REFERENCES storage_options(storage_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_variant_ram
+        FOREIGN KEY (ram_id)
+        REFERENCES ram_options(ram_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+
+    CONSTRAINT uq_product_variant
+        UNIQUE (product_id, color_id, storage_id, ram_id)
+);
+
+
+-- =========================================
+-- 8. CUSTOMERS
+-- =========================================
+
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+
+    full_name VARCHAR(150) NOT NULL,
+
+    phone VARCHAR(20) UNIQUE,
+
+    email VARCHAR(150) UNIQUE,
+
+    address TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- =========================================
+-- 9. EMPLOYEES
+-- =========================================
+
+CREATE TABLE employees (
+    employee_id SERIAL PRIMARY KEY,
+
+    full_name VARCHAR(150) NOT NULL,
+
+    phone VARCHAR(20) UNIQUE,
+
+    email VARCHAR(150) UNIQUE,
+
+    position VARCHAR(50) NOT NULL,
+
+    username VARCHAR(50) NOT NULL UNIQUE,
+
+    password VARCHAR(255) NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- =========================================
+-- 10. ORDERS
+-- =========================================
+
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+
+    customer_id INT NOT NULL,
+    employee_id INT NOT NULL,
+
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    status VARCHAR(30) NOT NULL DEFAULT 'Pending',
+
+    total_amount NUMERIC(15,2) NOT NULL DEFAULT 0
+        CHECK (total_amount >= 0),
+
+    CONSTRAINT fk_order_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers(customer_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_order_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES employees(employee_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+
+-- =========================================
+-- 11. ORDER DETAILS
+-- Lưu VARIANT chứ không lưu PRODUCT
+-- =========================================
+
+CREATE TABLE order_details (
+    order_detail_id SERIAL PRIMARY KEY,
+
+    order_id INT NOT NULL,
+    variant_id INT NOT NULL,
+
+    quantity INT NOT NULL
+        CHECK (quantity > 0),
+
+    unit_price NUMERIC(15,2) NOT NULL
+        CHECK (unit_price >= 0),
+
+    CONSTRAINT fk_order_detail_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_order_detail_variant
+        FOREIGN KEY (variant_id)
+        REFERENCES product_variants(variant_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+
+    CONSTRAINT uq_order_variant
+        UNIQUE (order_id, variant_id)
+);
+
+
+-- =========================================
+-- 12. INVOICES
+-- =========================================
+
+CREATE TABLE invoices (
+    invoice_id SERIAL PRIMARY KEY,
+
+    order_id INT NOT NULL UNIQUE,
+
+    invoice_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    payment_method VARCHAR(30) NOT NULL DEFAULT 'Cash',
+
+    payment_status VARCHAR(30) NOT NULL DEFAULT 'Paid',
+
+    total_amount NUMERIC(15,2) NOT NULL DEFAULT 0
+        CHECK (total_amount >= 0),
+
+    CONSTRAINT fk_invoice_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+
+-- =========================================
+-- 13. INVOICE DETAILS
+-- Lưu VARIANT chứ không lưu PRODUCT
+-- =========================================
+
+CREATE TABLE invoice_details (
+    invoice_detail_id SERIAL PRIMARY KEY,
+
+    invoice_id INT NOT NULL,
+    variant_id INT NOT NULL,
+
+    quantity INT NOT NULL
+        CHECK (quantity > 0),
+
+    unit_price NUMERIC(15,2) NOT NULL
+        CHECK (unit_price >= 0),
+
+    CONSTRAINT fk_invoice_detail_invoice
+        FOREIGN KEY (invoice_id)
+        REFERENCES invoices(invoice_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_invoice_detail_variant
+        FOREIGN KEY (variant_id)
+        REFERENCES product_variants(variant_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+
+-- =========================================
+-- INDEXES
+-- =========================================
+
+CREATE INDEX idx_products_category
+    ON products(category_id);
+
+CREATE INDEX idx_products_brand
+    ON products(brand_id);
+
+CREATE INDEX idx_variants_product
+    ON product_variants(product_id);
+
+CREATE INDEX idx_variants_color
+    ON product_variants(color_id);
+
+CREATE INDEX idx_variants_storage
+    ON product_variants(storage_id);
+
+CREATE INDEX idx_variants_ram
+    ON product_variants(ram_id);
+
+CREATE INDEX idx_orders_customer
+    ON orders(customer_id);
+
+CREATE INDEX idx_orders_employee
+    ON orders(employee_id);
+
+CREATE INDEX idx_orders_date
+    ON orders(order_date);
+
+CREATE INDEX idx_order_details_order
+    ON order_details(order_id);
+
+CREATE INDEX idx_order_details_variant
+    ON order_details(variant_id);
+
+CREATE INDEX idx_invoice_details_variant
+    ON invoice_details(variant_id);
+
+CREATE INDEX idx_invoices_date
+    ON invoices(invoice_date);
