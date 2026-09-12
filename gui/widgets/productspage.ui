@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>ProductsPage</class>
+    <widget class="QWidget" name="ProductsPage">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1100</width>
+                <height>700</height>
+            </rect>
+        </property>
+
+        <property name="windowTitle">
+            <string>Products</string>
+        </property>
+
+        <property name="styleSheet">
+            <string notr="true"><![CDATA[
+QWidget#ProductsPage {
+    background-color: #F5F7FA;
+}
+
+/* ==================== TITLE ==================== */
+
+QLabel#lblTitle {
+    color: #202124;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+QLabel#lblSubtitle {
+    color: #777777;
+    font-size: 14px;
+}
+
+/* ==================== ADD BUTTON ==================== */
+
+QPushButton#btnAdd {
+    background-color: #3478F6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton#btnAdd:hover {
+    background-color: #4A8CFF;
+}
+
+QPushButton#btnAdd:pressed {
+    background-color: #2864D7;
+}
+
+/* ==================== SEARCH ==================== */
+
+QLineEdit#txtSearch {
+    background-color: #FFFFFF;
+    color: #222222;
+    border: 1px solid #D0D0D0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+QLineEdit#txtSearch:focus {
+    border: 1px solid #3478F6;
+}
+
+/* ==================== REFRESH ==================== */
+
+QPushButton#btnRefresh {
+    background-color: #FFFFFF;
+    color: #555555;
+    border: 1px solid #D0D0D0;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+}
+
+QPushButton#btnRefresh:hover {
+    background-color: #F0F4FF;
+    color: #3478F6;
+    border: 1px solid #B8CCFF;
+}
+
+QPushButton#btnRefresh:pressed {
+    background-color: #EAF1FF;
+}
+
+/* ==================== TABLE ==================== */
+
+QTableWidget#tblProducts {
+    background-color: #FFFFFF;
+    color: #222222;
+
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+
+    gridline-color: #EEEEEE;
+
+    font-size: 13px;
+
+    selection-background-color: #EAF1FF;
+    selection-color: #202124;
+
+    outline: none;
+}
+
+QTableWidget#tblProducts::item {
+    padding: 8px;
+}
+
+QTableWidget#tblProducts::item:selected {
+    background-color: #EAF1FF;
+    color: #202124;
+}
+
+/* ==================== TABLE HEADER ==================== */
+
+QHeaderView::section {
+    background-color: #F8F9FA;
+    color: #555555;
+
+    border: none;
+    border-bottom: 1px solid #E0E0E0;
+
+    padding: 10px;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* ==================== SCROLLBAR ==================== */
+
+QScrollBar:vertical {
+    background: #F5F7FA;
+    width: 10px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background: #D0D0D0;
+    border-radius: 5px;
+    min-height: 30px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #B5B5B5;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar:horizontal {
+    background: #F5F7FA;
+    height: 10px;
+    margin: 0px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #D0D0D0;
+    border-radius: 5px;
+    min-width: 30px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #B5B5B5;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    width: 0px;
+}
+   ]]></string>
+        </property>
+
+        <layout class="QVBoxLayout" name="verticalLayout">
+            <property name="spacing">
+                <number>16</number>
+            </property>
+
+            <property name="leftMargin">
+                <number>24</number>
+            </property>
+
+            <property name="topMargin">
+                <number>24</number>
+            </property>
+
+            <property name="rightMargin">
+                <number>24</number>
+            </property>
+
+            <property name="bottomMargin">
+                <number>24</number>
+            </property>
+
+            <!-- ==================== HEADER ==================== -->
+
+            <item>
+                <layout class="QHBoxLayout" name="headerLayout">
+                    <property name="spacing">
+                        <number>10</number>
+                    </property>
+
+                    <item>
+                        <layout class="QVBoxLayout" name="titleLayout">
+                            <property name="spacing">
+                                <number>4</number>
+                            </property>
+
+                            <item>
+                                <widget class="QLabel" name="lblTitle">
+                                    <property name="text">
+                                        <string>Products</string>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QLabel" name="lblSubtitle">
+                                    <property name="text">
+                                        <string>Manage smartphone products and product information</string>
+                                    </property>
+                                </widget>
+                            </item>
+
+                        </layout>
+                    </item>
+
+                    <item>
+                        <spacer name="headerSpacer">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnAdd">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>140</width>
+                                    <height>42</height>
+                                </size>
+                            </property>
+
+                            <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                            </property>
+
+                            <property name="text">
+                                <string>+ Add Product</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- ==================== TOOLBAR ==================== -->
+
+            <item>
+                <layout class="QHBoxLayout" name="toolbarLayout">
+                    <property name="spacing">
+                        <number>10</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtSearch">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>0</width>
+                                    <height>42</height>
+                                </size>
+                            </property>
+
+                            <property name="placeholderText">
+                                <string>Search by product name, brand or model...</string>
+                            </property>
+
+                            <property name="clearButtonEnabled">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnRefresh">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>42</height>
+                                </size>
+                            </property>
+
+                            <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                            </property>
+
+                            <property name="text">
+                                <string>Refresh</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- ==================== PRODUCTS TABLE ==================== -->
+
+            <item>
+                <widget class="QTableWidget" name="tblProducts">
+                    <property name="minimumSize">
+                        <size>
+                            <width>0</width>
+                            <height>400</height>
+                        </size>
+                    </property>
+
+                    <property name="sizeAdjustPolicy">
+                        <enum>QAbstractScrollArea::AdjustIgnored</enum>
+                    </property>
+
+                    <property name="alternatingRowColors">
+                        <bool>false</bool>
+                    </property>
+
+                    <property name="selectionMode">
+                        <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+
+                    <property name="selectionBehavior">
+                        <enum>QAbstractItemView::SelectRows</enum>
+                    </property>
+
+                    <property name="showGrid">
+                        <bool>true</bool>
+                    </property>
+
+                    <property name="sortingEnabled">
+                        <bool>false</bool>
+                    </property>
+
+                    <property name="editTriggers">
+                        <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
+
+                    <property name="columnCount">
+                        <number>8</number>
+                    </property>
+
+                    <property name="rowCount">
+                        <number>0</number>
+                    </property>
+
+                    <column>
+                        <property name="text">
+                            <string>ID</string>
+                        </property>
+                    </column>
+
+                    <column>
+                        <property name="text">
+                            <string>Product Name</string>
+                        </property>
+                    </column>
+
+                    <column>
+                        <property name="text">
+                            <string>Brand</string>
+                        </property>
+                    </column>
+
+                    <column>
+                        <property name="text">
+                            <string>Category</string>
+                        </property>
+                    </column>
+
+                    <column>
+                        <property name="text">
+                            <string>Model</string>
+                        </property>
+                    </column>
+
+                    <column>
+                        <property name="text">
+                            <string>Warranty</string>
+                        </property>
+                    </column>
+
+                    <column>
+                        <property name="text">
+                            <string>Description</string>
+                        </property>
+                    </column>
+
+                    <column>
+                        <property name="text">
+                            <string>Actions</string>
+                        </property>
+                    </column>
+
+                </widget>
+            </item>
+
+        </layout>
+    </widget>
+
+    <resources/>
+    <connections/>
+</ui>

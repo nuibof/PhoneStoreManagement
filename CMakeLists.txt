@@ -23,6 +23,9 @@ add_executable(PhoneStoreManagement
         include/database/DatabaseConnection.h
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
+        gui/widgets/productspage.cpp
+        gui/widgets/productspage.h
+        gui/widgets/productspage.ui
 )
 
 target_link_libraries(PhoneStoreManagement
