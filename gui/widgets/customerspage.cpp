@@ -20,7 +20,7 @@ CustomersPage::CustomersPage(QWidget *parent) : QWidget(parent), ui(new Ui::Cust
     setupTable();
 
     connect(ui->btnAdd, &QPushButton::clicked, this, &CustomersPage::onAddCustomer);
-    connect(ui->btnRefresh, &QPushButton::clicked, this, &CustomersPage ::onRefresh);
+    connect(ui->btnRefresh, &QPushButton::clicked, this, &CustomersPage::onRefresh);
     connect(ui->txtSearch, &QLineEdit::textChanged, this, &CustomersPage::onSearch);
 
     loadCustomers();
@@ -58,9 +58,14 @@ void CustomersPage::setupTable()
         QAbstractItemView::NoEditTriggers
     );
 
-    ui->tblCustomers->verticalHeader()->setVisible(false);
+    ui->tblCustomers->setAlternatingRowColors(true);
+    ui->tblCustomers->setShowGrid(false);
 
-    ui->tblCustomers->horizontalHeader()->setStretchLastSection(true);
+    ui->tblCustomers->verticalHeader()->setVisible(false);
+    ui->tblCustomers->verticalHeader()->setDefaultSectionSize(45);
+
+    ui->tblCustomers->horizontalHeader()
+        ->setStretchLastSection(true);
 }
 
 void CustomersPage::loadCustomers()
@@ -179,32 +184,45 @@ void CustomersPage::loadCustomers()
             )
         );
 
-        // Actions
-        QWidget *actionWidget = new QWidget();
+        // =========================
+        // ACTION BUTTONS
+        // =========================
 
-        QHBoxLayout *actionLayout =
+        auto *btnEdit = new QPushButton("Edit");
+        auto *btnDelete = new QPushButton("Delete");
+
+        btnEdit->setProperty("action", "edit");
+        btnDelete->setProperty("action", "delete");
+
+        btnEdit->setProperty("customerId", customer.id);
+        btnDelete->setProperty("customerId", customer.id);
+
+        btnEdit->setMinimumSize(60, 30);
+        btnDelete->setMinimumSize(60, 30);
+
+        btnEdit->setCursor(Qt::PointingHandCursor);
+        btnDelete->setCursor(Qt::PointingHandCursor);
+
+        // Container
+        auto *actionWidget = new QWidget();
+        actionWidget->setObjectName("actionWidget");
+
+        auto *actionLayout =
             new QHBoxLayout(actionWidget);
 
-        actionLayout->setContentsMargins(5, 3, 5, 3);
-        actionLayout->setSpacing(6);
-
-        QPushButton *btnEdit =
-            new QPushButton("Edit");
-
-        QPushButton *btnDelete =
-            new QPushButton("Delete");
-
-        btnEdit->setFixedSize(55, 30);
-        btnDelete->setFixedSize(60, 30);
-
-        btnEdit->setProperty(
-            "customerId",
-            customer.id
+        actionLayout->setContentsMargins(
+            4, 2, 4, 2
         );
 
-        btnDelete->setProperty(
-            "customerId",
-            customer.id
+        actionLayout->setSpacing(6);
+
+        actionLayout->addWidget(btnEdit);
+        actionLayout->addWidget(btnDelete);
+
+        ui->tblCustomers->setCellWidget(
+            row,
+            6,
+            actionWidget
         );
 
         connect(
@@ -219,15 +237,6 @@ void CustomersPage::loadCustomers()
             &QPushButton::clicked,
             this,
             &CustomersPage::onDeleteCustomer
-        );
-
-        actionLayout->addWidget(btnEdit);
-        actionLayout->addWidget(btnDelete);
-
-        ui->tblCustomers->setCellWidget(
-            row,
-            6,
-            actionWidget
         );
     }
 }
@@ -287,23 +296,39 @@ void CustomersPage::onRefresh() {
     loadCustomers();
 }
 
-void CustomersPage::onSearch() {
-    QString searchTerm = ui->txtSearch->text().trimmed();
+void CustomersPage::onSearch()
+{
+    QString searchTerm =
+        ui->txtSearch->text().trimmed();
 
-    if (searchTerm.isEmpty()) {
-        loadCustomers();
-        return;
-    }
-
-    for (int row = 0; row < ui->tblCustomers->rowCount(); ++row) {
+    for (int row = 0;
+         row < ui->tblCustomers->rowCount();
+         ++row)
+    {
         bool match = false;
-        for (int col = 0; col < ui->tblCustomers->columnCount() - 1; ++col) {
-            QTableWidgetItem *item = ui->tblCustomers->item(row, col);
-            if (item && item->text().contains(searchTerm, Qt::CaseInsensitive)) {
+
+        // Search ID -> Created At
+        // Do not search Actions
+        for (int col = 0;
+             col < 6;
+             ++col)
+        {
+            QTableWidgetItem *item =
+                ui->tblCustomers->item(row, col);
+
+            if (item &&
+                item->text().contains(
+                    searchTerm,
+                    Qt::CaseInsensitive))
+            {
                 match = true;
                 break;
             }
         }
-        ui->tblCustomers->setRowHidden(row, !match);
+
+        ui->tblCustomers->setRowHidden(
+            row,
+            !match
+        );
     }
 }

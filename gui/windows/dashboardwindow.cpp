@@ -7,6 +7,8 @@
 #include "../../include/managers/DashboardManager.h"
 #include "../widgets/customerspage.h"
 #include "../widgets/productspage.h"
+#include "../widgets/invoicespage.h"
+#include "../widgets/orderspage.h"
 #include "../widgets/staffpage.h"
 #include "ui_DashboardWindow.h"
 #include "dashboardwindow.h"
@@ -34,6 +36,16 @@ DashboardWindow::DashboardWindow(QWidget *parent) : QMainWindow(parent), ui(new 
     CustomersPage *customersPage = new CustomersPage();
     int customersIndex =
         ui->stackedWidget->addWidget(customersPage);
+
+    // Add Orders Page
+    OrdersPage *ordersPage = new OrdersPage();
+    int ordersIndex =
+        ui->stackedWidget->addWidget(ordersPage);
+
+    // Add Invoices Page
+    InvoicesPage *invoicesPage = new InvoicesPage();
+    int invoicesIndex =
+        ui->stackedWidget->addWidget(invoicesPage);
 
     // Make Dashboard the default page
     ui->stackedWidget->setCurrentWidget(ui->dashboardPage);
@@ -98,16 +110,16 @@ DashboardWindow::DashboardWindow(QWidget *parent) : QMainWindow(parent), ui(new 
     });
 
     // Orders
-    connect(ui->btnOrders, &QPushButton::clicked, this, [this, setActiveButton]()
+    connect(ui->btnOrders, &QPushButton::clicked, this, [this, setActiveButton, ordersIndex]()
     {
-        ui->stackedWidget->setCurrentWidget(ui->ordersPage);
+        ui->stackedWidget->setCurrentIndex(ordersIndex);
         setActiveButton(ui->btnOrders);
     });
 
     // Invoices
-    connect(ui->btnInvoices, &QPushButton::clicked, this, [this, setActiveButton]()
+    connect(ui->btnInvoices, &QPushButton::clicked, this, [this, setActiveButton, invoicesIndex]()
     {
-        ui->stackedWidget->setCurrentWidget(ui->invoicesPage);
+        ui->stackedWidget->setCurrentIndex(invoicesIndex);
         setActiveButton(ui->btnInvoices);
     });
 

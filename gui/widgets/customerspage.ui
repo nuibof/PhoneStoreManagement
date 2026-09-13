@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
     <class>CustomersPage</class>
+
     <widget class="QWidget" name="CustomersPage">
+
         <property name="geometry">
             <rect>
                 <x>0</x>
@@ -10,11 +12,15 @@
                 <height>700</height>
             </rect>
         </property>
+
         <property name="windowTitle">
             <string>Customers</string>
         </property>
+
         <property name="styleSheet">
-            <string notr="true">QWidget#CustomersPage {
+            <string notr="true">
+
+                QWidget#CustomersPage {
                 background-color: #F5F7FA;
                 }
 
@@ -36,6 +42,10 @@
                 border-radius: 8px;
                 padding: 9px 12px;
                 font-size: 14px;
+                }
+
+                QLineEdit#txtSearch:hover {
+                border: 1px solid #B8B8B8;
                 }
 
                 QLineEdit#txtSearch:focus {
@@ -72,7 +82,11 @@
                 QPushButton#btnRefresh:hover {
                 background-color: #F0F4FF;
                 color: #3478F6;
-                border: 1px solid #B8C9F5;
+                border: 1px solid #B8CCFF;
+                }
+
+                QPushButton#btnRefresh:pressed {
+                background-color: #EAF1FF;
                 }
 
                 QTableWidget#tblCustomers {
@@ -84,6 +98,16 @@
                 font-size: 13px;
                 selection-background-color: #EAF1FF;
                 selection-color: #222222;
+                outline: none;
+                }
+
+                QTableWidget#tblCustomers::item {
+                padding: 8px;
+                }
+
+                QTableWidget#tblCustomers::item:selected {
+                background-color: #EAF1FF;
+                color: #222222;
                 }
 
                 QTableWidget#tblCustomers QHeaderView::section {
@@ -100,36 +124,121 @@
                 border-right: 1px solid #E8E8E8;
                 }
 
-                QTableWidget#tblCustomers::item {
-                padding: 8px;
+                QPushButton[action="edit"] {
+                background-color: #EAF1FF;
+                color: #3478F6;
+                border: 1px solid #C7D8FF;
+                border-radius: 6px;
+                padding: 5px 10px;
+                font-size: 12px;
+                font-weight: bold;
                 }
 
-                QTableWidget#tblCustomers::item:selected {
-                background-color: #EAF1FF;
-                color: #222222;
+                QPushButton[action="edit"]:hover {
+                background-color: #3478F6;
+                color: #FFFFFF;
+                border: 1px solid #3478F6;
                 }
+
+                QPushButton[action="edit"]:pressed {
+                background-color: #2864D7;
+                }
+
+                QPushButton[action="delete"] {
+                background-color: #FFF0F0;
+                color: #D93025;
+                border: 1px solid #FFD0D0;
+                border-radius: 6px;
+                padding: 5px 10px;
+                font-size: 12px;
+                font-weight: bold;
+                }
+
+                QPushButton[action="delete"]:hover {
+                background-color: #D93025;
+                color: #FFFFFF;
+                border: 1px solid #D93025;
+                }
+
+                QPushButton[action="delete"]:pressed {
+                background-color: #B3261E;
+                }
+
+                QWidget#actionWidget {
+                background-color: transparent;
+                }
+
+                QScrollBar:vertical {
+                background: #F5F7FA;
+                width: 10px;
+                margin: 0px;
+                }
+
+                QScrollBar::handle:vertical {
+                background: #D0D0D0;
+                border-radius: 5px;
+                min-height: 30px;
+                }
+
+                QScrollBar::handle:vertical:hover {
+                background: #B5B5B5;
+                }
+
+                QScrollBar::add-line:vertical,
+                QScrollBar::sub-line:vertical {
+                height: 0px;
+                }
+
+                QScrollBar:horizontal {
+                background: #F5F7FA;
+                height: 10px;
+                margin: 0px;
+                }
+
+                QScrollBar::handle:horizontal {
+                background: #D0D0D0;
+                border-radius: 5px;
+                min-width: 30px;
+                }
+
+                QScrollBar::handle:horizontal:hover {
+                background: #B5B5B5;
+                }
+
+                QScrollBar::add-line:horizontal,
+                QScrollBar::sub-line:horizontal {
+                width: 0px;
+                }
+
             </string>
         </property>
 
         <layout class="QVBoxLayout" name="verticalLayout">
+
             <property name="spacing">
                 <number>12</number>
             </property>
+
             <property name="leftMargin">
                 <number>28</number>
             </property>
+
             <property name="topMargin">
                 <number>28</number>
             </property>
+
             <property name="rightMargin">
                 <number>28</number>
             </property>
+
             <property name="bottomMargin">
                 <number>28</number>
             </property>
 
+            <!-- Header -->
             <item>
                 <layout class="QVBoxLayout" name="headerLayout">
+
                     <property name="spacing">
                         <number>4</number>
                     </property>
@@ -149,99 +258,145 @@
                             </property>
                         </widget>
                     </item>
+
                 </layout>
             </item>
 
+            <!-- Toolbar -->
             <item>
                 <layout class="QHBoxLayout" name="toolbarLayout">
+
                     <property name="spacing">
                         <number>10</number>
                     </property>
 
                     <item>
                         <widget class="QLineEdit" name="txtSearch">
+
                             <property name="minimumSize">
                                 <size>
                                     <width>300</width>
                                     <height>40</height>
                                 </size>
                             </property>
+
                             <property name="placeholderText">
                                 <string>Search customer...</string>
                             </property>
+
+                            <property name="clearButtonEnabled">
+                                <bool>true</bool>
+                            </property>
+
                         </widget>
                     </item>
 
                     <item>
                         <spacer name="horizontalSpacer">
+
                             <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                             </property>
+
                             <property name="sizeHint" stdset="0">
                                 <size>
                                     <width>40</width>
                                     <height>20</height>
                                 </size>
                             </property>
+
                         </spacer>
                     </item>
 
                     <item>
                         <widget class="QPushButton" name="btnRefresh">
+
                             <property name="minimumSize">
                                 <size>
                                     <width>100</width>
                                     <height>40</height>
                                 </size>
                             </property>
+
+                            <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                            </property>
+
                             <property name="text">
                                 <string>Refresh</string>
                             </property>
+
                         </widget>
                     </item>
 
                     <item>
                         <widget class="QPushButton" name="btnAdd">
+
                             <property name="minimumSize">
                                 <size>
                                     <width>130</width>
                                     <height>40</height>
                                 </size>
                             </property>
+
+                            <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                            </property>
+
                             <property name="text">
                                 <string>+ Add Customer</string>
                             </property>
+
                         </widget>
                     </item>
+
                 </layout>
             </item>
 
+            <!-- Customers Table -->
             <item>
                 <widget class="QTableWidget" name="tblCustomers">
+
                     <property name="minimumSize">
                         <size>
                             <width>0</width>
                             <height>450</height>
                         </size>
                     </property>
+
                     <property name="alternatingRowColors">
                         <bool>true</bool>
                     </property>
+
                     <property name="selectionMode">
                         <enum>QAbstractItemView::SingleSelection</enum>
                     </property>
+
                     <property name="selectionBehavior">
                         <enum>QAbstractItemView::SelectRows</enum>
                     </property>
+
                     <property name="showGrid">
                         <bool>false</bool>
                     </property>
+
                     <property name="sortingEnabled">
                         <bool>false</bool>
                     </property>
+
+                    <property name="editTriggers">
+                        <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
+
                     <property name="columnCount">
                         <number>7</number>
                     </property>
+
+                    <property name="rowCount">
+                        <number>0</number>
+                    </property>
+
+                    <!-- ID -->
                     <column>
                         <property name="text">
                             <string>ID</string>
@@ -250,6 +405,8 @@
                             <number>60</number>
                         </property>
                     </column>
+
+                    <!-- Full Name -->
                     <column>
                         <property name="text">
                             <string>Full Name</string>
@@ -258,6 +415,8 @@
                             <number>180</number>
                         </property>
                     </column>
+
+                    <!-- Phone -->
                     <column>
                         <property name="text">
                             <string>Phone</string>
@@ -266,6 +425,8 @@
                             <number>130</number>
                         </property>
                     </column>
+
+                    <!-- Email -->
                     <column>
                         <property name="text">
                             <string>Email</string>
@@ -274,6 +435,8 @@
                             <number>210</number>
                         </property>
                     </column>
+
+                    <!-- Address -->
                     <column>
                         <property name="text">
                             <string>Address</string>
@@ -282,6 +445,8 @@
                             <number>230</number>
                         </property>
                     </column>
+
+                    <!-- Created At -->
                     <column>
                         <property name="text">
                             <string>Created At</string>
@@ -290,6 +455,8 @@
                             <number>150</number>
                         </property>
                     </column>
+
+                    <!-- Actions -->
                     <column>
                         <property name="text">
                             <string>Actions</string>
@@ -298,12 +465,15 @@
                             <number>150</number>
                         </property>
                     </column>
+
                 </widget>
             </item>
 
         </layout>
+
     </widget>
 
     <resources/>
     <connections/>
+
 </ui>

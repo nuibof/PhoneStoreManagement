@@ -71,9 +71,21 @@ void StaffPage::setupTable()
     ui->tblStaff->setAlternatingRowColors(true);
 
     ui->tblStaff->verticalHeader()->setVisible(false);
-
-    // Row height
     ui->tblStaff->verticalHeader()->setDefaultSectionSize(45);
+
+    QHeaderView *header = ui->tblStaff->horizontalHeader();
+
+    // Không cho xuất hiện khoảng trống như một "cột ảo"
+    header->setStretchLastSection(true);
+
+    // Các cột chính
+    header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(1, QHeaderView::Stretch);
+    header->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(3, QHeaderView::Stretch);
+    header->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(6, QHeaderView::ResizeToContents);
 }
 
 
@@ -184,6 +196,7 @@ void StaffPage::loadStaff()
 
         // Actions
         QWidget *actionWidget = new QWidget();
+        actionWidget->setObjectName("actionWidget");
 
         QHBoxLayout *actionLayout = new QHBoxLayout(actionWidget);
 
@@ -193,18 +206,56 @@ void StaffPage::loadStaff()
         QPushButton *btnEdit = new QPushButton("Edit");
         QPushButton *btnDelete = new QPushButton("Delete");
 
-        btnEdit->setProperty(
-            "employeeId",
-            staff.id
+        btnEdit->setProperty("employeeId", staff.id);
+        btnDelete->setProperty("employeeId", staff.id);
+
+        btnEdit->setFixedHeight(30);
+        btnDelete->setFixedHeight(30);
+
+        btnEdit->setCursor(Qt::PointingHandCursor);
+        btnDelete->setCursor(Qt::PointingHandCursor);
+
+        // ===== EDIT STYLE =====
+        btnEdit->setStyleSheet(
+            "QPushButton {"
+            "background-color: #EAF1FF;"
+            "color: #3478F6;"
+            "border: 1px solid #C7D8FF;"
+            "border-radius: 6px;"
+            "padding: 5px 10px;"
+            "font-size: 12px;"
+            "font-weight: bold;"
+            "}"
+            "QPushButton:hover {"
+            "background-color: #3478F6;"
+            "color: #FFFFFF;"
+            "border: 1px solid #3478F6;"
+            "}"
+            "QPushButton:pressed {"
+            "background-color: #2864D7;"
+            "}"
         );
 
-        btnDelete->setProperty(
-            "employeeId",
-            staff.id
+        // ===== DELETE STYLE =====
+        btnDelete->setStyleSheet(
+            "QPushButton {"
+            "background-color: #FFF0F0;"
+            "color: #D93025;"
+            "border: 1px solid #FFD0D0;"
+            "border-radius: 6px;"
+            "padding: 5px 10px;"
+            "font-size: 12px;"
+            "font-weight: bold;"
+            "}"
+            "QPushButton:hover {"
+            "background-color: #D93025;"
+            "color: #FFFFFF;"
+            "border: 1px solid #D93025;"
+            "}"
+            "QPushButton:pressed {"
+            "background-color: #B3261E;"
+            "}"
         );
-
-        btnEdit->setMinimumHeight(30);
-        btnDelete->setMinimumHeight(30);
 
         actionLayout->addWidget(btnEdit);
         actionLayout->addWidget(btnDelete);
@@ -213,6 +264,20 @@ void StaffPage::loadStaff()
             row,
             6,
             actionWidget
+        );
+
+        connect(
+            btnEdit,
+            &QPushButton::clicked,
+            this,
+            &StaffPage::onEditStaff
+        );
+
+        connect(
+            btnDelete,
+            &QPushButton::clicked,
+            this,
+            &StaffPage::onDeleteStaff
         );
 
         connect(

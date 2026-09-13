@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
     <class>ProductsPage</class>
+
     <widget class="QWidget" name="ProductsPage">
+
         <property name="geometry">
             <rect>
                 <x>0</x>
@@ -17,11 +19,10 @@
 
         <property name="styleSheet">
             <string notr="true">
+
                 QWidget#ProductsPage {
                 background-color: #F5F7FA;
                 }
-
-                /* ==================== TITLE ==================== */
 
                 QLabel#lblTitle {
                 color: #202124;
@@ -34,8 +35,22 @@
                 font-size: 14px;
                 }
 
+                QLineEdit#txtSearch {
+                background-color: #FFFFFF;
+                color: #222222;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 9px 12px;
+                font-size: 14px;
+                }
 
-                /* ==================== ADD BUTTON ==================== */
+                QLineEdit#txtSearch:hover {
+                border: 1px solid #B8B8B8;
+                }
+
+                QLineEdit#txtSearch:focus {
+                border: 1px solid #3478F6;
+                }
 
                 QPushButton#btnAdd {
                 background-color: #3478F6;
@@ -55,66 +70,49 @@
                 background-color: #2864D7;
                 }
 
-
-                /* ==================== SEARCH ==================== */
-
-                QLineEdit#txtSearch {
-                background-color: #FFFFFF;
-                color: #222222;
-                border: 1px solid #D0D0D0;
-                border-radius: 8px;
-                padding: 10px 12px;
-                font-size: 14px;
-                }
-
-                QLineEdit#txtSearch:hover {
-                border: 1px solid #B8B8B8;
-                }
-
-                QLineEdit#txtSearch:focus {
-                border: 1px solid #3478F6;
-                }
-
-
-                /* ==================== REFRESH ==================== */
-
                 QPushButton#btnRefresh {
                 background-color: #FFFFFF;
                 color: #555555;
                 border: 1px solid #D0D0D0;
                 border-radius: 8px;
-                padding: 10px 18px;
-                font-size: 13px;
+                padding: 10px 16px;
+                font-size: 14px;
                 }
 
                 QPushButton#btnRefresh:hover {
                 background-color: #F0F4FF;
                 color: #3478F6;
-                border: 1px solid #B8CCFF;
+                border: 1px solid #B8C9FF;
                 }
 
                 QPushButton#btnRefresh:pressed {
                 background-color: #EAF1FF;
                 }
 
-
-                /* ==================== TABLE ==================== */
-
                 QTableWidget#tblProducts {
                 background-color: #FFFFFF;
                 color: #222222;
-
                 border: 1px solid #E0E0E0;
                 border-radius: 10px;
-
-                gridline-color: #EEEEEE;
-
+                gridline-color: #E8E8E8;
                 font-size: 13px;
-
                 selection-background-color: #EAF1FF;
-                selection-color: #202124;
-
+                selection-color: #222222;
                 outline: none;
+                }
+
+                QTableWidget#tblProducts QHeaderView::section {
+                background-color: #F8F9FB;
+                color: #555555;
+                border: none;
+                border-bottom: 1px solid #E0E0E0;
+                padding: 10px 8px;
+                font-size: 13px;
+                font-weight: bold;
+                }
+
+                QTableWidget#tblProducts QHeaderView::section:horizontal {
+                border-right: 1px solid #E8E8E8;
                 }
 
                 QTableWidget#tblProducts::item {
@@ -123,43 +121,15 @@
 
                 QTableWidget#tblProducts::item:selected {
                 background-color: #EAF1FF;
-                color: #202124;
+                color: #222222;
                 }
-
-
-                /* ==================== TABLE HEADER ==================== */
-
-                QTableWidget#tblProducts QHeaderView::section {
-                background-color: #F8F9FA;
-                color: #555555;
-
-                border: none;
-                border-bottom: 1px solid #E0E0E0;
-
-                padding: 10px;
-
-                font-size: 13px;
-                font-weight: bold;
-                }
-
-                QTableWidget#tblProducts QHeaderView::section:hover {
-                background-color: #F1F3F4;
-                }
-
-
-                /* ==================== ACTION BUTTONS ==================== */
-
-                /* Edit */
 
                 QPushButton[action="edit"] {
                 background-color: #EAF1FF;
                 color: #3478F6;
-
                 border: 1px solid #C7D8FF;
-                border-radius: 5px;
-
+                border-radius: 6px;
                 padding: 5px 10px;
-
                 font-size: 12px;
                 font-weight: bold;
                 }
@@ -174,18 +144,12 @@
                 background-color: #2864D7;
                 }
 
-
-                /* Delete */
-
                 QPushButton[action="delete"] {
                 background-color: #FFF0F0;
                 color: #D93025;
-
                 border: 1px solid #FFD0D0;
-                border-radius: 5px;
-
+                border-radius: 6px;
                 padding: 5px 10px;
-
                 font-size: 12px;
                 font-weight: bold;
                 }
@@ -200,15 +164,9 @@
                 background-color: #B3261E;
                 }
 
-
-                /* ==================== ACTION CONTAINER ==================== */
-
                 QWidget#actionWidget {
                 background-color: transparent;
                 }
-
-
-                /* ==================== SCROLLBAR ==================== */
 
                 QScrollBar:vertical {
                 background: #F5F7FA;
@@ -231,7 +189,6 @@
                 height: 0px;
                 }
 
-
                 QScrollBar:horizontal {
                 background: #F5F7FA;
                 height: 10px;
@@ -252,92 +209,52 @@
                 QScrollBar::sub-line:horizontal {
                 width: 0px;
                 }
+
             </string>
         </property>
 
         <layout class="QVBoxLayout" name="verticalLayout">
+
             <property name="spacing">
-                <number>16</number>
+                <number>12</number>
             </property>
 
             <property name="leftMargin">
-                <number>24</number>
+                <number>28</number>
             </property>
 
             <property name="topMargin">
-                <number>24</number>
+                <number>28</number>
             </property>
 
             <property name="rightMargin">
-                <number>24</number>
+                <number>28</number>
             </property>
 
             <property name="bottomMargin">
-                <number>24</number>
+                <number>28</number>
             </property>
 
-            <!-- ==================== HEADER ==================== -->
-
+            <!-- Header -->
             <item>
-                <layout class="QHBoxLayout" name="headerLayout">
+                <layout class="QVBoxLayout" name="headerLayout">
+
                     <property name="spacing">
-                        <number>10</number>
+                        <number>4</number>
                     </property>
 
                     <item>
-                        <layout class="QVBoxLayout" name="titleLayout">
-                            <property name="spacing">
-                                <number>4</number>
-                            </property>
-
-                            <item>
-                                <widget class="QLabel" name="lblTitle">
-                                    <property name="text">
-                                        <string>Products</string>
-                                    </property>
-                                </widget>
-                            </item>
-
-                            <item>
-                                <widget class="QLabel" name="lblSubtitle">
-                                    <property name="text">
-                                        <string>Manage smartphone products and product information</string>
-                                    </property>
-                                </widget>
-                            </item>
-
-                        </layout>
-                    </item>
-
-                    <item>
-                        <spacer name="headerSpacer">
-                            <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </item>
-
-                    <item>
-                        <widget class="QPushButton" name="btnAdd">
-                            <property name="minimumSize">
-                                <size>
-                                    <width>140</width>
-                                    <height>42</height>
-                                </size>
-                            </property>
-
-                            <property name="cursor">
-                                <cursorShape>PointingHandCursor</cursorShape>
-                            </property>
-
+                        <widget class="QLabel" name="lblTitle">
                             <property name="text">
-                                <string>+ Add Product</string>
+                                <string>Products</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLabel" name="lblSubtitle">
+                            <property name="text">
+                                <string>Manage smartphone products and product information.</string>
                             </property>
                         </widget>
                     </item>
@@ -345,20 +262,21 @@
                 </layout>
             </item>
 
-            <!-- ==================== TOOLBAR ==================== -->
-
+            <!-- Toolbar -->
             <item>
                 <layout class="QHBoxLayout" name="toolbarLayout">
+
                     <property name="spacing">
                         <number>10</number>
                     </property>
 
                     <item>
                         <widget class="QLineEdit" name="txtSearch">
+
                             <property name="minimumSize">
                                 <size>
-                                    <width>0</width>
-                                    <height>42</height>
+                                    <width>300</width>
+                                    <height>40</height>
                                 </size>
                             </property>
 
@@ -369,15 +287,34 @@
                             <property name="clearButtonEnabled">
                                 <bool>true</bool>
                             </property>
+
                         </widget>
                     </item>
 
                     <item>
+                        <spacer name="horizontalSpacer">
+
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+
+                        </spacer>
+                    </item>
+
+                    <item>
                         <widget class="QPushButton" name="btnRefresh">
+
                             <property name="minimumSize">
                                 <size>
                                     <width>100</width>
-                                    <height>42</height>
+                                    <height>40</height>
                                 </size>
                             </property>
 
@@ -388,29 +325,47 @@
                             <property name="text">
                                 <string>Refresh</string>
                             </property>
+
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnAdd">
+
+                            <property name="minimumSize">
+                                <size>
+                                    <width>130</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+
+                            <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                            </property>
+
+                            <property name="text">
+                                <string>+ Add Product</string>
+                            </property>
+
                         </widget>
                     </item>
 
                 </layout>
             </item>
 
-            <!-- ==================== PRODUCTS TABLE ==================== -->
-
+            <!-- Products Table -->
             <item>
                 <widget class="QTableWidget" name="tblProducts">
+
                     <property name="minimumSize">
                         <size>
                             <width>0</width>
-                            <height>400</height>
+                            <height>450</height>
                         </size>
                     </property>
 
-                    <property name="sizeAdjustPolicy">
-                        <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                    </property>
-
                     <property name="alternatingRowColors">
-                        <bool>false</bool>
+                        <bool>true</bool>
                     </property>
 
                     <property name="selectionMode">
@@ -422,7 +377,7 @@
                     </property>
 
                     <property name="showGrid">
-                        <bool>true</bool>
+                        <bool>false</bool>
                     </property>
 
                     <property name="sortingEnabled">
@@ -441,51 +396,83 @@
                         <number>0</number>
                     </property>
 
+                    <!-- ID -->
                     <column>
                         <property name="text">
                             <string>ID</string>
                         </property>
+                        <property name="width">
+                            <number>60</number>
+                        </property>
                     </column>
 
+                    <!-- Product Name -->
                     <column>
                         <property name="text">
                             <string>Product Name</string>
                         </property>
+                        <property name="width">
+                            <number>190</number>
+                        </property>
                     </column>
 
+                    <!-- Brand -->
                     <column>
                         <property name="text">
                             <string>Brand</string>
                         </property>
+                        <property name="width">
+                            <number>110</number>
+                        </property>
                     </column>
 
+                    <!-- Category -->
                     <column>
                         <property name="text">
                             <string>Category</string>
                         </property>
+                        <property name="width">
+                            <number>120</number>
+                        </property>
                     </column>
 
+                    <!-- Model -->
                     <column>
                         <property name="text">
                             <string>Model</string>
                         </property>
+                        <property name="width">
+                            <number>140</number>
+                        </property>
                     </column>
 
+                    <!-- Warranty -->
                     <column>
                         <property name="text">
                             <string>Warranty</string>
                         </property>
+                        <property name="width">
+                            <number>100</number>
+                        </property>
                     </column>
 
+                    <!-- Description -->
                     <column>
                         <property name="text">
                             <string>Description</string>
                         </property>
+                        <property name="width">
+                            <number>250</number>
+                        </property>
                     </column>
 
+                    <!-- Actions -->
                     <column>
                         <property name="text">
                             <string>Actions</string>
+                        </property>
+                        <property name="width">
+                            <number>150</number>
                         </property>
                     </column>
 
@@ -493,8 +480,10 @@
             </item>
 
         </layout>
+
     </widget>
 
     <resources/>
     <connections/>
+
 </ui>
