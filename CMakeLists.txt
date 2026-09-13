@@ -11,6 +11,8 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
 
+add_subdirectory(third_party/QtAwesome)
+
 add_executable(PhoneStoreManagement
         main.cpp
 
@@ -34,7 +36,7 @@ add_executable(PhoneStoreManagement
 )
 
 target_link_libraries(PhoneStoreManagement
-        PRIVATE Qt6::Widgets Qt6::Sql
+        PRIVATE Qt6::Widgets Qt6::Sql QtAwesome
 )
 
 target_include_directories(PhoneStoreManagement

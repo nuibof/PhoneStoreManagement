@@ -6,14 +6,28 @@
 
 #include "productspage.h"
 #include "ui_ProductsPage.h"
-#include <QHeaderView>
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QMessageBox>
-#include <QTableWidgetItem>
 
-ProductsPage::ProductsPage(QWidget *parent) : QWidget(parent), ui(new Ui::ProductsPage) {
+#include <QSqlQuery>
+#include <QSqlError>
+
+#include <QDialog>
+#include <QFormLayout>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QSpinBox>
+#include <QTextEdit>
+#include <QDialogButtonBox>
+
+#include <QMessageBox>
+#include <QPushButton>
+#include <QVariant>
+#include "QtAwesome.h"
+
+ProductsPage::ProductsPage(QWidget* parent) : QWidget(parent), ui(new Ui::ProductsPage) {
     ui->setupUi(this);
+
+    awesome = new fa::QtAwesome(this);
+    awesome->initFontAwesome();
 
     setupTable();
     connect(ui->btnAdd, &QPushButton::clicked, this, &ProductsPage::onAddProduct);
@@ -89,234 +103,37 @@ void ProductsPage::setupTable()
 void ProductsPage::loadProducts()
 {
     ui->tblProducts->setRowCount(0);
+    ui->tblProducts->horizontalHeader()->setStretchLastSection(false);
 
-    struct ProductData
+    QSqlQuery query;
+
+    query.prepare(
+        "SELECT "
+        "p.product_id, "
+        "p.product_name, "
+        "b.brand_name, "
+        "c.category_name, "
+        "p.model, "
+        "p.warranty_months, "
+        "p.description "
+        "FROM products p "
+        "JOIN brands b ON p.brand_id = b.brand_id "
+        "JOIN categories c ON p.category_id = c.category_id "
+        "ORDER BY p.product_id"
+    );
+
+    if (!query.exec())
     {
-        int id;
-        QString name;
-        QString brand;
-        QString category;
-        QString model;
-        int warranty;
-        QString description;
-    };
+        QMessageBox::critical(
+            this,
+            "Database Error",
+            query.lastError().text()
+        );
 
-    const QList<ProductData> products = {
+        return;
+    }
 
-        // =========================
-        // APPLE - 7 PRODUCTS
-        // =========================
-
-        {
-            1,
-            "iPhone 15",
-            "Apple",
-            "Smartphone",
-            "iPhone 15",
-            12,
-            "iPhone 15 with A16 Bionic"
-        },
-
-        {
-            2,
-            "iPhone 15 Pro",
-            "Apple",
-            "Smartphone",
-            "iPhone 15 Pro",
-            12,
-            "iPhone 15 Pro with A17 Pro and titanium design"
-        },
-
-        {
-            3,
-            "iPhone 15 Pro Max",
-            "Apple",
-            "Smartphone",
-            "iPhone 15 Pro Max",
-            12,
-            "Premium iPhone with A17 Pro"
-        },
-
-        {
-            4,
-            "iPhone 16",
-            "Apple",
-            "Smartphone",
-            "iPhone 16",
-            12,
-            "iPhone 16 with A18 chip"
-        },
-
-        {
-            5,
-            "iPhone 16 Pro",
-            "Apple",
-            "Smartphone",
-            "iPhone 16 Pro",
-            12,
-            "iPhone 16 Pro with A18 Pro chip"
-        },
-
-        {
-            6,
-            "iPhone 16 Pro Max",
-            "Apple",
-            "Smartphone",
-            "iPhone 16 Pro Max",
-            12,
-            "Premium iPhone with A18 Pro chip"
-        },
-
-        {
-            7,
-            "iPhone 17",
-            "Apple",
-            "Smartphone",
-            "iPhone 17",
-            12,
-            "iPhone 17 with A19 chip"
-        },
-
-        // =========================
-        // SAMSUNG - 7 PRODUCTS
-        // =========================
-
-        {
-            8,
-            "Galaxy S23",
-            "Samsung",
-            "Smartphone",
-            "Galaxy S23",
-            12,
-            "Samsung Galaxy S23 flagship smartphone"
-        },
-
-        {
-            9,
-            "Galaxy S23 Ultra",
-            "Samsung",
-            "Smartphone",
-            "Galaxy S23 Ultra",
-            12,
-            "Samsung Galaxy S23 Ultra with S Pen"
-        },
-
-        {
-            10,
-            "Galaxy S24",
-            "Samsung",
-            "Smartphone",
-            "Galaxy S24",
-            12,
-            "Samsung Galaxy S24 flagship smartphone"
-        },
-
-        {
-            11,
-            "Galaxy S24 Ultra",
-            "Samsung",
-            "Smartphone",
-            "Galaxy S24 Ultra",
-            12,
-            "Samsung flagship smartphone with S Pen"
-        },
-
-        {
-            12,
-            "Galaxy S25",
-            "Samsung",
-            "Smartphone",
-            "Galaxy S25",
-            12,
-            "Samsung Galaxy S25 flagship smartphone"
-        },
-
-        {
-            13,
-            "Galaxy S25 Ultra",
-            "Samsung",
-            "Smartphone",
-            "Galaxy S25 Ultra",
-            12,
-            "Samsung premium flagship smartphone"
-        },
-
-        {
-            14,
-            "Galaxy S26 Ultra",
-            "Samsung",
-            "Smartphone",
-            "Galaxy S26 Ultra",
-            12,
-            "Samsung latest premium flagship smartphone"
-        },
-
-        // =========================
-        // XIAOMI - 6 PRODUCTS
-        // =========================
-
-        {
-            15,
-            "Xiaomi 13",
-            "Xiaomi",
-            "Smartphone",
-            "Xiaomi 13",
-            12,
-            "Xiaomi flagship smartphone"
-        },
-
-        {
-            16,
-            "Xiaomi 13 Pro",
-            "Xiaomi",
-            "Smartphone",
-            "Xiaomi 13 Pro",
-            12,
-            "Xiaomi premium flagship with Leica camera"
-        },
-
-        {
-            17,
-            "Xiaomi 13T",
-            "Xiaomi",
-            "Smartphone",
-            "Xiaomi 13T",
-            12,
-            "Xiaomi T-series smartphone"
-        },
-
-        {
-            18,
-            "Xiaomi 14",
-            "Xiaomi",
-            "Smartphone",
-            "Xiaomi 14",
-            12,
-            "Xiaomi flagship smartphone with Leica camera"
-        },
-
-        {
-            19,
-            "Xiaomi 14T Pro",
-            "Xiaomi",
-            "Smartphone",
-            "Xiaomi 14T Pro",
-            12,
-            "Xiaomi premium T-series smartphone"
-        },
-
-        {
-            20,
-            "Xiaomi 15",
-            "Xiaomi",
-            "Smartphone",
-            "Xiaomi 15",
-            12,
-            "Xiaomi flagship smartphone"
-        }
-    };
-
-    for (const ProductData &product : products)
+    while (query.next())
     {
         const int row = ui->tblProducts->rowCount();
 
@@ -326,68 +143,85 @@ void ProductsPage::loadProducts()
             row,
             0,
             new QTableWidgetItem(
-                QString::number(product.id)
+                QString::number(query.value("product_id").toInt())
             )
         );
 
         ui->tblProducts->setItem(
             row,
             1,
-            new QTableWidgetItem(product.name)
+            new QTableWidgetItem(query.value("product_name").toString())
         );
 
         ui->tblProducts->setItem(
             row,
             2,
-            new QTableWidgetItem(product.brand)
+            new QTableWidgetItem(query.value("brand_name").toString())
         );
 
         ui->tblProducts->setItem(
             row,
             3,
-            new QTableWidgetItem(product.category)
+            new QTableWidgetItem(query.value("category_name").toString())
         );
 
         ui->tblProducts->setItem(
             row,
             4,
-            new QTableWidgetItem(product.model)
+            new QTableWidgetItem(query.value("model").toString())
         );
 
         ui->tblProducts->setItem(
             row,
             5,
             new QTableWidgetItem(
-                QString::number(product.warranty) + " months"
+                QString::number(query.value("warranty_months").toInt()) + " months"
             )
         );
 
         ui->tblProducts->setItem(
             row,
             6,
-            new QTableWidgetItem(product.description)
+            new QTableWidgetItem(query.value("description").toString())
         );
 
         // =========================
         // ACTION BUTTONS
         // =========================
 
-        auto *editButton = new QPushButton("Edit");
-        auto *deleteButton = new QPushButton("Delete");
+        auto* editButton = new QPushButton();
+        auto* deleteButton = new QPushButton();
+        editButton->setToolTip("Edit");
+        deleteButton->setToolTip("Delete");
+        editButton->setAccessibleName("Edit");
+        deleteButton->setAccessibleName("Delete");
+
+        editButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_pen));
+        deleteButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_trash));
+        editButton->setIconSize(QSize(18, 18));
+        deleteButton->setIconSize(QSize(18, 18));
+
+        const QString actionStyle =
+            "QPushButton { padding: 4px 8px; color: #3478F6; "
+            "background-color: #FFFFFF; border: 1px solid #D0D0D0; "
+            "border-radius: 4px; text-align: center; }"
+            "QPushButton:hover { background-color: #EAF1FF; }";
+        editButton->setStyleSheet(actionStyle);
+        deleteButton->setStyleSheet(actionStyle);
 
         editButton->setProperty(
             "productId",
-            product.id
+            query.value("product_id").toInt()
         );
 
         deleteButton->setProperty(
             "productId",
-            product.id
+            query.value("product_id").toInt()
         );
 
-        auto *actionWidget = new QWidget();
+        auto* actionWidget = new QWidget();
 
-        auto *actionLayout =
+        auto* actionLayout =
             new QHBoxLayout(actionWidget);
 
         actionLayout->setContentsMargins(
@@ -399,11 +233,19 @@ void ProductsPage::loadProducts()
         actionLayout->addWidget(editButton);
         actionLayout->addWidget(deleteButton);
 
+
+
         ui->tblProducts->setCellWidget(
             row,
             7,
             actionWidget
         );
+        actionWidget->ensurePolished();
+        editButton->ensurePolished();
+        deleteButton->ensurePolished();
+        editButton->setMinimumSize(editButton->sizeHint());
+        deleteButton->setMinimumSize(deleteButton->sizeHint());
+        ui->tblProducts->setRowHeight(row, actionLayout->sizeHint().height() + 20);
 
         connect(
             editButton,
@@ -423,16 +265,165 @@ void ProductsPage::loadProducts()
 
 void ProductsPage::onAddProduct()
 {
+    QDialog dialog(this);
+    dialog.setWindowTitle("Add Product");
+    dialog.resize(450, 400);
+
+    QFormLayout* layout = new QFormLayout(&dialog);
+
+    QLineEdit* txtName = new QLineEdit();
+    QComboBox* cbBrand = new QComboBox();
+    QComboBox* cbCategory = new QComboBox();
+    QLineEdit* txtModel = new QLineEdit();
+
+    QSpinBox* spinWarranty = new QSpinBox();
+    spinWarranty->setRange(0, 120);
+    spinWarranty->setValue(12);
+
+    QTextEdit* txtDescription = new QTextEdit();
+
+    // Lấy Brand từ database
+    QSqlQuery brandQuery;
+
+    if (brandQuery.exec(
+        "SELECT brand_id, brand_name "
+        "FROM brands ORDER BY brand_name"))
+    {
+        while (brandQuery.next())
+        {
+            cbBrand->addItem(
+                brandQuery.value("brand_name").toString(),
+                brandQuery.value("brand_id")
+            );
+        }
+    }
+
+    // Lấy Category từ database
+    QSqlQuery categoryQuery;
+
+    if (categoryQuery.exec(
+        "SELECT category_id, category_name "
+        "FROM categories ORDER BY category_name"))
+    {
+        while (categoryQuery.next())
+        {
+            cbCategory->addItem(
+                categoryQuery.value("category_name").toString(),
+                categoryQuery.value("category_id")
+            );
+        }
+    }
+
+    layout->addRow("Product Name:", txtName);
+    layout->addRow("Brand:", cbBrand);
+    layout->addRow("Category:", cbCategory);
+    layout->addRow("Model:", txtModel);
+    layout->addRow("Warranty:", spinWarranty);
+    layout->addRow("Description:", txtDescription);
+
+    QDialogButtonBox* buttons =
+        new QDialogButtonBox(
+            QDialogButtonBox::Ok |
+            QDialogButtonBox::Cancel
+        );
+
+    layout->addRow(buttons);
+
+    connect(
+        buttons,
+        &QDialogButtonBox::accepted,
+        &dialog,
+        &QDialog::accept
+    );
+
+    connect(
+        buttons,
+        &QDialogButtonBox::rejected,
+        &dialog,
+        &QDialog::reject
+    );
+
+    // Người dùng bấm Cancel
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+
+    // Kiểm tra tên sản phẩm
+    if (txtName->text().trimmed().isEmpty())
+    {
+        QMessageBox::warning(
+            this,
+            "Warning",
+            "Product name cannot be empty."
+        );
+
+        return;
+    }
+
+    // Thêm vào database
+    QSqlQuery query;
+
+    query.prepare(
+        "INSERT INTO products "
+        "(category_id, brand_id, product_name, model, "
+        "description, warranty_months) "
+        "VALUES "
+        "(:category, :brand, :name, :model, "
+        ":description, :warranty)"
+    );
+
+    query.bindValue(
+        ":category",
+        cbCategory->currentData()
+    );
+
+    query.bindValue(
+        ":brand",
+        cbBrand->currentData()
+    );
+
+    query.bindValue(
+        ":name",
+        txtName->text().trimmed()
+    );
+
+    query.bindValue(
+        ":model",
+        txtModel->text().trimmed()
+    );
+
+    query.bindValue(
+        ":description",
+        txtDescription->toPlainText().trimmed()
+    );
+
+    query.bindValue(
+        ":warranty",
+        spinWarranty->value()
+    );
+
+    if (!query.exec())
+    {
+        QMessageBox::critical(
+            this,
+            "Database Error",
+            query.lastError().text()
+        );
+
+        return;
+    }
+
     QMessageBox::information(
         this,
-        "Add Product",
-        "Add Product dialog will be implemented here."
+        "Success",
+        "Product added successfully."
     );
+
+    loadProducts();
 }
 
 void ProductsPage::onEditProduct()
 {
-    auto *button = qobject_cast<QPushButton *>(sender());
+    auto* button = qobject_cast<QPushButton*>(sender());
 
     if (!button)
         return;
@@ -444,13 +435,13 @@ void ProductsPage::onEditProduct()
         this,
         "Edit Product",
         QString("Edit product ID: %1")
-            .arg(productId)
+        .arg(productId)
     );
 }
 
 void ProductsPage::onDeleteProduct()
 {
-    auto *button = qobject_cast<QPushButton *>(sender());
+    auto* button = qobject_cast<QPushButton*>(sender());
 
     if (!button)
         return;
@@ -499,7 +490,7 @@ void ProductsPage::onSearch()
 
         for (int col = 0; col < ui->tblProducts->columnCount() - 1; ++col)
         {
-            QTableWidgetItem *item = ui->tblProducts->item(row, col);
+            QTableWidgetItem* item = ui->tblProducts->item(row, col);
 
             if (item && item->text().contains(searchTerm, Qt::CaseInsensitive))
             {
