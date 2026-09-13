@@ -4,10 +4,12 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_DashboardWindow.h" resolved
 
-#include "dashboardwindow.h"
-#include "ui_DashboardWindow.h"
 #include "../../include/managers/DashboardManager.h"
+#include "../widgets/customerspage.h"
 #include "../widgets/productspage.h"
+#include "../widgets/staffpage.h"
+#include "ui_DashboardWindow.h"
+#include "dashboardwindow.h"
 #include "loginwindow.h"
 #include <QPushButton>
 #include <QMessageBox>
@@ -18,10 +20,20 @@
 DashboardWindow::DashboardWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::DashboardWindow) {
     ui->setupUi(this);
 
+    // Add Staff Page
+    StaffPage *staffPage = new StaffPage();
+    int staffIndex =
+        ui->stackedWidget->addWidget(staffPage);
+
     // Add Products Page
     ProductsPage *productsPage = new ProductsPage();
     int productsIndex =
         ui->stackedWidget->addWidget(productsPage);
+
+    // Add Customers Page
+    CustomersPage *customersPage = new CustomersPage();
+    int customersIndex =
+        ui->stackedWidget->addWidget(customersPage);
 
     // Make Dashboard the default page
     ui->stackedWidget->setCurrentWidget(ui->dashboardPage);
@@ -72,16 +84,16 @@ DashboardWindow::DashboardWindow(QWidget *parent) : QMainWindow(parent), ui(new 
     });
 
     // Customers
-    connect(ui->btnCustomers, &QPushButton::clicked, this, [this, setActiveButton]()
+    connect(ui->btnCustomers, &QPushButton::clicked, this, [this, setActiveButton, customersIndex]()
     {
-        ui->stackedWidget->setCurrentWidget(ui->customersPage);
+        ui->stackedWidget->setCurrentIndex(customersIndex);
         setActiveButton(ui->btnCustomers);
     });
 
     // Staff
-    connect(ui->btnStaff, &QPushButton::clicked, this, [this, setActiveButton]()
+    connect(ui->btnStaff, &QPushButton::clicked, this, [this, setActiveButton, staffIndex]()
     {
-        ui->stackedWidget->setCurrentWidget(ui->staffPage);
+        ui->stackedWidget->setCurrentIndex(staffIndex);
         setActiveButton(ui->btnStaff);
     });
 

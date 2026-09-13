@@ -18,6 +18,8 @@ ProductsPage::ProductsPage(QWidget *parent) : QWidget(parent), ui(new Ui::Produc
     setupTable();
     connect(ui->btnAdd, &QPushButton::clicked, this, &ProductsPage::onAddProduct);
     connect(ui->btnRefresh, &QPushButton::clicked, this, &ProductsPage::onRefresh);
+    connect(ui->txtSearch, &QLineEdit::textChanged, this, &ProductsPage::onSearch);
+
     loadProducts();
 }
 
@@ -375,6 +377,35 @@ void ProductsPage::loadProducts()
         auto *editButton = new QPushButton("Edit");
         auto *deleteButton = new QPushButton("Delete");
 
+        editButton->setMinimumSize(60, 30);
+        deleteButton->setMinimumSize(60, 30);
+
+        editButton->setStyleSheet(
+            "QPushButton {"
+            "color: black;"
+            "background-color: white;"
+            "border: 1px solid #D0D0D0;"
+            "border-radius: 5px;"
+            "padding: 4px 8px;"
+            "}"
+            "QPushButton:hover {"
+            "background-color: #EAF1FF;"
+            "}"
+        );
+
+        deleteButton->setStyleSheet(
+            "QPushButton {"
+            "color: black;"
+            "background-color: white;"
+            "border: 1px solid #D0D0D0;"
+            "border-radius: 5px;"
+            "padding: 4px 8px;"
+            "}"
+            "QPushButton:hover {"
+            "background-color: #FFEAEA;"
+            "}"
+        );
+
         editButton->setProperty(
             "productId",
             product.id
@@ -481,6 +512,7 @@ void ProductsPage::onDeleteProduct()
 void ProductsPage::onRefresh()
 {
     loadProducts();
+    ui->txtSearch->setText("");
 }
 
 void ProductsPage::onSearch()
@@ -495,7 +527,7 @@ void ProductsPage::onSearch()
 
     for (int row = 0; row < ui->tblProducts->rowCount(); ++row)
     {
-        bool matchFound = false;
+        bool match = false;
 
         for (int col = 0; col < ui->tblProducts->columnCount() - 1; ++col)
         {
@@ -503,11 +535,11 @@ void ProductsPage::onSearch()
 
             if (item && item->text().contains(searchTerm, Qt::CaseInsensitive))
             {
-                matchFound = true;
+                match = true;
                 break;
             }
         }
 
-        ui->tblProducts->setRowHidden(row, !matchFound);
+        ui->tblProducts->setRowHidden(row, !match);
     }
 }

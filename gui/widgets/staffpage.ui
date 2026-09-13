@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>StaffPage</class>
+    <widget class="QWidget" name="StaffPage">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1100</width>
+                <height>700</height>
+            </rect>
+        </property>
+
+        <property name="windowTitle">
+            <string>Staff</string>
+        </property>
+
+        <property name="styleSheet">
+            <string notr="true">QWidget#StaffPage {
+                background-color: #F5F7FA;
+                }
+
+                QLabel#lblTitle {
+                color: #202124;
+                font-size: 26px;
+                font-weight: bold;
+                }
+
+                QLabel#lblSubtitle {
+                color: #777777;
+                font-size: 14px;
+                }
+
+                QLineEdit#txtSearch {
+                background-color: #FFFFFF;
+                color: #222222;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 9px 12px;
+                font-size: 14px;
+                }
+
+                QLineEdit#txtSearch:focus {
+                border: 1px solid #3478F6;
+                }
+
+                QPushButton#btnAdd {
+                background-color: #3478F6;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 18px;
+                font-size: 14px;
+                font-weight: bold;
+                }
+
+                QPushButton#btnAdd:hover {
+                background-color: #4A8CFF;
+                }
+
+                QPushButton#btnAdd:pressed {
+                background-color: #2864D7;
+                }
+
+                QPushButton#btnRefresh {
+                background-color: #FFFFFF;
+                color: #555555;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 10px 16px;
+                font-size: 14px;
+                }
+
+                QPushButton#btnRefresh:hover {
+                background-color: #F0F4FF;
+                color: #3478F6;
+                border: 1px solid #B8C9F5;
+                }
+
+                QTableWidget#tblStaff {
+                background-color: #FFFFFF;
+                color: #222222;
+                border: 1px solid #E0E0E0;
+                border-radius: 10px;
+                gridline-color: #E8E8E8;
+                font-size: 13px;
+                selection-background-color: #EAF1FF;
+                selection-color: #222222;
+                }
+
+                QTableWidget#tblStaff QHeaderView::section {
+                background-color: #F8F9FB;
+                color: #555555;
+                border: none;
+                border-bottom: 1px solid #E0E0E0;
+                padding: 10px 8px;
+                font-size: 13px;
+                font-weight: bold;
+                }
+
+                QTableWidget#tblStaff QHeaderView::section:horizontal {
+                border-right: 1px solid #E8E8E8;
+                }
+
+                QTableWidget#tblStaff::item {
+                padding: 8px;
+                }
+
+                QTableWidget#tblStaff::item:selected {
+                background-color: #EAF1FF;
+                color: #222222;
+                }
+            </string>
+        </property>
+
+        <layout class="QVBoxLayout" name="verticalLayout">
+            <property name="spacing">
+                <number>12</number>
+            </property>
+
+            <property name="leftMargin">
+                <number>28</number>
+            </property>
+
+            <property name="topMargin">
+                <number>28</number>
+            </property>
+
+            <property name="rightMargin">
+                <number>28</number>
+            </property>
+
+            <property name="bottomMargin">
+                <number>28</number>
+            </property>
+
+            <!-- Header -->
+            <item>
+                <layout class="QVBoxLayout" name="headerLayout">
+                    <property name="spacing">
+                        <number>4</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLabel" name="lblTitle">
+                            <property name="text">
+                                <string>Staff</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLabel" name="lblSubtitle">
+                            <property name="text">
+                                <string>Manage staff information, roles and account details.</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+
+            <!-- Toolbar -->
+            <item>
+                <layout class="QHBoxLayout" name="toolbarLayout">
+                    <property name="spacing">
+                        <number>10</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtSearch">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>300</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+
+                            <property name="placeholderText">
+                                <string>Search staff...</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <spacer name="horizontalSpacer">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnRefresh">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+
+                            <property name="text">
+                                <string>Refresh</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnAdd">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>130</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+
+                            <property name="text">
+                                <string>+ Add Staff</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+
+            <!-- Staff Table -->
+            <item>
+                <widget class="QTableWidget" name="tblStaff">
+
+                    <property name="minimumSize">
+                        <size>
+                            <width>0</width>
+                            <height>450</height>
+                        </size>
+                    </property>
+
+                    <property name="alternatingRowColors">
+                        <bool>true</bool>
+                    </property>
+
+                    <property name="selectionMode">
+                        <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+
+                    <property name="selectionBehavior">
+                        <enum>QAbstractItemView::SelectRows</enum>
+                    </property>
+
+                    <property name="showGrid">
+                        <bool>false</bool>
+                    </property>
+
+                    <property name="sortingEnabled">
+                        <bool>false</bool>
+                    </property>
+
+                    <property name="columnCount">
+                        <number>7</number>
+                    </property>
+
+                    <!-- ID -->
+                    <column>
+                        <property name="text">
+                            <string>ID</string>
+                        </property>
+                        <property name="width">
+                            <number>60</number>
+                        </property>
+                    </column>
+
+                    <!-- Full Name -->
+                    <column>
+                        <property name="text">
+                            <string>Full Name</string>
+                        </property>
+                        <property name="width">
+                            <number>190</number>
+                        </property>
+                    </column>
+
+                    <!-- Phone -->
+                    <column>
+                        <property name="text">
+                            <string>Phone</string>
+                        </property>
+                        <property name="width">
+                            <number>130</number>
+                        </property>
+                    </column>
+
+                    <!-- Email -->
+                    <column>
+                        <property name="text">
+                            <string>Email</string>
+                        </property>
+                        <property name="width">
+                            <number>220</number>
+                        </property>
+                    </column>
+
+                    <!-- Position -->
+                    <column>
+                        <property name="text">
+                            <string>Position</string>
+                        </property>
+                        <property name="width">
+                            <number>150</number>
+                        </property>
+                    </column>
+
+                    <!-- Username -->
+                    <column>
+                        <property name="text">
+                            <string>Username</string>
+                        </property>
+                        <property name="width">
+                            <number>140</number>
+                        </property>
+                    </column>
+
+                    <!-- Actions -->
+                    <column>
+                        <property name="text">
+                            <string>Actions</string>
+                        </property>
+                        <property name="width">
+                            <number>150</number>
+                        </property>
+                    </column>
+
+                </widget>
+            </item>
+
+        </layout>
+    </widget>
+
+    <resources/>
+    <connections/>
+</ui>

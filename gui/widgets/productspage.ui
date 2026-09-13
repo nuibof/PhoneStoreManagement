@@ -16,167 +16,243 @@
         </property>
 
         <property name="styleSheet">
-            <string notr="true"><![CDATA[
-QWidget#ProductsPage {
-    background-color: #F5F7FA;
-}
+            <string notr="true">
+                QWidget#ProductsPage {
+                background-color: #F5F7FA;
+                }
 
-/* ==================== TITLE ==================== */
+                /* ==================== TITLE ==================== */
 
-QLabel#lblTitle {
-    color: #202124;
-    font-size: 26px;
-    font-weight: bold;
-}
+                QLabel#lblTitle {
+                color: #202124;
+                font-size: 26px;
+                font-weight: bold;
+                }
 
-QLabel#lblSubtitle {
-    color: #777777;
-    font-size: 14px;
-}
+                QLabel#lblSubtitle {
+                color: #777777;
+                font-size: 14px;
+                }
 
-/* ==================== ADD BUTTON ==================== */
 
-QPushButton#btnAdd {
-    background-color: #3478F6;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 18px;
-    font-size: 14px;
-    font-weight: bold;
-}
+                /* ==================== ADD BUTTON ==================== */
 
-QPushButton#btnAdd:hover {
-    background-color: #4A8CFF;
-}
+                QPushButton#btnAdd {
+                background-color: #3478F6;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 18px;
+                font-size: 14px;
+                font-weight: bold;
+                }
 
-QPushButton#btnAdd:pressed {
-    background-color: #2864D7;
-}
+                QPushButton#btnAdd:hover {
+                background-color: #4A8CFF;
+                }
 
-/* ==================== SEARCH ==================== */
+                QPushButton#btnAdd:pressed {
+                background-color: #2864D7;
+                }
 
-QLineEdit#txtSearch {
-    background-color: #FFFFFF;
-    color: #222222;
-    border: 1px solid #D0D0D0;
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 14px;
-}
 
-QLineEdit#txtSearch:focus {
-    border: 1px solid #3478F6;
-}
+                /* ==================== SEARCH ==================== */
 
-/* ==================== REFRESH ==================== */
+                QLineEdit#txtSearch {
+                background-color: #FFFFFF;
+                color: #222222;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 10px 12px;
+                font-size: 14px;
+                }
 
-QPushButton#btnRefresh {
-    background-color: #FFFFFF;
-    color: #555555;
-    border: 1px solid #D0D0D0;
-    border-radius: 8px;
-    padding: 10px 18px;
-    font-size: 13px;
-}
+                QLineEdit#txtSearch:hover {
+                border: 1px solid #B8B8B8;
+                }
 
-QPushButton#btnRefresh:hover {
-    background-color: #F0F4FF;
-    color: #3478F6;
-    border: 1px solid #B8CCFF;
-}
+                QLineEdit#txtSearch:focus {
+                border: 1px solid #3478F6;
+                }
 
-QPushButton#btnRefresh:pressed {
-    background-color: #EAF1FF;
-}
 
-/* ==================== TABLE ==================== */
+                /* ==================== REFRESH ==================== */
 
-QTableWidget#tblProducts {
-    background-color: #FFFFFF;
-    color: #222222;
+                QPushButton#btnRefresh {
+                background-color: #FFFFFF;
+                color: #555555;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 10px 18px;
+                font-size: 13px;
+                }
 
-    border: 1px solid #E0E0E0;
-    border-radius: 10px;
+                QPushButton#btnRefresh:hover {
+                background-color: #F0F4FF;
+                color: #3478F6;
+                border: 1px solid #B8CCFF;
+                }
 
-    gridline-color: #EEEEEE;
+                QPushButton#btnRefresh:pressed {
+                background-color: #EAF1FF;
+                }
 
-    font-size: 13px;
 
-    selection-background-color: #EAF1FF;
-    selection-color: #202124;
+                /* ==================== TABLE ==================== */
 
-    outline: none;
-}
+                QTableWidget#tblProducts {
+                background-color: #FFFFFF;
+                color: #222222;
 
-QTableWidget#tblProducts::item {
-    padding: 8px;
-}
+                border: 1px solid #E0E0E0;
+                border-radius: 10px;
 
-QTableWidget#tblProducts::item:selected {
-    background-color: #EAF1FF;
-    color: #202124;
-}
+                gridline-color: #EEEEEE;
 
-/* ==================== TABLE HEADER ==================== */
+                font-size: 13px;
 
-QHeaderView::section {
-    background-color: #F8F9FA;
-    color: #555555;
+                selection-background-color: #EAF1FF;
+                selection-color: #202124;
 
-    border: none;
-    border-bottom: 1px solid #E0E0E0;
+                outline: none;
+                }
 
-    padding: 10px;
+                QTableWidget#tblProducts::item {
+                padding: 8px;
+                }
 
-    font-size: 13px;
-    font-weight: bold;
-}
+                QTableWidget#tblProducts::item:selected {
+                background-color: #EAF1FF;
+                color: #202124;
+                }
 
-/* ==================== SCROLLBAR ==================== */
 
-QScrollBar:vertical {
-    background: #F5F7FA;
-    width: 10px;
-    margin: 0px;
-}
+                /* ==================== TABLE HEADER ==================== */
 
-QScrollBar::handle:vertical {
-    background: #D0D0D0;
-    border-radius: 5px;
-    min-height: 30px;
-}
+                QTableWidget#tblProducts QHeaderView::section {
+                background-color: #F8F9FA;
+                color: #555555;
 
-QScrollBar::handle:vertical:hover {
-    background: #B5B5B5;
-}
+                border: none;
+                border-bottom: 1px solid #E0E0E0;
 
-QScrollBar::add-line:vertical,
-QScrollBar::sub-line:vertical {
-    height: 0px;
-}
+                padding: 10px;
 
-QScrollBar:horizontal {
-    background: #F5F7FA;
-    height: 10px;
-    margin: 0px;
-}
+                font-size: 13px;
+                font-weight: bold;
+                }
 
-QScrollBar::handle:horizontal {
-    background: #D0D0D0;
-    border-radius: 5px;
-    min-width: 30px;
-}
+                QTableWidget#tblProducts QHeaderView::section:hover {
+                background-color: #F1F3F4;
+                }
 
-QScrollBar::handle:horizontal:hover {
-    background: #B5B5B5;
-}
 
-QScrollBar::add-line:horizontal,
-QScrollBar::sub-line:horizontal {
-    width: 0px;
-}
-   ]]></string>
+                /* ==================== ACTION BUTTONS ==================== */
+
+                /* Edit */
+
+                QPushButton[action="edit"] {
+                background-color: #EAF1FF;
+                color: #3478F6;
+
+                border: 1px solid #C7D8FF;
+                border-radius: 5px;
+
+                padding: 5px 10px;
+
+                font-size: 12px;
+                font-weight: bold;
+                }
+
+                QPushButton[action="edit"]:hover {
+                background-color: #3478F6;
+                color: #FFFFFF;
+                border: 1px solid #3478F6;
+                }
+
+                QPushButton[action="edit"]:pressed {
+                background-color: #2864D7;
+                }
+
+
+                /* Delete */
+
+                QPushButton[action="delete"] {
+                background-color: #FFF0F0;
+                color: #D93025;
+
+                border: 1px solid #FFD0D0;
+                border-radius: 5px;
+
+                padding: 5px 10px;
+
+                font-size: 12px;
+                font-weight: bold;
+                }
+
+                QPushButton[action="delete"]:hover {
+                background-color: #D93025;
+                color: #FFFFFF;
+                border: 1px solid #D93025;
+                }
+
+                QPushButton[action="delete"]:pressed {
+                background-color: #B3261E;
+                }
+
+
+                /* ==================== ACTION CONTAINER ==================== */
+
+                QWidget#actionWidget {
+                background-color: transparent;
+                }
+
+
+                /* ==================== SCROLLBAR ==================== */
+
+                QScrollBar:vertical {
+                background: #F5F7FA;
+                width: 10px;
+                margin: 0px;
+                }
+
+                QScrollBar::handle:vertical {
+                background: #D0D0D0;
+                border-radius: 5px;
+                min-height: 30px;
+                }
+
+                QScrollBar::handle:vertical:hover {
+                background: #B5B5B5;
+                }
+
+                QScrollBar::add-line:vertical,
+                QScrollBar::sub-line:vertical {
+                height: 0px;
+                }
+
+
+                QScrollBar:horizontal {
+                background: #F5F7FA;
+                height: 10px;
+                margin: 0px;
+                }
+
+                QScrollBar::handle:horizontal {
+                background: #D0D0D0;
+                border-radius: 5px;
+                min-width: 30px;
+                }
+
+                QScrollBar::handle:horizontal:hover {
+                background: #B5B5B5;
+                }
+
+                QScrollBar::add-line:horizontal,
+                QScrollBar::sub-line:horizontal {
+                width: 0px;
+                }
+            </string>
         </property>
 
         <layout class="QVBoxLayout" name="verticalLayout">
