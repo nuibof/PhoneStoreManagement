@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>ProductsPage</class>
+    <class>StaffPage</class>
 
-    <widget class="QWidget" name="ProductsPage">
+    <widget class="QWidget" name="StaffPage">
 
         <property name="geometry">
             <rect>
@@ -14,13 +14,13 @@
         </property>
 
         <property name="windowTitle">
-            <string>Products</string>
+            <string>Staff</string>
         </property>
 
         <property name="styleSheet">
             <string notr="true">
 
-                QWidget#ProductsPage {
+                QWidget#StaffPage {
                 background-color: #F5F7FA;
                 }
 
@@ -42,10 +42,6 @@
                 border-radius: 8px;
                 padding: 9px 12px;
                 font-size: 14px;
-                }
-
-                QLineEdit#txtSearch:hover {
-                border: 1px solid #B8B8B8;
                 }
 
                 QLineEdit#txtSearch:focus {
@@ -82,14 +78,10 @@
                 QPushButton#btnRefresh:hover {
                 background-color: #F0F4FF;
                 color: #3478F6;
-                border: 1px solid #B8C9FF;
+                border: 1px solid #B8C9F5;
                 }
 
-                QPushButton#btnRefresh:pressed {
-                background-color: #EAF1FF;
-                }
-
-                QTableWidget#tblProducts {
+                QTableWidget#tblStaff {
                 background-color: #FFFFFF;
                 color: #222222;
                 border: 1px solid #E0E0E0;
@@ -98,10 +90,9 @@
                 font-size: 13px;
                 selection-background-color: #EAF1FF;
                 selection-color: #222222;
-                outline: none;
                 }
 
-                QTableWidget#tblProducts QHeaderView::section {
+                QTableWidget#tblStaff QHeaderView::section {
                 background-color: #F8F9FB;
                 color: #555555;
                 border: none;
@@ -111,103 +102,17 @@
                 font-weight: bold;
                 }
 
-                QTableWidget#tblProducts QHeaderView::section:horizontal {
+                QTableWidget#tblStaff QHeaderView::section:horizontal {
                 border-right: 1px solid #E8E8E8;
                 }
 
-                QTableWidget#tblProducts::item {
+                QTableWidget#tblStaff::item {
                 padding: 8px;
                 }
 
-                QTableWidget#tblProducts::item:selected {
+                QTableWidget#tblStaff::item:selected {
                 background-color: #EAF1FF;
                 color: #222222;
-                }
-
-                QPushButton[action="edit"] {
-                background-color: #EAF1FF;
-                color: #3478F6;
-                border: 1px solid #C7D8FF;
-                border-radius: 6px;
-                padding: 5px 10px;
-                font-size: 12px;
-                font-weight: bold;
-                }
-
-                QPushButton[action="edit"]:hover {
-                background-color: #3478F6;
-                color: #FFFFFF;
-                border: 1px solid #3478F6;
-                }
-
-                QPushButton[action="edit"]:pressed {
-                background-color: #2864D7;
-                }
-
-                QPushButton[action="delete"] {
-                background-color: #FFF0F0;
-                color: #D93025;
-                border: 1px solid #FFD0D0;
-                border-radius: 6px;
-                padding: 5px 10px;
-                font-size: 12px;
-                font-weight: bold;
-                }
-
-                QPushButton[action="delete"]:hover {
-                background-color: #D93025;
-                color: #FFFFFF;
-                border: 1px solid #D93025;
-                }
-
-                QPushButton[action="delete"]:pressed {
-                background-color: #B3261E;
-                }
-
-                QWidget#actionWidget {
-                background-color: transparent;
-                }
-
-                QScrollBar:vertical {
-                background: #F5F7FA;
-                width: 10px;
-                margin: 0px;
-                }
-
-                QScrollBar::handle:vertical {
-                background: #D0D0D0;
-                border-radius: 5px;
-                min-height: 30px;
-                }
-
-                QScrollBar::handle:vertical:hover {
-                background: #B5B5B5;
-                }
-
-                QScrollBar::add-line:vertical,
-                QScrollBar::sub-line:vertical {
-                height: 0px;
-                }
-
-                QScrollBar:horizontal {
-                background: #F5F7FA;
-                height: 10px;
-                margin: 0px;
-                }
-
-                QScrollBar::handle:horizontal {
-                background: #D0D0D0;
-                border-radius: 5px;
-                min-width: 30px;
-                }
-
-                QScrollBar::handle:horizontal:hover {
-                background: #B5B5B5;
-                }
-
-                QScrollBar::add-line:horizontal,
-                QScrollBar::sub-line:horizontal {
-                width: 0px;
                 }
 
             </string>
@@ -246,7 +151,7 @@
                     <item>
                         <widget class="QLabel" name="lblTitle">
                             <property name="text">
-                                <string>Products</string>
+                                <string>Staff</string>
                             </property>
                         </widget>
                     </item>
@@ -254,7 +159,7 @@
                     <item>
                         <widget class="QLabel" name="lblSubtitle">
                             <property name="text">
-                                <string>Manage smartphone products and product information.</string>
+                                <string>Manage staff information, roles and account details.</string>
                             </property>
                         </widget>
                     </item>
@@ -281,11 +186,7 @@
                             </property>
 
                             <property name="placeholderText">
-                                <string>Search by product name, brand or model...</string>
-                            </property>
-
-                            <property name="clearButtonEnabled">
-                                <bool>true</bool>
+                                <string>Search staff...</string>
                             </property>
 
                         </widget>
@@ -318,10 +219,6 @@
                                 </size>
                             </property>
 
-                            <property name="cursor">
-                                <cursorShape>PointingHandCursor</cursorShape>
-                            </property>
-
                             <property name="text">
                                 <string>Refresh</string>
                             </property>
@@ -339,12 +236,8 @@
                                 </size>
                             </property>
 
-                            <property name="cursor">
-                                <cursorShape>PointingHandCursor</cursorShape>
-                            </property>
-
                             <property name="text">
-                                <string>+ Add Product</string>
+                                <string>+ Add Staff</string>
                             </property>
 
                         </widget>
@@ -353,9 +246,9 @@
                 </layout>
             </item>
 
-            <!-- Products Table -->
+            <!-- Staff Table -->
             <item>
-                <widget class="QTableWidget" name="tblProducts">
+                <widget class="QTableWidget" name="tblStaff">
 
                     <property name="minimumSize">
                         <size>
@@ -384,16 +277,8 @@
                         <bool>false</bool>
                     </property>
 
-                    <property name="editTriggers">
-                        <set>QAbstractItemView::NoEditTriggers</set>
-                    </property>
-
                     <property name="columnCount">
-                        <number>8</number>
-                    </property>
-
-                    <property name="rowCount">
-                        <number>0</number>
+                        <number>7</number>
                     </property>
 
                     <!-- ID -->
@@ -406,63 +291,53 @@
                         </property>
                     </column>
 
-                    <!-- Product Name -->
+                    <!-- Full Name -->
                     <column>
                         <property name="text">
-                            <string>Product Name</string>
+                            <string>Full Name</string>
                         </property>
                         <property name="width">
                             <number>190</number>
                         </property>
                     </column>
 
-                    <!-- Brand -->
+                    <!-- Phone -->
                     <column>
                         <property name="text">
-                            <string>Brand</string>
+                            <string>Phone</string>
                         </property>
                         <property name="width">
-                            <number>110</number>
+                            <number>130</number>
                         </property>
                     </column>
 
-                    <!-- Category -->
+                    <!-- Email -->
                     <column>
                         <property name="text">
-                            <string>Category</string>
+                            <string>Email</string>
                         </property>
                         <property name="width">
-                            <number>120</number>
+                            <number>220</number>
                         </property>
                     </column>
 
-                    <!-- Model -->
+                    <!-- Position -->
                     <column>
                         <property name="text">
-                            <string>Model</string>
+                            <string>Position</string>
+                        </property>
+                        <property name="width">
+                            <number>150</number>
+                        </property>
+                    </column>
+
+                    <!-- Username -->
+                    <column>
+                        <property name="text">
+                            <string>Username</string>
                         </property>
                         <property name="width">
                             <number>140</number>
-                        </property>
-                    </column>
-
-                    <!-- Warranty -->
-                    <column>
-                        <property name="text">
-                            <string>Warranty</string>
-                        </property>
-                        <property name="width">
-                            <number>100</number>
-                        </property>
-                    </column>
-
-                    <!-- Description -->
-                    <column>
-                        <property name="text">
-                            <string>Description</string>
-                        </property>
-                        <property name="width">
-                            <number>250</number>
                         </property>
                     </column>
 
@@ -485,5 +360,4 @@
 
     <resources/>
     <connections/>
-
 </ui>

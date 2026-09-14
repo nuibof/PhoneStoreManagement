@@ -32,6 +32,8 @@ ProductsPage::ProductsPage(QWidget* parent) : QWidget(parent), ui(new Ui::Produc
     setupTable();
     connect(ui->btnAdd, &QPushButton::clicked, this, &ProductsPage::onAddProduct);
     connect(ui->btnRefresh, &QPushButton::clicked, this, &ProductsPage::onRefresh);
+    connect(ui->txtSearch, &QLineEdit::textChanged, this, &ProductsPage::onSearch);
+
     loadProducts();
 }
 
@@ -68,9 +70,12 @@ void ProductsPage::setupTable()
         QAbstractItemView::NoEditTriggers
     );
 
-    ui->tblProducts->setAlternatingRowColors(false);
+    ui->tblProducts->setAlternatingRowColors(true);
 
     ui->tblProducts->verticalHeader()->setVisible(false);
+
+    // Row height
+    ui->tblProducts->verticalHeader()->setDefaultSectionSize(45);
 
     ui->tblProducts->horizontalHeader()
         ->setStretchLastSection(true);
@@ -209,6 +214,10 @@ void ProductsPage::loadProducts()
         editButton->setStyleSheet(actionStyle);
         deleteButton->setStyleSheet(actionStyle);
 
+        // Let QSS from ProductsPage.ui control the appearance
+        editButton->setProperty("action", "edit");
+        deleteButton->setProperty("action", "delete");
+
         editButton->setProperty(
             "productId",
             query.value("product_id").toInt()
@@ -219,7 +228,14 @@ void ProductsPage::loadProducts()
             query.value("product_id").toInt()
         );
 
-        auto* actionWidget = new QWidget();
+        editButton->setMinimumSize(60, 30);
+        deleteButton->setMinimumSize(60, 30);
+
+        editButton->setCursor(Qt::PointingHandCursor);
+        deleteButton->setCursor(Qt::PointingHandCursor);
+
+        auto *actionWidget = new QWidget();
+        actionWidget->setObjectName("actionWidget");
 
         auto* actionLayout =
             new QHBoxLayout(actionWidget);
@@ -228,7 +244,7 @@ void ProductsPage::loadProducts()
             4, 2, 4, 2
         );
 
-        actionLayout->setSpacing(5);
+        actionLayout->setSpacing(6);
 
         actionLayout->addWidget(editButton);
         actionLayout->addWidget(deleteButton);
@@ -472,33 +488,40 @@ void ProductsPage::onDeleteProduct()
 void ProductsPage::onRefresh()
 {
     loadProducts();
+    ui->txtSearch->setText("");
 }
 
 void ProductsPage::onSearch()
 {
-    QString searchTerm = ui->txtSearch->text().trimmed();
+    QString searchTerm =
+        ui->txtSearch->text().trimmed();
 
-    if (searchTerm.isEmpty())
+    for (int row = 0;
+         row < ui->tblProducts->rowCount();
+         ++row)
     {
-        loadProducts();
-        return;
-    }
+        bool match = false;
 
-    for (int row = 0; row < ui->tblProducts->rowCount(); ++row)
-    {
-        bool matchFound = false;
-
-        for (int col = 0; col < ui->tblProducts->columnCount() - 1; ++col)
+        for (int col = 0;
+             col < 7;
+             ++col)
         {
-            QTableWidgetItem* item = ui->tblProducts->item(row, col);
+            QTableWidgetItem *item =
+                ui->tblProducts->item(row, col);
 
-            if (item && item->text().contains(searchTerm, Qt::CaseInsensitive))
+            if (item &&
+                item->text().contains(
+                    searchTerm,
+                    Qt::CaseInsensitive))
             {
-                matchFound = true;
+                match = true;
                 break;
             }
         }
 
-        ui->tblProducts->setRowHidden(row, !matchFound);
+        ui->tblProducts->setRowHidden(
+            row,
+            !match
+        );
     }
 }

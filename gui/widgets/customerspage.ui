@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>ProductsPage</class>
+    <class>CustomersPage</class>
 
-    <widget class="QWidget" name="ProductsPage">
+    <widget class="QWidget" name="CustomersPage">
 
         <property name="geometry">
             <rect>
@@ -14,13 +14,13 @@
         </property>
 
         <property name="windowTitle">
-            <string>Products</string>
+            <string>Customers</string>
         </property>
 
         <property name="styleSheet">
             <string notr="true">
 
-                QWidget#ProductsPage {
+                QWidget#CustomersPage {
                 background-color: #F5F7FA;
                 }
 
@@ -82,14 +82,14 @@
                 QPushButton#btnRefresh:hover {
                 background-color: #F0F4FF;
                 color: #3478F6;
-                border: 1px solid #B8C9FF;
+                border: 1px solid #B8CCFF;
                 }
 
                 QPushButton#btnRefresh:pressed {
                 background-color: #EAF1FF;
                 }
 
-                QTableWidget#tblProducts {
+                QTableWidget#tblCustomers {
                 background-color: #FFFFFF;
                 color: #222222;
                 border: 1px solid #E0E0E0;
@@ -101,7 +101,16 @@
                 outline: none;
                 }
 
-                QTableWidget#tblProducts QHeaderView::section {
+                QTableWidget#tblCustomers::item {
+                padding: 8px;
+                }
+
+                QTableWidget#tblCustomers::item:selected {
+                background-color: #EAF1FF;
+                color: #222222;
+                }
+
+                QTableWidget#tblCustomers QHeaderView::section {
                 background-color: #F8F9FB;
                 color: #555555;
                 border: none;
@@ -111,17 +120,8 @@
                 font-weight: bold;
                 }
 
-                QTableWidget#tblProducts QHeaderView::section:horizontal {
+                QTableWidget#tblCustomers QHeaderView::section:horizontal {
                 border-right: 1px solid #E8E8E8;
-                }
-
-                QTableWidget#tblProducts::item {
-                padding: 8px;
-                }
-
-                QTableWidget#tblProducts::item:selected {
-                background-color: #EAF1FF;
-                color: #222222;
                 }
 
                 QPushButton[action="edit"] {
@@ -246,7 +246,7 @@
                     <item>
                         <widget class="QLabel" name="lblTitle">
                             <property name="text">
-                                <string>Products</string>
+                                <string>Customers</string>
                             </property>
                         </widget>
                     </item>
@@ -254,7 +254,7 @@
                     <item>
                         <widget class="QLabel" name="lblSubtitle">
                             <property name="text">
-                                <string>Manage smartphone products and product information.</string>
+                                <string>Manage customer information and contact details.</string>
                             </property>
                         </widget>
                     </item>
@@ -281,7 +281,7 @@
                             </property>
 
                             <property name="placeholderText">
-                                <string>Search by product name, brand or model...</string>
+                                <string>Search customer...</string>
                             </property>
 
                             <property name="clearButtonEnabled">
@@ -344,7 +344,7 @@
                             </property>
 
                             <property name="text">
-                                <string>+ Add Product</string>
+                                <string>+ Add Customer</string>
                             </property>
 
                         </widget>
@@ -353,9 +353,9 @@
                 </layout>
             </item>
 
-            <!-- Products Table -->
+            <!-- Customers Table -->
             <item>
-                <widget class="QTableWidget" name="tblProducts">
+                <widget class="QTableWidget" name="tblCustomers">
 
                     <property name="minimumSize">
                         <size>
@@ -389,7 +389,7 @@
                     </property>
 
                     <property name="columnCount">
-                        <number>8</number>
+                        <number>7</number>
                     </property>
 
                     <property name="rowCount">
@@ -406,63 +406,53 @@
                         </property>
                     </column>
 
-                    <!-- Product Name -->
+                    <!-- Full Name -->
                     <column>
                         <property name="text">
-                            <string>Product Name</string>
+                            <string>Full Name</string>
                         </property>
                         <property name="width">
-                            <number>190</number>
+                            <number>180</number>
                         </property>
                     </column>
 
-                    <!-- Brand -->
+                    <!-- Phone -->
                     <column>
                         <property name="text">
-                            <string>Brand</string>
+                            <string>Phone</string>
                         </property>
                         <property name="width">
-                            <number>110</number>
+                            <number>130</number>
                         </property>
                     </column>
 
-                    <!-- Category -->
+                    <!-- Email -->
                     <column>
                         <property name="text">
-                            <string>Category</string>
+                            <string>Email</string>
                         </property>
                         <property name="width">
-                            <number>120</number>
+                            <number>210</number>
                         </property>
                     </column>
 
-                    <!-- Model -->
+                    <!-- Address -->
                     <column>
                         <property name="text">
-                            <string>Model</string>
+                            <string>Address</string>
                         </property>
                         <property name="width">
-                            <number>140</number>
+                            <number>230</number>
                         </property>
                     </column>
 
-                    <!-- Warranty -->
+                    <!-- Created At -->
                     <column>
                         <property name="text">
-                            <string>Warranty</string>
+                            <string>Created At</string>
                         </property>
                         <property name="width">
-                            <number>100</number>
-                        </property>
-                    </column>
-
-                    <!-- Description -->
-                    <column>
-                        <property name="text">
-                            <string>Description</string>
-                        </property>
-                        <property name="width">
-                            <number>250</number>
+                            <number>150</number>
                         </property>
                     </column>
 

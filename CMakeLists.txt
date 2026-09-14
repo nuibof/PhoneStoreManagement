@@ -33,6 +33,18 @@ add_executable(PhoneStoreManagement
         gui/widgets/ProductsPage.cpp
         gui/widgets/ProductsPage.h
         gui/widgets/ProductsPage.ui
+        gui/widgets/customerspage.cpp
+        gui/widgets/customerspage.h
+        gui/widgets/customerspage.ui
+        gui/widgets/staffpage.cpp
+        gui/widgets/staffpage.h
+        gui/widgets/staffpage.ui
+        gui/widgets/orderspage.cpp
+        gui/widgets/orderspage.h
+        gui/widgets/orderspage.ui
+        gui/widgets/invoicespage.cpp
+        gui/widgets/invoicespage.h
+        gui/widgets/invoicespage.ui
 )
 
 target_link_libraries(PhoneStoreManagement

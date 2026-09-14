@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>OrdersPage</class>
+    <widget class="QWidget" name="OrdersPage">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1100</width>
+                <height>700</height>
+            </rect>
+        </property>
+
+        <property name="windowTitle">
+            <string>Orders</string>
+        </property>
+
+        <layout class="QVBoxLayout" name="mainLayout">
+            <property name="spacing">
+                <number>15</number>
+            </property>
+            <property name="leftMargin">
+                <number>25</number>
+            </property>
+            <property name="topMargin">
+                <number>25</number>
+            </property>
+            <property name="rightMargin">
+                <number>25</number>
+            </property>
+            <property name="bottomMargin">
+                <number>25</number>
+            </property>
+
+            <item>
+                <widget class="QLabel" name="lblTitle">
+                    <property name="text">
+                        <string>Orders</string>
+                    </property>
+                </widget>
+            </item>
+
+            <item>
+                <widget class="QLabel" name="lblSubtitle">
+                    <property name="text">
+                        <string>Manage customer orders and order status.</string>
+                    </property>
+                </widget>
+            </item>
+
+            <item>
+                <layout class="QHBoxLayout" name="toolbarLayout">
+                    <property name="spacing">
+                        <number>10</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtSearch">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>300</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+                            <property name="placeholderText">
+                                <string>Search orders...</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <spacer name="horizontalSpacer">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnRefresh">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>Refresh</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnAdd">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>130</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>+ Add Order</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+
+            <item>
+                <widget class="QTableWidget" name="tblOrders">
+                    <property name="minimumSize">
+                        <size>
+                            <width>0</width>
+                            <height>450</height>
+                        </size>
+                    </property>
+
+                    <property name="alternatingRowColors">
+                        <bool>true</bool>
+                    </property>
+
+                    <property name="selectionMode">
+                        <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+
+                    <property name="selectionBehavior">
+                        <enum>QAbstractItemView::SelectRows</enum>
+                    </property>
+
+                    <property name="showGrid">
+                        <bool>false</bool>
+                    </property>
+
+                    <property name="rowCount">
+                        <number>0</number>
+                    </property>
+
+                    <property name="columnCount">
+                        <number>7</number>
+                    </property>
+                </widget>
+            </item>
+
+        </layout>
+
+        <property name="styleSheet">
+            <string notr="true">
+                QWidget#OrdersPage {
+                background-color: #F5F7FA;
+                }
+
+                QLabel#lblTitle {
+                color: #202124;
+                font-size: 26px;
+                font-weight: bold;
+                }
+
+                QLabel#lblSubtitle {
+                color: #777777;
+                font-size: 14px;
+                }
+
+                QLineEdit {
+                background-color: #FFFFFF;
+                color: #222222;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 8px 12px;
+                font-size: 14px;
+                }
+
+                QLineEdit:focus {
+                border: 1px solid #3478F6;
+                }
+
+                QPushButton#btnRefresh {
+                background-color: #FFFFFF;
+                color: #555555;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 8px 15px;
+                font-size: 13px;
+                }
+
+                QPushButton#btnRefresh:hover {
+                background-color: #F2F2F2;
+                color: #222222;
+                }
+
+                QPushButton#btnAdd {
+                background-color: #3478F6;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 15px;
+                font-size: 13px;
+                font-weight: bold;
+                }
+
+                QPushButton#btnAdd:hover {
+                background-color: #4A8CFF;
+                }
+
+                QTableWidget {
+                background-color: #FFFFFF;
+                color: #222222;
+                border: 1px solid #E0E0E0;
+                border-radius: 10px;
+                font-size: 13px;
+                selection-background-color: #EAF1FF;
+                selection-color: #222222;
+                gridline-color: transparent;
+                }
+
+                QHeaderView::section {
+                background-color: #F8F9FA;
+                color: #555555;
+                border: none;
+                border-bottom: 1px solid #E0E0E0;
+                padding: 10px;
+                font-size: 13px;
+                font-weight: bold;
+                }
+            </string>
+        </property>
+
+    </widget>
+    <resources/>
+    <connections/>
+</ui>
