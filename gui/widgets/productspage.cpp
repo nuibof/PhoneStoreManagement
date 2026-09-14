@@ -7,6 +7,7 @@
 #include "productspage.h"
 #include "ui_ProductsPage.h"
 
+#include "VariantsDialog.h"
 #include "managers/ProductManager.h"
 #include <QHeaderView>
 #include <QHBoxLayout>
@@ -35,6 +36,24 @@ ProductsPage::ProductsPage(QWidget* parent) : QWidget(parent), ui(new Ui::Produc
     connect(ui->txtSearch, &QLineEdit::textChanged, this, &ProductsPage::onSearch);
 
     loadProducts();
+
+    connect(ui->tblProducts, &QTableWidget::cellDoubleClicked,
+        this, [this](int row, int column)
+{
+    Q_UNUSED(column);
+
+    QTableWidgetItem *idItem = ui->tblProducts->item(row, 0);
+    QTableWidgetItem *nameItem = ui->tblProducts->item(row, 1);
+
+    if (!idItem || !nameItem)
+        return;
+
+    int productId = idItem->text().toInt();
+    QString productName = nameItem->text();
+
+    VariantsDialog dialog(productId, productName, this);
+    dialog.exec();
+});
 }
 
 ProductsPage::~ProductsPage() {
