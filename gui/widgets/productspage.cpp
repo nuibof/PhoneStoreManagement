@@ -7,8 +7,10 @@
 #include "productspage.h"
 #include "ui_ProductsPage.h"
 
-#include <QSqlQuery>
-#include <QSqlError>
+#include "managers/ProductManager.h"
+#include <QHeaderView>
+#include <QHBoxLayout>
+#include <limits>
 
 #include <QDialog>
 #include <QFormLayout>
@@ -21,13 +23,11 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QVariant>
-#include "QtAwesome.h"
+#include <QIcon>
 
 ProductsPage::ProductsPage(QWidget* parent) : QWidget(parent), ui(new Ui::ProductsPage) {
     ui->setupUi(this);
 
-    awesome = new fa::QtAwesome(this);
-    awesome->initFontAwesome();
 
     setupTable();
     connect(ui->btnAdd, &QPushButton::clicked, this, &ProductsPage::onAddProduct);
@@ -110,36 +110,16 @@ void ProductsPage::loadProducts()
     ui->tblProducts->setRowCount(0);
     ui->tblProducts->horizontalHeader()->setStretchLastSection(false);
 
-    QSqlQuery query;
-
-    query.prepare(
-        "SELECT "
-        "p.product_id, "
-        "p.product_name, "
-        "b.brand_name, "
-        "c.category_name, "
-        "p.model, "
-        "p.warranty_months, "
-        "p.description "
-        "FROM products p "
-        "JOIN brands b ON p.brand_id = b.brand_id "
-        "JOIN categories c ON p.category_id = c.category_id "
-        "ORDER BY p.product_id"
-    );
-
-    if (!query.exec())
-    {
-        QMessageBox::critical(
-            this,
-            "Database Error",
-            query.lastError().text()
-        );
-
+    ProductManager manager;
+    QList<ProductRow> products;
+    QString error;
+    if (!manager.getProducts(products, error)) {
+        QMessageBox::critical(this, "Database Error", error);
         return;
     }
-
-    while (query.next())
+    for (const auto &entry : products)
     {
+        const Product &product = entry.product;
         const int row = ui->tblProducts->rowCount();
 
         ui->tblProducts->insertRow(row);
@@ -148,46 +128,46 @@ void ProductsPage::loadProducts()
             row,
             0,
             new QTableWidgetItem(
-                QString::number(query.value("product_id").toInt())
+                QString::number(product.getProductId())
             )
         );
 
         ui->tblProducts->setItem(
             row,
             1,
-            new QTableWidgetItem(query.value("product_name").toString())
+            new QTableWidgetItem(product.getProductName())
         );
 
         ui->tblProducts->setItem(
             row,
             2,
-            new QTableWidgetItem(query.value("brand_name").toString())
+            new QTableWidgetItem(entry.brandName)
         );
 
         ui->tblProducts->setItem(
             row,
             3,
-            new QTableWidgetItem(query.value("category_name").toString())
+            new QTableWidgetItem(entry.categoryName)
         );
 
         ui->tblProducts->setItem(
             row,
             4,
-            new QTableWidgetItem(query.value("model").toString())
+            new QTableWidgetItem(product.getModel())
         );
 
         ui->tblProducts->setItem(
             row,
             5,
             new QTableWidgetItem(
-                QString::number(query.value("warranty_months").toInt()) + " months"
+                QString::number(product.getWarrantyMonths()) + " months"
             )
         );
 
         ui->tblProducts->setItem(
             row,
             6,
-            new QTableWidgetItem(query.value("description").toString())
+            new QTableWidgetItem(product.getDescription())
         );
 
         // =========================
@@ -201,8 +181,8 @@ void ProductsPage::loadProducts()
         editButton->setAccessibleName("Edit");
         deleteButton->setAccessibleName("Delete");
 
-        editButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_pen));
-        deleteButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_trash));
+        editButton->setIcon(QIcon(":/icons/edit.svg"));
+        deleteButton->setIcon(QIcon(":/icons/delete.svg"));
         editButton->setIconSize(QSize(18, 18));
         deleteButton->setIconSize(QSize(18, 18));
 
@@ -220,12 +200,12 @@ void ProductsPage::loadProducts()
 
         editButton->setProperty(
             "productId",
-            query.value("product_id").toInt()
+            product.getProductId()
         );
 
         deleteButton->setProperty(
             "productId",
-            query.value("product_id").toInt()
+            product.getProductId()
         );
 
         editButton->setMinimumSize(60, 30);
@@ -277,218 +257,122 @@ void ProductsPage::loadProducts()
             &ProductsPage::onDeleteProduct
         );
     }
+    onSearch();
 }
 
 void ProductsPage::onAddProduct()
 {
+    showProductDialog(0);
+}
+
+void ProductsPage::onEditProduct()
+{
+    auto *button = qobject_cast<QPushButton *>(sender());
+    if (button)
+        showProductDialog(button->property("productId").toInt());
+}
+
+void ProductsPage::showProductDialog(int productId)
+{
+    ProductManager manager;
+    Product product;
+    QString error;
+    if (productId != 0 && !manager.getProduct(productId, product, error)) {
+        QMessageBox::warning(this, "Product", error);
+        loadProducts();
+        return;
+    }
+    QList<ProductOption> brands, categories;
+    if (!manager.getBrands(brands, error) || !manager.getCategories(categories, error)) {
+        QMessageBox::critical(this, "Database Error", error);
+        return;
+    }
+    if (brands.isEmpty() || categories.isEmpty()) {
+        QMessageBox::warning(this, "Product", "Create a brand and category before adding or editing a product.");
+        return;
+    }
     QDialog dialog(this);
-    dialog.setWindowTitle("Add Product");
+    dialog.setWindowTitle(productId == 0 ? "Add Product" : "Edit Product");
     dialog.resize(450, 400);
-
-    QFormLayout* layout = new QFormLayout(&dialog);
-
-    QLineEdit* txtName = new QLineEdit();
-    QComboBox* cbBrand = new QComboBox();
-    QComboBox* cbCategory = new QComboBox();
-    QLineEdit* txtModel = new QLineEdit();
-
-    QSpinBox* spinWarranty = new QSpinBox();
-    spinWarranty->setRange(0, 120);
-    spinWarranty->setValue(12);
-
-    QTextEdit* txtDescription = new QTextEdit();
-
-    // Lấy Brand từ database
-    QSqlQuery brandQuery;
-
-    if (brandQuery.exec(
-        "SELECT brand_id, brand_name "
-        "FROM brands ORDER BY brand_name"))
-    {
-        while (brandQuery.next())
-        {
-            cbBrand->addItem(
-                brandQuery.value("brand_name").toString(),
-                brandQuery.value("brand_id")
-            );
-        }
+    auto *layout = new QFormLayout(&dialog);
+    auto *txtName = new QLineEdit(product.getProductName());
+    auto *cbBrand = new QComboBox();
+    auto *cbCategory = new QComboBox();
+    auto *txtModel = new QLineEdit(product.getModel());
+    auto *spinWarranty = new QSpinBox();
+    auto *txtDescription = new QTextEdit();
+    txtName->setObjectName("txtProductName");
+    cbBrand->setObjectName("cbBrand");
+    cbCategory->setObjectName("cbCategory");
+    txtModel->setObjectName("txtModel");
+    spinWarranty->setObjectName("spinWarranty");
+    txtDescription->setObjectName("txtDescription");
+    txtName->setMaxLength(150);
+    txtModel->setMaxLength(100);
+    spinWarranty->setRange(0, std::numeric_limits<int>::max());
+    spinWarranty->setValue(productId == 0 ? 12 : product.getWarrantyMonths());
+    txtDescription->setPlainText(product.getDescription());
+    for (const auto &brand : brands) cbBrand->addItem(brand.name, brand.id);
+    for (const auto &category : categories) cbCategory->addItem(category.name, category.id);
+    if (productId != 0) {
+        cbBrand->setCurrentIndex(cbBrand->findData(product.getBrandId()));
+        cbCategory->setCurrentIndex(cbCategory->findData(product.getCategoryId()));
     }
-
-    // Lấy Category từ database
-    QSqlQuery categoryQuery;
-
-    if (categoryQuery.exec(
-        "SELECT category_id, category_name "
-        "FROM categories ORDER BY category_name"))
-    {
-        while (categoryQuery.next())
-        {
-            cbCategory->addItem(
-                categoryQuery.value("category_name").toString(),
-                categoryQuery.value("category_id")
-            );
-        }
-    }
-
     layout->addRow("Product Name:", txtName);
     layout->addRow("Brand:", cbBrand);
     layout->addRow("Category:", cbCategory);
     layout->addRow("Model:", txtModel);
     layout->addRow("Warranty:", spinWarranty);
     layout->addRow("Description:", txtDescription);
-
-    QDialogButtonBox* buttons =
-        new QDialogButtonBox(
-            QDialogButtonBox::Ok |
-            QDialogButtonBox::Cancel
-        );
-
+    auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     layout->addRow(buttons);
-
-    connect(
-        buttons,
-        &QDialogButtonBox::accepted,
-        &dialog,
-        &QDialog::accept
-    );
-
-    connect(
-        buttons,
-        &QDialogButtonBox::rejected,
-        &dialog,
-        &QDialog::reject
-    );
-
-    // Người dùng bấm Cancel
-    if (dialog.exec() != QDialog::Accepted)
-        return;
-
-    // Kiểm tra tên sản phẩm
-    if (txtName->text().trimmed().isEmpty())
-    {
-        QMessageBox::warning(
-            this,
-            "Warning",
-            "Product name cannot be empty."
-        );
-
-        return;
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, [&]() {
+        product.setProductName(txtName->text());
+        product.setBrandId(cbBrand->currentData().toInt());
+        product.setCategoryId(cbCategory->currentData().toInt());
+        product.setModel(txtModel->text());
+        product.setWarrantyMonths(spinWarranty->value());
+        product.setDescription(txtDescription->toPlainText());
+        const bool saved = productId == 0 ? manager.addProduct(product, error)
+                                          : manager.updateProduct(product, error);
+        if (!saved) {
+            QMessageBox::warning(&dialog, "Product", error);
+            return;
+        }
+        dialog.accept();
+    });
+    if (dialog.exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Success", productId == 0
+            ? "Product added successfully." : "Product updated successfully.");
+        loadProducts();
     }
-
-    // Thêm vào database
-    QSqlQuery query;
-
-    query.prepare(
-        "INSERT INTO products "
-        "(category_id, brand_id, product_name, model, "
-        "description, warranty_months) "
-        "VALUES "
-        "(:category, :brand, :name, :model, "
-        ":description, :warranty)"
-    );
-
-    query.bindValue(
-        ":category",
-        cbCategory->currentData()
-    );
-
-    query.bindValue(
-        ":brand",
-        cbBrand->currentData()
-    );
-
-    query.bindValue(
-        ":name",
-        txtName->text().trimmed()
-    );
-
-    query.bindValue(
-        ":model",
-        txtModel->text().trimmed()
-    );
-
-    query.bindValue(
-        ":description",
-        txtDescription->toPlainText().trimmed()
-    );
-
-    query.bindValue(
-        ":warranty",
-        spinWarranty->value()
-    );
-
-    if (!query.exec())
-    {
-        QMessageBox::critical(
-            this,
-            "Database Error",
-            query.lastError().text()
-        );
-
-        return;
-    }
-
-    QMessageBox::information(
-        this,
-        "Success",
-        "Product added successfully."
-    );
-
-    loadProducts();
-}
-
-void ProductsPage::onEditProduct()
-{
-    auto* button = qobject_cast<QPushButton*>(sender());
-
-    if (!button)
-        return;
-
-    int productId =
-        button->property("productId").toInt();
-
-    QMessageBox::information(
-        this,
-        "Edit Product",
-        QString("Edit product ID: %1")
-        .arg(productId)
-    );
 }
 
 void ProductsPage::onDeleteProduct()
 {
-    auto* button = qobject_cast<QPushButton*>(sender());
-
-    if (!button)
+    auto *button = qobject_cast<QPushButton *>(sender());
+    if (!button) return;
+    const int productId = button->property("productId").toInt();
+    if (QMessageBox::question(this, "Delete Product",
+            QString("Are you sure you want to delete product ID %1?").arg(productId),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
         return;
-
-    int productId =
-        button->property("productId").toInt();
-
-    QMessageBox::StandardButton reply =
-        QMessageBox::question(
-            this,
-            "Delete Product",
-            QString(
-                "Are you sure you want to delete product ID %1?"
-            ).arg(productId),
-            QMessageBox::Yes | QMessageBox::No
-        );
-
-    if (reply == QMessageBox::Yes)
-    {
-        QMessageBox::information(
-            this,
-            "Delete Product",
-            "Product deleted successfully."
-        );
+    ProductManager manager;
+    QString error;
+    if (!manager.deleteProduct(productId, error)) {
+        QMessageBox::warning(this, "Product", error);
+        return;
     }
+    QMessageBox::information(this, "Success", "Product deleted successfully.");
+    loadProducts();
 }
+
 
 void ProductsPage::onRefresh()
 {
     loadProducts();
-    ui->txtSearch->setText("");
+
 }
 
 void ProductsPage::onSearch()

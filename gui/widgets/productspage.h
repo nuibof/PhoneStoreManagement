@@ -2,7 +2,6 @@
 
 #include <QWidget>
 
-namespace fa { class QtAwesome; }
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,8 +27,8 @@ private slots:
 private:
     Ui::ProductsPage *ui;
 
-    fa::QtAwesome* awesome;
 
     void setupTable();
     void loadProducts();
+    void showProductDialog(int productId);
 };
