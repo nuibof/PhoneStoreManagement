@@ -25,6 +25,11 @@ add_executable(PhoneStoreManagement
         src/database/DatabaseConnection.cpp
         include/database/DatabaseConnection.h
 
+        include/entities/ProductVariant.h
+        src/entities/ProductVariant.cpp
+        include/managers/VariantManager.h
+        src/managers/VariantManager.cpp
+
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
 
@@ -43,6 +48,10 @@ add_executable(PhoneStoreManagement
         gui/widgets/invoicespage.cpp
         gui/widgets/invoicespage.h
         gui/widgets/invoicespage.ui
+
+        gui/widgets/VariantsDialog.cpp
+        gui/widgets/VariantsDialog.h
+        gui/widgets/VariantsDialog.ui
 )
 
 target_link_libraries(PhoneStoreManagement
