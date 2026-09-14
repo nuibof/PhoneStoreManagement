@@ -9,10 +9,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Svg)
+
+
 
 add_executable(PhoneStoreManagement
         main.cpp
+        gui/resources/resources.qrc
 
         gui/windows/LoginWindow.cpp
         gui/windows/LoginWindow.h
@@ -24,6 +27,15 @@ add_executable(PhoneStoreManagement
 
         src/database/DatabaseConnection.cpp
         include/database/DatabaseConnection.h
+
+        include/entities/Customer.h
+        src/entities/Customer.cpp
+        include/entities/Product.h
+        src/entities/Product.cpp
+        include/managers/ProductManager.h
+        src/managers/ProductManager.cpp
+        include/managers/CustomerManager.h
+        src/managers/CustomerManager.cpp
 
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
@@ -46,10 +58,11 @@ add_executable(PhoneStoreManagement
 )
 
 target_link_libraries(PhoneStoreManagement
-        PRIVATE Qt6::Widgets Qt6::Sql
+        PRIVATE Qt6::Widgets Qt6::Sql Qt6::Svg
 )
 
 target_include_directories(PhoneStoreManagement
         PRIVATE
         include
 )
+
