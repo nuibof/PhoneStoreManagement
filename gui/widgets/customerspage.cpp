@@ -12,6 +12,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QTableWidgetItem>
+#include <QIcon>
 #include "managers/CustomerManager.h"
 
 #include <QDateTime>
@@ -70,8 +71,14 @@ void CustomersPage::setupTable()
     ui->tblCustomers->verticalHeader()->setVisible(false);
     ui->tblCustomers->verticalHeader()->setDefaultSectionSize(45);
 
-    ui->tblCustomers->horizontalHeader()
-        ->setStretchLastSection(true);
+    auto *header = ui->tblCustomers->horizontalHeader();
+    header->setStretchLastSection(false);
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    header->setResizeContentsPrecision(-1);
+    header->setSectionResizeMode(6, QHeaderView::Fixed);
+    ui->tblCustomers->setColumnWidth(6, 88);
+    ui->tblCustomers->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->tblCustomers->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 void CustomersPage::loadCustomers()
@@ -148,22 +155,46 @@ void CustomersPage::loadCustomers()
         // ACTION BUTTONS
         // =========================
 
-        auto *btnEdit = new QPushButton("Edit");
-        auto *btnDelete = new QPushButton("Delete");
+        auto* btnEdit = new QPushButton();
+        auto* btnDelete = new QPushButton();
+        btnEdit->setToolTip("Edit");
+        btnDelete->setToolTip("Delete");
+        btnEdit->setAccessibleName("Edit");
+        btnDelete->setAccessibleName("Delete");
 
+        btnEdit->setIcon(QIcon(":/icons/edit.svg"));
+        btnDelete->setIcon(QIcon(":/icons/delete.svg"));
+        btnEdit->setIconSize(QSize(18, 18));
+        btnDelete->setIconSize(QSize(18, 18));
+
+        const QString actionStyle =
+            "QPushButton { padding: 0px; color: #3478F6; "
+            "background-color: #FFFFFF; border: 1px solid #D0D0D0; "
+            "border-radius: 4px; text-align: center; }"
+            "QPushButton:hover { background-color: #EAF1FF; }";
+        btnEdit->setStyleSheet(actionStyle);
+        btnDelete->setStyleSheet(actionStyle);
+
+        // Let QSS from CustomersPage.ui control the appearance
         btnEdit->setProperty("action", "edit");
         btnDelete->setProperty("action", "delete");
 
-        btnEdit->setProperty("customerId", customer.getCustomerId());
-        btnDelete->setProperty("customerId", customer.getCustomerId());
+        btnEdit->setProperty(
+            "customerId",
+            customer.getCustomerId()
+        );
 
-        btnEdit->setMinimumSize(60, 30);
-        btnDelete->setMinimumSize(60, 30);
+        btnDelete->setProperty(
+            "customerId",
+            customer.getCustomerId()
+        );
+
+        btnEdit->setFixedSize(30, 30);
+        btnDelete->setFixedSize(30, 30);
 
         btnEdit->setCursor(Qt::PointingHandCursor);
         btnDelete->setCursor(Qt::PointingHandCursor);
 
-        // Container
         auto *actionWidget = new QWidget();
         actionWidget->setObjectName("actionWidget");
 
@@ -175,6 +206,7 @@ void CustomersPage::loadCustomers()
         );
 
         actionLayout->setSpacing(6);
+        actionLayout->setAlignment(Qt::AlignCenter);
 
         actionLayout->addWidget(btnEdit);
         actionLayout->addWidget(btnDelete);
@@ -184,6 +216,10 @@ void CustomersPage::loadCustomers()
             6,
             actionWidget
         );
+        actionWidget->ensurePolished();
+        btnEdit->ensurePolished();
+        btnDelete->ensurePolished();
+        ui->tblCustomers->setRowHeight(row, 45);
 
         connect(
             btnEdit,
@@ -241,8 +277,10 @@ void CustomersPage::onAddCustomer()
         }
         dialog.accept();
     });
-    if (dialog.exec() == QDialog::Accepted)
+    if (dialog.exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Success", "Customer added successfully.");
         loadCustomers();
+    }
 }
 
 void CustomersPage::onEditCustomer()
@@ -302,8 +340,10 @@ void CustomersPage::onEditCustomer()
         }
         dialog.accept();
     });
-    if (dialog.exec() == QDialog::Accepted)
+    if (dialog.exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Success", "Customer updated successfully.");
         loadCustomers();
+    }
 }
 
 void CustomersPage::onDeleteCustomer() {
@@ -322,6 +362,7 @@ void CustomersPage::onDeleteCustomer() {
         QMessageBox::warning(this, "Customer", error);
         return;
     }
+    QMessageBox::information(this, "Success", "Customer deleted successfully.");
     loadCustomers();
 }
 
