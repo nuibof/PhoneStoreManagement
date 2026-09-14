@@ -12,6 +12,13 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QTableWidgetItem>
+#include <QIcon>
+#include "managers/CustomerManager.h"
+
+#include <QDateTime>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QFormLayout>
 
 
 CustomersPage::CustomersPage(QWidget *parent) : QWidget(parent), ui(new Ui::CustomersPage) {
@@ -64,68 +71,28 @@ void CustomersPage::setupTable()
     ui->tblCustomers->verticalHeader()->setVisible(false);
     ui->tblCustomers->verticalHeader()->setDefaultSectionSize(45);
 
-    ui->tblCustomers->horizontalHeader()
-        ->setStretchLastSection(true);
+    auto *header = ui->tblCustomers->horizontalHeader();
+    header->setStretchLastSection(false);
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    header->setResizeContentsPrecision(-1);
+    header->setSectionResizeMode(6, QHeaderView::Fixed);
+    ui->tblCustomers->setColumnWidth(6, 88);
+    ui->tblCustomers->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->tblCustomers->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 void CustomersPage::loadCustomers()
 {
     ui->tblCustomers->setRowCount(0);
 
-    struct CustomerData
-    {
-        int id;
-        QString name;
-        QString phone;
-        QString email;
-        QString address;
-        QString createdAt;
-    };
-
-    const QList<CustomerData> customers = {
-        {
-            1,
-            "John Doe",
-            "123-456-7890",
-            "john.doe@example.com",
-            "123 Main St",
-            "2023-01-01 10:00:00"
-        },
-        {
-            2,
-            "Jane Smith",
-            "098-765-4321",
-            "jane.smith@example.com",
-            "456 Oak Ave",
-            "2023-01-02 11:00:00"
-        },
-        {
-            3,
-            "Alice Johnson",
-            "555-1234",
-            "alice.johnson@example.com",
-            "789 Pine Rd",
-            "2023-01-03 12:00:00"
-        },
-        {
-            4,
-            "Bob Brown",
-            "555-5678",
-            "bob.brown@example.com",
-            "321 Elm St",
-            "2023-01-04 13:00:00"
-        },
-        {
-            5,
-            "Charlie Davis",
-            "555-9012",
-            "charlie.davis@example.com",
-            "654 Cedar Ln",
-            "2023-01-05 14:00:00"
-        }
-    };
-
-    for (const auto &customer : customers)
+    CustomerManager manager;
+    QList<Customer> customers;
+    QString error;
+    if (!manager.getCustomers(customers, error)) {
+        QMessageBox::critical(this, "Database Error", error);
+        return;
+    }
+    for (const Customer &customer : customers)
     {
         int row = ui->tblCustomers->rowCount();
         ui->tblCustomers->insertRow(row);
@@ -135,7 +102,7 @@ void CustomersPage::loadCustomers()
             row,
             0,
             new QTableWidgetItem(
-                QString::number(customer.id)
+                QString::number(customer.getCustomerId())
             )
         );
 
@@ -144,7 +111,7 @@ void CustomersPage::loadCustomers()
             row,
             1,
             new QTableWidgetItem(
-                customer.name
+                customer.getFullName()
             )
         );
 
@@ -153,7 +120,7 @@ void CustomersPage::loadCustomers()
             row,
             2,
             new QTableWidgetItem(
-                customer.phone
+                customer.getPhone()
             )
         );
 
@@ -162,7 +129,7 @@ void CustomersPage::loadCustomers()
             row,
             3,
             new QTableWidgetItem(
-                customer.email
+                customer.getEmail()
             )
         );
 
@@ -171,7 +138,7 @@ void CustomersPage::loadCustomers()
             row,
             4,
             new QTableWidgetItem(
-                customer.address
+                customer.getAddress()
             )
         );
 
@@ -180,7 +147,7 @@ void CustomersPage::loadCustomers()
             row,
             5,
             new QTableWidgetItem(
-                customer.createdAt
+                customer.getCreatedAt().toString("yyyy-MM-dd HH:mm:ss")
             )
         );
 
@@ -188,22 +155,46 @@ void CustomersPage::loadCustomers()
         // ACTION BUTTONS
         // =========================
 
-        auto *btnEdit = new QPushButton("Edit");
-        auto *btnDelete = new QPushButton("Delete");
+        auto* btnEdit = new QPushButton();
+        auto* btnDelete = new QPushButton();
+        btnEdit->setToolTip("Edit");
+        btnDelete->setToolTip("Delete");
+        btnEdit->setAccessibleName("Edit");
+        btnDelete->setAccessibleName("Delete");
 
+        btnEdit->setIcon(QIcon(":/icons/edit.svg"));
+        btnDelete->setIcon(QIcon(":/icons/delete.svg"));
+        btnEdit->setIconSize(QSize(18, 18));
+        btnDelete->setIconSize(QSize(18, 18));
+
+        const QString actionStyle =
+            "QPushButton { padding: 0px; color: #3478F6; "
+            "background-color: #FFFFFF; border: 1px solid #D0D0D0; "
+            "border-radius: 4px; text-align: center; }"
+            "QPushButton:hover { background-color: #EAF1FF; }";
+        btnEdit->setStyleSheet(actionStyle);
+        btnDelete->setStyleSheet(actionStyle);
+
+        // Let QSS from CustomersPage.ui control the appearance
         btnEdit->setProperty("action", "edit");
         btnDelete->setProperty("action", "delete");
 
-        btnEdit->setProperty("customerId", customer.id);
-        btnDelete->setProperty("customerId", customer.id);
+        btnEdit->setProperty(
+            "customerId",
+            customer.getCustomerId()
+        );
 
-        btnEdit->setMinimumSize(60, 30);
-        btnDelete->setMinimumSize(60, 30);
+        btnDelete->setProperty(
+            "customerId",
+            customer.getCustomerId()
+        );
+
+        btnEdit->setFixedSize(30, 30);
+        btnDelete->setFixedSize(30, 30);
 
         btnEdit->setCursor(Qt::PointingHandCursor);
         btnDelete->setCursor(Qt::PointingHandCursor);
 
-        // Container
         auto *actionWidget = new QWidget();
         actionWidget->setObjectName("actionWidget");
 
@@ -215,6 +206,7 @@ void CustomersPage::loadCustomers()
         );
 
         actionLayout->setSpacing(6);
+        actionLayout->setAlignment(Qt::AlignCenter);
 
         actionLayout->addWidget(btnEdit);
         actionLayout->addWidget(btnDelete);
@@ -224,6 +216,10 @@ void CustomersPage::loadCustomers()
             6,
             actionWidget
         );
+        actionWidget->ensurePolished();
+        btnEdit->ensurePolished();
+        btnDelete->ensurePolished();
+        ui->tblCustomers->setRowHeight(row, 45);
 
         connect(
             btnEdit,
@@ -239,57 +235,135 @@ void CustomersPage::loadCustomers()
             &CustomersPage::onDeleteCustomer
         );
     }
+    onSearch();
 }
 
 void CustomersPage::onAddCustomer()
 {
-    QMessageBox::information(
-        this,
-        "Add Customer",
-        "Add customer functionality is not implemented yet."
-    );
+    QDialog dialog(this);
+    dialog.setWindowTitle("Add Customer");
+    dialog.resize(450, 250);
+    auto *layout = new QFormLayout(&dialog);
+    auto *txtName = new QLineEdit();
+    auto *txtPhone = new QLineEdit();
+    auto *txtEmail = new QLineEdit();
+    auto *txtAddress = new QLineEdit();
+    txtName->setMaxLength(150);
+    txtPhone->setMaxLength(20);
+    txtEmail->setMaxLength(150);
+    layout->addRow("Full Name:", txtName);
+    layout->addRow("Phone:", txtPhone);
+    layout->addRow("Email:", txtEmail);
+    layout->addRow("Address:", txtAddress);
+    auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    layout->addRow(buttons);
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, [&]() {
+        if (txtName->text().trimmed().isEmpty()) {
+            QMessageBox::warning(&dialog, "Customer", "Full name cannot be empty.");
+            txtName->setFocus();
+            return;
+        }
+        Customer customer;
+        customer.setFullName(txtName->text());
+        customer.setPhone(txtPhone->text());
+        customer.setEmail(txtEmail->text());
+        customer.setAddress(txtAddress->text());
+        CustomerManager manager;
+        QString error;
+        if (!manager.addCustomer(customer, error)) {
+            QMessageBox::critical(&dialog, "Customer", error);
+            return;
+        }
+        dialog.accept();
+    });
+    if (dialog.exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Success", "Customer added successfully.");
+        loadCustomers();
+    }
 }
 
 void CustomersPage::onEditCustomer()
 {
     auto *button = qobject_cast<QPushButton *>(sender());
-
     if (!button)
         return;
+    const int customerId = button->property("customerId").toInt();
+    CustomerManager manager;
+    Customer current;
+    QString error;
+    if (!manager.getCustomer(customerId, current, error)) {
+        QMessageBox::warning(this, "Customer", error);
+        loadCustomers();
+        return;
+    }
+    QDialog dialog(this);
+    dialog.setWindowTitle("Edit Customer");
+    dialog.resize(450, 250);
+    auto *layout = new QFormLayout(&dialog);
+    auto *txtName = new QLineEdit();
+    auto *txtPhone = new QLineEdit();
+    auto *txtEmail = new QLineEdit();
+    auto *txtAddress = new QLineEdit();
+    txtName->setMaxLength(150);
+    txtPhone->setMaxLength(20);
+    txtEmail->setMaxLength(150);
+    layout->addRow("Full Name:", txtName);
+    layout->addRow("Phone:", txtPhone);
+    layout->addRow("Email:", txtEmail);
+    layout->addRow("Address:", txtAddress);
+    txtName->setText(current.getFullName());
+    txtPhone->setText(current.getPhone());
+    txtEmail->setText(current.getEmail());
+    txtAddress->setText(current.getAddress());
 
-    int customerId = button->property("customerId").toInt();
-
-    QMessageBox::information(
-        this,
-        "Edit Customer",
-        QString("Edit customer ID: %1").arg(customerId)
-    );
+    auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    layout->addRow(buttons);
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, [&]() {
+        if (txtName->text().trimmed().isEmpty()) {
+            QMessageBox::warning(&dialog, "Customer", "Full name cannot be empty.");
+            txtName->setFocus();
+            return;
+        }
+        Customer customer;
+        customer.setFullName(txtName->text());
+        customer.setPhone(txtPhone->text());
+        customer.setEmail(txtEmail->text());
+        customer.setAddress(txtAddress->text());
+        customer.setCustomerId(customerId);
+        CustomerManager manager;
+        QString error;
+        if (!manager.updateCustomer(customer, error)) {
+            QMessageBox::critical(&dialog, "Customer", error);
+            return;
+        }
+        dialog.accept();
+    });
+    if (dialog.exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Success", "Customer updated successfully.");
+        loadCustomers();
+    }
 }
 
 void CustomersPage::onDeleteCustomer() {
     auto *button = qobject_cast<QPushButton *>(sender());
-
     if (!button)
         return;
-
-    int customerId = button->property("customerId").toInt();
-
-    QMessageBox::StandardButton reply =
-        QMessageBox::question(
-            this,
-            "Delete Customer",
+    const int customerId = button->property("customerId").toInt();
+    if (QMessageBox::question(this, "Delete Customer",
             QString("Are you sure you want to delete customer ID %1?").arg(customerId),
-            QMessageBox::Yes | QMessageBox::No
-        );
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
+        return;
 
-    if (reply == QMessageBox::Yes)
-    {
-        QMessageBox::information(
-            this,
-            "Delete Customer",
-            "Customer deleted successfully."
-        );
+    CustomerManager manager;
+    QString error;
+    if (!manager.deleteCustomer(customerId, error)) {
+        QMessageBox::warning(this, "Customer", error);
+        return;
     }
+    QMessageBox::information(this, "Success", "Customer deleted successfully.");
+    loadCustomers();
 }
 
 void CustomersPage::onRefresh() {
