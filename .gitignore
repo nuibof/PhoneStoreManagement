@@ -71,5 +71,6 @@ vcpkg_installed/
 # Test output & cache
 Testing/
 .cache/
+
 # Visual Studio local workspace files
 .vs/

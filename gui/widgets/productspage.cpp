@@ -26,10 +26,15 @@
 #include <QVariant>
 #include <QIcon>
 
-ProductsPage::ProductsPage(QWidget* parent) : QWidget(parent), ui(new Ui::ProductsPage) {
+ProductsPage::ProductsPage(const QString &position, QWidget* parent)
+    : QWidget(parent),
+      ui(new Ui::ProductsPage),
+      position(position) {
     ui->setupUi(this);
 
-
+    if (position == "Sales") {
+        ui->btnAdd->setEnabled(false);
+    }
     setupTable();
     connect(ui->btnAdd, &QPushButton::clicked, this, &ProductsPage::onAddProduct);
     connect(ui->btnRefresh, &QPushButton::clicked, this, &ProductsPage::onRefresh);
@@ -51,7 +56,13 @@ ProductsPage::ProductsPage(QWidget* parent) : QWidget(parent), ui(new Ui::Produc
     int productId = idItem->text().toInt();
     QString productName = nameItem->text();
 
-    VariantsDialog dialog(productId, productName, this);
+    VariantsDialog dialog(
+        productId,
+        productName,
+        this->position,
+        this
+    );
+
     dialog.exec();
 });
 }
@@ -232,6 +243,11 @@ void ProductsPage::loadProducts()
 
         editButton->setCursor(Qt::PointingHandCursor);
         deleteButton->setCursor(Qt::PointingHandCursor);
+        if (position == "Sales")
+        {
+            editButton->setEnabled(false);
+            deleteButton->setEnabled(false);
+        }
 
         auto *actionWidget = new QWidget();
         actionWidget->setObjectName("actionWidget");
@@ -364,8 +380,8 @@ void ProductsPage::showProductDialog(int productId)
     if (dialog.exec() == QDialog::Accepted) {
         QMessageBox::information(this, "Success", productId == 0
             ? "Product added successfully." : "Product updated successfully.");
-        loadProducts();
     }
+    loadProducts();
 }
 
 void ProductsPage::onDeleteProduct()

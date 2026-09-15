@@ -6,10 +6,18 @@
 #include <QMessageBox>
 #include <QTableWidgetItem>
 
-VariantsDialog::VariantsDialog(int productId, const QString& productName, QWidget *parent)
-    : QDialog(parent), ui(new Ui::VariantsDialog), productId(productId), editingVariantId(0)
+VariantsDialog::VariantsDialog(int productId, const QString& productName, const QString& position, QWidget *parent)
+    : QDialog(parent), ui(new Ui::VariantsDialog), productId(productId), editingVariantId(0), position(position)
 {
     ui->setupUi(this);
+
+    // Sales chỉ được xem variant
+    if (position == "Sales")
+    {
+        ui->btnSave->setEnabled(false);
+        ui->btnClear->setEnabled(false);
+    }
+
     ui->lblProductName->setText(productName);
 
     setupTable();
