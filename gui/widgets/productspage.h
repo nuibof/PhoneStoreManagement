@@ -2,6 +2,7 @@
 
 #include <QWidget>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
     class ProductsPage;
@@ -26,6 +27,8 @@ private slots:
 private:
     Ui::ProductsPage *ui;
 
+
     void setupTable();
     void loadProducts();
+    void showProductDialog(int productId);
 };
