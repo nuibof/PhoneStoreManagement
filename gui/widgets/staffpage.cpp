@@ -12,10 +12,14 @@
 #include <QMessageBox>
 #include <QTableWidgetItem>
 
+#include "addstaffdialog.h"
+#include "managers/EmployeeManager.h"
+#include "managers/AuthManager.h"
 
-StaffPage::StaffPage(QWidget *parent)
+StaffPage::StaffPage(AuthManager *authManager, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::StaffPage)
+    , authManager(authManager)
 {
     ui->setupUi(this);
 
@@ -75,10 +79,6 @@ void StaffPage::setupTable()
 
     QHeaderView *header = ui->tblStaff->horizontalHeader();
 
-    // Không cho xuất hiện khoảng trống như một "cột ảo"
-    header->setStretchLastSection(true);
-
-    // Các cột chính
     header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     header->setSectionResizeMode(1, QHeaderView::Stretch);
     header->setSectionResizeMode(2, QHeaderView::ResizeToContents);
@@ -88,65 +88,14 @@ void StaffPage::setupTable()
     header->setSectionResizeMode(6, QHeaderView::ResizeToContents);
 }
 
-
 void StaffPage::loadStaff()
 {
     ui->tblStaff->setRowCount(0);
 
-    struct StaffData
-    {
-        int id;
-        QString name;
-        QString phone;
-        QString email;
-        QString position;
-        QString username;
-    };
+    EmployeeManager employeeManager;
+    QList<EmployeeData> employees = employeeManager.getAllEmployees();
 
-    const QList<StaffData> staffList = {
-        {
-            1,
-            "Nguyen Van An",
-            "0901234567",
-            "an@example.com",
-            "Manager",
-            "admin"
-        },
-        {
-            2,
-            "Tran Thi Binh",
-            "0912345678",
-            "binh@example.com",
-            "Sales",
-            "sales01"
-        },
-        {
-            3,
-            "Le Van Cuong",
-            "0923456789",
-            "cuong@example.com",
-            "Warehouse",
-            "warehouse01"
-        },
-        {
-            4,
-            "Pham Thi Dung",
-            "0934567890",
-            "dung@example.com",
-            "Sales",
-            "sales02"
-        },
-        {
-            5,
-            "Hoang Van Em",
-            "0945678901",
-            "em@example.com",
-            "Warehouse",
-            "warehouse02"
-        }
-    };
-
-    for (const auto &staff : staffList)
+    for (const auto &staff : employees)
     {
         int row = ui->tblStaff->rowCount();
 
@@ -163,7 +112,7 @@ void StaffPage::loadStaff()
         ui->tblStaff->setItem(
             row,
             1,
-            new QTableWidgetItem(staff.name)
+            new QTableWidgetItem(staff.fullName)
         );
 
         // Phone
@@ -279,37 +228,25 @@ void StaffPage::loadStaff()
             this,
             &StaffPage::onDeleteStaff
         );
-
-        connect(
-            btnEdit,
-            &QPushButton::clicked,
-            this,
-            &StaffPage::onEditStaff
-        );
-
-        connect(
-            btnDelete,
-            &QPushButton::clicked,
-            this,
-            &StaffPage::onDeleteStaff
-        );
     }
 }
 
 
 void StaffPage::onAddStaff()
 {
-    QMessageBox::information(
-        this,
-        "Add Staff",
-        "Add staff functionality is not implemented yet."
-    );
+    AddStaffDialog dialog(this);
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        loadStaff();
+    }
 }
 
 
 void StaffPage::onEditStaff()
 {
-    auto *button = qobject_cast<QPushButton *>(sender());
+    auto *button =
+        qobject_cast<QPushButton *>(sender());
 
     if (!button)
         return;
@@ -317,11 +254,12 @@ void StaffPage::onEditStaff()
     int employeeId =
         button->property("employeeId").toInt();
 
-    QMessageBox::information(
-        this,
-        "Edit Staff",
-        QString("Edit staff ID: %1").arg(employeeId)
-    );
+    AddStaffDialog dialog(employeeId, this);
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        loadStaff();
+    }
 }
 
 
@@ -335,6 +273,22 @@ void StaffPage::onDeleteStaff()
     int employeeId =
         button->property("employeeId").toInt();
 
+    EmployeeManager employeeManager;
+
+    EmployeeData employee =
+        employeeManager.getEmployeeById(employeeId);
+
+    // Không cho nhân viên tự xóa chính tài khoản đang đăng nhập
+    if (employee.username == authManager->getCurrentUsername())
+    {
+        QMessageBox::warning(
+            this,
+            "Delete Staff",
+            "You cannot delete your own account."
+        );
+        return;
+    }
+
     QMessageBox::StandardButton reply =
         QMessageBox::question(
             this,
@@ -345,16 +299,28 @@ void StaffPage::onDeleteStaff()
             QMessageBox::Yes | QMessageBox::No
         );
 
-    if (reply == QMessageBox::Yes)
+    if (reply != QMessageBox::Yes)
+        return;
+
+    if (employeeManager.deleteEmployee(employeeId))
     {
         QMessageBox::information(
             this,
             "Delete Staff",
             "Staff deleted successfully."
         );
+
+        loadStaff();
+    }
+    else
+    {
+        QMessageBox::critical(
+            this,
+            "Delete Staff",
+            "Failed to delete staff."
+        );
     }
 }
-
 
 void StaffPage::onRefresh()
 {

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>AddStaffDialog</class>
+    <widget class="QDialog" name="AddStaffDialog">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>520</width>
+                <height>520</height>
+            </rect>
+        </property>
+
+        <property name="windowTitle">
+            <string>Add Staff</string>
+        </property>
+
+        <property name="styleSheet">
+            <string notr="true">
+
+                QDialog {
+                background-color: #F5F7FA;
+                }
+
+                QLabel#lblTitle {
+                color: #202124;
+                font-size: 24px;
+                font-weight: bold;
+                }
+
+                QLabel#lblSubtitle {
+                color: #777777;
+                font-size: 13px;
+                }
+
+                QLabel.formLabel {
+                color: #444444;
+                font-size: 13px;
+                font-weight: bold;
+                }
+
+                QLineEdit,
+                QComboBox {
+                background-color: #FFFFFF;
+                color: #222222;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 9px 12px;
+                font-size: 14px;
+                min-height: 20px;
+                }
+
+                QLineEdit:focus,
+                QComboBox:focus {
+                border: 1px solid #3478F6;
+                }
+
+                QComboBox::drop-down {
+                border: none;
+                width: 30px;
+                }
+
+                QPushButton#btnCancel {
+                background-color: #FFFFFF;
+                color: #555555;
+                border: 1px solid #D0D0D0;
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-size: 14px;
+                font-weight: bold;
+                }
+
+                QPushButton#btnCancel:hover {
+                background-color: #F0F4FF;
+                color: #3478F6;
+                border: 1px solid #B8C9F5;
+                }
+
+                QPushButton#btnSave {
+                background-color: #3478F6;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 24px;
+                font-size: 14px;
+                font-weight: bold;
+                }
+
+                QPushButton#btnSave:hover {
+                background-color: #4A8CFF;
+                }
+
+                QPushButton#btnSave:pressed {
+                background-color: #2864D7;
+                }
+
+            </string>
+        </property>
+
+        <layout class="QVBoxLayout" name="mainLayout">
+
+            <property name="spacing">
+                <number>12</number>
+            </property>
+
+            <property name="leftMargin">
+                <number>30</number>
+            </property>
+
+            <property name="topMargin">
+                <number>28</number>
+            </property>
+
+            <property name="rightMargin">
+                <number>30</number>
+            </property>
+
+            <property name="bottomMargin">
+                <number>28</number>
+            </property>
+
+            <!-- Header -->
+            <item>
+                <layout class="QVBoxLayout" name="headerLayout">
+
+                    <property name="spacing">
+                        <number>4</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLabel" name="lblTitle">
+                            <property name="text">
+                                <string>Add New Staff</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLabel" name="lblSubtitle">
+                            <property name="text">
+                                <string>Enter staff information and account details.</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- Full Name -->
+            <item>
+                <layout class="QVBoxLayout" name="fullNameLayout">
+
+                    <property name="spacing">
+                        <number>5</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLabel" name="lblFullName">
+                            <property name="text">
+                                <string>Full Name</string>
+                            </property>
+                            <property name="styleSheet">
+                                <string notr="true">font-weight: bold; color: #444444;</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtFullName">
+                            <property name="placeholderText">
+                                <string>Enter full name...</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- Phone -->
+            <item>
+                <layout class="QVBoxLayout" name="phoneLayout">
+
+                    <property name="spacing">
+                        <number>5</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLabel" name="lblPhone">
+                            <property name="text">
+                                <string>Phone</string>
+                            </property>
+                            <property name="styleSheet">
+                                <string notr="true">font-weight: bold; color: #444444;</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtPhone">
+                            <property name="placeholderText">
+                                <string>Enter phone number...</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- Email -->
+            <item>
+                <layout class="QVBoxLayout" name="emailLayout">
+
+                    <property name="spacing">
+                        <number>5</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLabel" name="lblEmail">
+                            <property name="text">
+                                <string>Email</string>
+                            </property>
+                            <property name="styleSheet">
+                                <string notr="true">font-weight: bold; color: #444444;</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtEmail">
+                            <property name="placeholderText">
+                                <string>Enter email...</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- Position -->
+            <item>
+                <layout class="QVBoxLayout" name="positionLayout">
+
+                    <property name="spacing">
+                        <number>5</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLabel" name="lblPosition">
+                            <property name="text">
+                                <string>Position</string>
+                            </property>
+                            <property name="styleSheet">
+                                <string notr="true">font-weight: bold; color: #444444;</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QComboBox" name="cmbPosition">
+                            <property name="currentText">
+                                <string>Manager</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- Username -->
+            <item>
+                <layout class="QVBoxLayout" name="usernameLayout">
+
+                    <property name="spacing">
+                        <number>5</number>
+                    </property>
+
+                    <item>
+                        <widget class="QLabel" name="lblUsername">
+                            <property name="text">
+                                <string>Username</string>
+                            </property>
+                            <property name="styleSheet">
+                                <string notr="true">font-weight: bold; color: #444444;</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtUsername">
+                            <property name="placeholderText">
+                                <string>Enter username...</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLabel" name="lblPassword">
+                            <property name="text">
+                                <string>Password</string>
+                            </property>
+                            <property name="styleSheet">
+                                <string notr="true">font-weight: bold; color: #444444;</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QLineEdit" name="txtPassword">
+                            <property name="placeholderText">
+                                <string>Enter password...</string>
+                            </property>
+                            <property name="echoMode">
+                                <enum>QLineEdit::Password</enum>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+            <!-- Buttons -->
+            <item>
+                <layout class="QHBoxLayout" name="buttonLayout">
+
+                    <property name="spacing">
+                        <number>10</number>
+                    </property>
+
+                    <item>
+                        <spacer name="buttonSpacer">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnCancel">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>42</height>
+                                </size>
+                            </property>
+
+                            <property name="text">
+                                <string>Cancel</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnSave">
+                            <property name="minimumSize">
+                                <size>
+                                    <width>110</width>
+                                    <height>42</height>
+                                </size>
+                            </property>
+
+                            <property name="text">
+                                <string>Save</string>
+                            </property>
+                        </widget>
+                    </item>
+
+                </layout>
+            </item>
+
+        </layout>
+    </widget>
+
+    <resources/>
+    <connections/>
+</ui>

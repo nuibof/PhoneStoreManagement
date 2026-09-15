@@ -19,7 +19,12 @@ class VariantsDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit VariantsDialog(int productId, const QString& productName, QWidget *parent = nullptr);
+    explicit VariantsDialog(
+        int productId,
+        const QString& productName,
+        const QString& position,
+        QWidget *parent = nullptr
+    );
     ~VariantsDialog();
 
 private slots:
@@ -34,6 +39,8 @@ private:
 
     int productId;
     int editingVariantId; // 0 = dang o che do them moi, > 0 = dang sua bien the co id nay
+
+    QString position;
 
     void setupTable();
     void loadColorOptions();

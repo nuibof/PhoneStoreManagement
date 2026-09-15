@@ -9,34 +9,23 @@
 #include "QPushButton"
 #include "QMessageBox"
 #include "dashboardwindow.h"
+#include "managers/AuthManager.h"
 
 LoginWindow::LoginWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::LoginWindow) {
     ui->setupUi(this);
 
-    //account for testing
-    const QString testUsername = "test";
-    const QString testPassword = "password";
-    //add test user for txtUsername and txtPassword
-    ui->txtUsername->setText(testUsername);
-    ui->txtPassword->setText(testPassword);
+    AuthManager AM;
+
     //click btnLogin ok open dashboard window
-    connect(ui->btnLogin, &QPushButton::clicked, this, [this, testUsername, testPassword]() {
-        QString username = ui->txtUsername->text();
-        QString password = ui->txtPassword->text();
-        if (username == testUsername && password == testPassword) {
-            //open dashboard window
-            auto *dashboardWindow = new DashboardWindow();
-            dashboardWindow->show();
-            this->close();
-        } else {
-            QMessageBox::warning(this, "Login Failed", "Sai tên đăng nhập hoặc mật khẩu.");
-        }
+    connect(ui->btnLogin, &QPushButton::clicked, this, [this]() {
+        onLogin();
     });
+
     //click Enter key on txtPassword or txtUsername ok open dashboard window
-    connect(ui->txtPassword, &QLineEdit::returnPressed, this, [this, testUsername, testPassword]() {
+    connect(ui->txtUsername, &QLineEdit::returnPressed, this, [this]() {
         ui->btnLogin->click();
     });
-    connect(ui->txtUsername, &QLineEdit::returnPressed, this, [this, testUsername, testPassword]() {
+    connect(ui->txtPassword, &QLineEdit::returnPressed, this, [this]() {
         ui->btnLogin->click();
     });
     //click btnExit show yes no popup
@@ -49,4 +38,27 @@ LoginWindow::LoginWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Logi
 
 LoginWindow::~LoginWindow() {
     delete ui;
+}
+
+void LoginWindow::onLogin()
+{
+    QString username = ui->txtUsername->text();
+    QString password = ui->txtPassword->text();
+
+    if (authManager.login(username, password))
+    {
+        DashboardWindow *dashboard =
+            new DashboardWindow(&authManager);
+
+        dashboard->show();
+        this->hide();
+    }
+    else
+    {
+        QMessageBox::warning(
+            this,
+            "Login",
+            "Invalid username or password."
+        );
+    }
 }

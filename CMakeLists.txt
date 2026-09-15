@@ -20,6 +20,9 @@ add_executable(PhoneStoreManagement
         gui/windows/LoginWindow.cpp
         gui/windows/LoginWindow.h
         gui/windows/LoginWindow.ui
+        include/managers/AuthManager.h
+        src/managers/AuthManager.cpp
+        src/managers/EmployeeManager.cpp
 
         gui/windows/DashboardWindow.cpp
         gui/windows/DashboardWindow.h
@@ -64,6 +67,10 @@ add_executable(PhoneStoreManagement
         gui/widgets/VariantsDialog.cpp
         gui/widgets/VariantsDialog.h
         gui/widgets/VariantsDialog.ui
+        include/managers/EmployeeData.h
+        gui/widgets/addstaffdialog.cpp
+        gui/widgets/addstaffdialog.h
+        gui/widgets/addstaffdialog.ui
 )
 
 target_link_libraries(PhoneStoreManagement

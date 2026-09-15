@@ -10,6 +10,12 @@
 
 QT_BEGIN_NAMESPACE
 
+#include <QMainWindow>
+
+class AuthManager;
+
+QT_BEGIN_NAMESPACE
+
 namespace Ui {
     class DashboardWindow;
 }
@@ -19,15 +25,18 @@ QT_END_NAMESPACE
 class DashboardWindow : public QMainWindow {
     Q_OBJECT
 
+QT_END_NAMESPACE
 public:
-    explicit DashboardWindow(QWidget *parent = nullptr);
+    explicit DashboardWindow(AuthManager *authManager,
+                             QWidget *parent = nullptr);
 
     ~DashboardWindow() override;
 
 private:
     Ui::DashboardWindow *ui;
+    AuthManager *authManager;
+
     void loadDashboardData();
 };
 
-
-#endif //PHONESTOREMANAGEMENT_DASHBOARDWINDOW_H
+#endif

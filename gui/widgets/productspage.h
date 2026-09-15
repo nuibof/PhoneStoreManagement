@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QWidget>
-
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -14,8 +14,12 @@ class ProductsPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit ProductsPage(QWidget *parent = nullptr);
-    ~ProductsPage();
+    explicit ProductsPage(
+        const QString &position,
+        QWidget *parent = nullptr
+    );
+
+    ~ProductsPage() override;
 
 private slots:
     void onAddProduct();
@@ -27,6 +31,7 @@ private slots:
 private:
     Ui::ProductsPage *ui;
 
+    QString position;
 
     void setupTable();
     void loadProducts();
