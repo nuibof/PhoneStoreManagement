@@ -12,7 +12,7 @@ bool DatabaseConnection::connect()
 
     db.setHostName("localhost");
     db.setPort(5432);
-    db.setDatabaseName("phone_store");
+    db.setDatabaseName("phone_store_management");
 
     db.setUserName("postgres");
     db.setPassword("1234");
