@@ -59,11 +59,6 @@ double Invoice::getTotalAmount() const
     return totalAmount;
 }
 
-QList<InvoiceDetail> Invoice::getDetails() const
-{
-    return details;
-}
-
 void Invoice::setInvoiceId(int id)
 {
     invoiceId = id;
@@ -89,45 +84,12 @@ void Invoice::setPaymentStatus(const QString& status)
     paymentStatus = status;
 }
 
-void Invoice::addDetail(const InvoiceDetail& detail)
-{
-    details.append(detail);
-    totalAmount = calculateTotal();
-}
-
-void Invoice::removeDetail(int invoiceDetailId)
-{
-    for (int i = 0; i < details.size(); ++i)
-    {
-        if (details[i].getInvoiceDetailId() == invoiceDetailId)
-        {
-            details.removeAt(i);
-            break;
-        }
-    }
-
-    totalAmount = calculateTotal();
-}
-
-void Invoice::clearDetails()
-{
-    details.clear();
-    totalAmount = 0;
-}
-
-double Invoice::calculateTotal() const
-{
-    double total = 0;
-
-    for (const InvoiceDetail& detail : details)
-    {
-        total += detail.getSubtotal();
-    }
-
-    return total;
-}
-
 bool Invoice::operator==(const Invoice& other) const
 {
     return invoiceId == other.invoiceId;
+}
+
+void Invoice::setTotalAmount(double amount)
+{
+    totalAmount = amount;
 }
