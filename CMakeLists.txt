@@ -54,6 +54,18 @@ add_executable(PhoneStoreManagement
         include/managers/VariantManager.h
         src/managers/VariantManager.cpp
 
+        include/entities/ProductVariant.h
+        src/entities/ProductVariant.cpp
+        include/managers/VariantManager.h
+        src/managers/VariantManager.cpp
+
+        src/entities/Order.cpp
+        src/entities/OrderDetail.cpp
+        src/entities/Invoice.cpp
+        src/entities/InvoiceDetail.cpp
+        tests/OrderInvoiceTest.cpp
+        tests/OrderInvoiceTest.h
+
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
 

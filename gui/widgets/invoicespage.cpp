@@ -80,6 +80,7 @@ void InvoicesPage::loadInvoices() {
         connect(remove, &QPushButton::clicked, this, &InvoicesPage::onDeleteInvoice);
         layout->addWidget(edit); layout->addWidget(remove); UiStyle::actions(edit, remove, layout); ui->tblInvoices->setCellWidget(row, 6, widget);
     }
+    onSearch();
 }
 
 void InvoicesPage::onAddInvoice() {
