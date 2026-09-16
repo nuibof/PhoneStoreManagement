@@ -68,9 +68,9 @@ bool EmployeeRepository::add(Employee* employee)
 }
 
 // Read Lấy tất cả nhân viên
-QVector<Employee*> EmployeeRepository::getAll()
+std::vector<Employee*> EmployeeRepository::getAll()
 {
-    QVector<Employee*> employees;
+    std::vector<Employee*> employees;
 
     QSqlQuery query(db);
 

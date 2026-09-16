@@ -59,7 +59,7 @@ double Order::getTotalAmount() const
     return totalAmount;
 }
 
-QList<OrderDetail> Order::getDetails() const
+std::vector<OrderDetail> Order::getDetails() const
 {
     return details;
 }
@@ -91,17 +91,17 @@ void Order::setStatus(const QString& status)
 
 void Order::addDetail(const OrderDetail& detail)
 {
-    details.append(detail);
+    details.push_back(detail);
     totalAmount = calculateTotal();
 }
 
 void Order::removeDetail(int orderDetailId)
 {
-    for (int i = 0; i < details.size(); ++i)
+    for (auto it = details.begin(); it != details.end(); ++it)
     {
-        if (details[i].getOrderDetailId() == orderDetailId)
+        if (it->getOrderDetailId() == orderDetailId)
         {
-            details.removeAt(i);
+            details.erase(it);
             break;
         }
     }

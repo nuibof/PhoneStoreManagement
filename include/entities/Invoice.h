@@ -4,13 +4,14 @@
 #pragma once
 
 #include <QDateTime>
-#include <QList>
 #include <QString>
+#include <vector>
 
 #include "InvoiceDetail.h"
+#include "FileExportable.h"
 #ifndef PHONESTOREMANAGEMENT_INVOICE_H
 #define PHONESTOREMANAGEMENT_INVOICE_H
-class Invoice
+class Invoice : public FileExportable
 {
 private:
     int invoiceId;
@@ -20,7 +21,7 @@ private:
     QString paymentStatus;
     double totalAmount;
 
-    QList<InvoiceDetail> details;
+    std::vector<InvoiceDetail> details;
 
 public:
     Invoice();
@@ -40,7 +41,7 @@ public:
     QString getPaymentStatus() const;
     double getTotalAmount() const;
 
-    QList<InvoiceDetail> getDetails() const;
+    std::vector<InvoiceDetail> getDetails() const;
 
     void setInvoiceId(int id);
     void setOrderId(int id);
@@ -55,5 +56,8 @@ public:
     double calculateTotal() const;
 
     bool operator==(const Invoice& other) const;
+
+    // Ghi de ham thuan ao cua FileExportable - sinh noi dung hoa don de xuat ra file
+    QString toFileText() const override;
 };
 #endif //PHONESTOREMANAGEMENT_INVOICE_H

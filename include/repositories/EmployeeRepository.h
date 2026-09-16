@@ -1,6 +1,6 @@
 #pragma once
 #include <QSqlDatabase>
-#include <QVector>
+#include <vector>
 #include "entities/Employee.h"
 
 class EmployeeRepository
@@ -16,7 +16,7 @@ public:
     bool add(Employee* employee);
 
     // READ
-    QVector<Employee*> getAll();
+    std::vector<Employee*> getAll();
 
     Employee* getById(int id);
 

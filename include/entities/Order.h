@@ -4,7 +4,7 @@
 #pragma once
 
 #include <QDateTime>
-#include <QList>
+#include <vector>
 
 #include "OrderDetail.h"
 #ifndef PHONESTOREMANAGEMENT_ORDER_H
@@ -19,7 +19,7 @@ private:
     QString status;
     double totalAmount;
 
-    QList<OrderDetail> details;
+    std::vector<OrderDetail> details;
 
 public:
     Order();
@@ -39,7 +39,7 @@ public:
     QString getStatus() const;
     double getTotalAmount() const;
 
-    QList<OrderDetail> getDetails() const;
+    std::vector<OrderDetail> getDetails() const;
 
     void setOrderId(int id);
     void setCustomerId(int id);
