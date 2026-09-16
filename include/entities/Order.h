@@ -4,7 +4,7 @@
 #pragma once
 
 #include <QDateTime>
-#include <vector>
+#include <QList>
 
 #include "OrderDetail.h"
 #ifndef PHONESTOREMANAGEMENT_ORDER_H
