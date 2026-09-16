@@ -131,3 +131,7 @@ bool Order::operator==(const Order& other) const
 {
     return orderId == other.orderId;
 }
+void Order::setTotalAmount(double totalAmount)
+{
+    this->totalAmount = totalAmount;
+}

@@ -95,11 +95,13 @@ void InvoicesPage::onAddInvoice() {
 void InvoicesPage::onEditInvoice() {
     auto *button = qobject_cast<QPushButton *>(sender());
     if (!button) return;
+    QString status = button->property("status").toString();
+    if (status == "Paid") { QMessageBox::information(this, "Edit Invoice", "Paid invoices cannot be edited."); return; }
     Invoice invoice;
     invoice.setInvoiceId(button->property("invoiceId").toInt());
     invoice.setOrderId(button->property("orderId").toInt());
     invoice.setPaymentMethod(button->property("method").toString());
-    invoice.setPaymentStatus(button->property("status").toString());
+    invoice.setPaymentStatus(status);
     QString error; InvoiceManager manager;
     if (!editInvoice(this, invoice, true, error)) { if (!error.isEmpty()) QMessageBox::warning(this, "Edit Invoice", error); return; }
     if (!manager.updateInvoice(invoice, error)) { QMessageBox::critical(this, "Edit Invoice", error); return; }

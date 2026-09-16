@@ -54,7 +54,7 @@ public:
     void clearDetails();
 
     double calculateTotal() const;
-
+    void setTotalAmount(double totalAmount);
     bool operator==(const Invoice& other) const;
 
     // Ghi de ham thuan ao cua FileExportable - sinh noi dung hoa don de xuat ra file

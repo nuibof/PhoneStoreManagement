@@ -161,3 +161,8 @@ QString Invoice::toFileText() const
 
     return text;
 }
+
+void Invoice::setTotalAmount(double totalAmount)
+{
+    this->totalAmount = totalAmount;
+}

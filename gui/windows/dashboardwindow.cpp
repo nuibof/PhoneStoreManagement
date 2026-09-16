@@ -35,7 +35,6 @@ DashboardWindow::DashboardWindow(AuthManager *authManager, QWidget *parent) : QM
     }
     else if (position == "Sales")
     {
-        ui->btnCategories->hide();
         ui->btnStaff->hide();
     }
     else if (position == "Warehouse")
@@ -74,18 +73,10 @@ DashboardWindow::DashboardWindow(AuthManager *authManager, QWidget *parent) : QM
     int invoicesIndex =
         ui->stackedWidget->addWidget(invoicesPage);
 
-    // Make Dashboard the default page
-    ui->stackedWidget->setCurrentWidget(ui->dashboardPage);
-
-    // Load dashboard data
-    loadDashboardData();
-
     auto setActiveButton = [this](QPushButton *activeButton)
     {
         QList<QPushButton *> buttons = {
-            ui->btnDashboard,
             ui->btnProducts,
-            ui->btnCategories,
             ui->btnCustomers,
             ui->btnStaff,
             ui->btnOrders,
@@ -99,28 +90,15 @@ DashboardWindow::DashboardWindow(AuthManager *authManager, QWidget *parent) : QM
             button->style()->polish(button);
         }
     };
-    // Dashboard (default) active button
-    setActiveButton(ui->btnDashboard);
-    connect(ui->btnDashboard, &QPushButton::clicked, this, [this, setActiveButton]()
-    {
-        ui->stackedWidget->setCurrentWidget(ui->dashboardPage);
-        setActiveButton(ui->btnDashboard);
-    });
 
     // Products
+    setActiveButton(ui->btnProducts);
     connect(ui->btnProducts, &QPushButton::clicked,
         this, [this, setActiveButton, productsIndex]()
 {
     ui->stackedWidget->setCurrentIndex(productsIndex);
     setActiveButton(ui->btnProducts);
 });
-
-    // Categories
-    connect(ui->btnCategories, &QPushButton::clicked, this, [this, setActiveButton]()
-    {
-        ui->stackedWidget->setCurrentWidget(ui->categoriesPage);
-        setActiveButton(ui->btnCategories);
-    });
 
     // Customers
     connect(ui->btnCustomers, &QPushButton::clicked, this, [this, setActiveButton, customersIndex]()
@@ -172,23 +150,4 @@ DashboardWindow::DashboardWindow(AuthManager *authManager, QWidget *parent) : QM
 
 DashboardWindow::~DashboardWindow() {
     delete ui;
-}
-
-void DashboardWindow::loadDashboardData()
-{
-    qDebug() << "=== Loading Dashboard Data ===";
-
-    DashboardManager manager;
-
-    int productCount = manager.getProductCount();
-    int orderCount = manager.getOrderCount();
-    int customerCount = manager.getCustomerCount();
-
-    qDebug() << "Products:" << productCount;
-    qDebug() << "Orders:" << orderCount;
-    qDebug() << "Customers:" << customerCount;
-
-    ui->productsValue->setText(QString::number(productCount));
-    ui->ordersValue->setText(QString::number(orderCount));
-    ui->customersValue->setText(QString::number(customerCount));
 }

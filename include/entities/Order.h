@@ -52,7 +52,7 @@ public:
     void clearDetails();
 
     double calculateTotal() const;
-
+    void setTotalAmount(double totalAmount);
     bool operator==(const Order& other) const;
 };
 #endif //PHONESTOREMANAGEMENT_ORDER_H
