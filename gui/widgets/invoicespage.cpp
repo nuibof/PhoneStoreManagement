@@ -1,3 +1,4 @@
+#include "../UiStyle.h"
 #include "InvoicesPage.h"
 #include "ui_InvoicesPage.h"
 
@@ -13,6 +14,8 @@ InvoicesPage::InvoicesPage(QWidget *parent)
       ui(new Ui::InvoicesPage)
 {
     ui->setupUi(this);
+    UiStyle::page(this);
+    ui->lblSubtitle->setText("Sample data — this page is a preview. Changes are not saved.");
 
     setupTable();
     loadInvoices();
@@ -72,6 +75,7 @@ void InvoicesPage::setupTable()
     ui->tblInvoices->setColumnWidth(4, 140);
     ui->tblInvoices->setColumnWidth(5, 150);
     ui->tblInvoices->setColumnWidth(6, 150);
+    UiStyle::table(ui->tblInvoices, 6);
 }
 
 void InvoicesPage::loadInvoices()
@@ -160,32 +164,6 @@ void InvoicesPage::loadInvoices()
         btnEdit->setFixedHeight(30);
         btnDelete->setFixedHeight(30);
 
-        btnEdit->setStyleSheet(
-            "QPushButton {"
-            "background-color: #EAF1FF;"
-            "color: #3478F6;"
-            "border: none;"
-            "border-radius: 6px;"
-            "padding: 4px 10px;"
-            "}"
-            "QPushButton:hover {"
-            "background-color: #DCE8FF;"
-            "}"
-        );
-
-        btnDelete->setStyleSheet(
-            "QPushButton {"
-            "background-color: #FFF1F1;"
-            "color: #D93025;"
-            "border: none;"
-            "border-radius: 6px;"
-            "padding: 4px 8px;"
-            "}"
-            "QPushButton:hover {"
-            "background-color: #FFE0E0;"
-            "}"
-        );
-
         connect(btnEdit, &QPushButton::clicked,
                 this, &InvoicesPage::onEditInvoice);
 
@@ -194,10 +172,13 @@ void InvoicesPage::loadInvoices()
 
         actionLayout->addWidget(btnEdit);
         actionLayout->addWidget(btnDelete);
+        UiStyle::actions(btnEdit, btnDelete, actionLayout);
+
 
         ui->tblInvoices->setCellWidget(
             row, 6, actionWidget);
     }
+    onSearch();
 }
 
 void InvoicesPage::onAddInvoice()
@@ -211,65 +192,17 @@ void InvoicesPage::onAddInvoice()
 
 void InvoicesPage::onEditInvoice()
 {
-    QPushButton *button =
-        qobject_cast<QPushButton *>(sender());
-
-    if (!button)
-        return;
-
-    int invoiceId =
-        button->property("invoiceId").toInt();
-
-    QMessageBox::information(
-        this,
-        "Edit Invoice",
-        QString("Edit invoice ID: %1")
-            .arg(invoiceId)
-    );
+    QMessageBox::information(this, "Invoice", "This page shows sample data. Editing and deletion are not available yet.");
 }
 
 void InvoicesPage::onDeleteInvoice()
 {
-    QPushButton *button =
-        qobject_cast<QPushButton *>(sender());
-
-    if (!button)
-        return;
-
-    int invoiceId =
-        button->property("invoiceId").toInt();
-
-    QMessageBox::StandardButton reply =
-        QMessageBox::question(
-            this,
-            "Delete Invoice",
-            QString(
-                "Are you sure you want to delete invoice ID %1?"
-            ).arg(invoiceId),
-            QMessageBox::Yes | QMessageBox::No
-        );
-
-    if (reply == QMessageBox::Yes)
-    {
-        QMessageBox::information(
-            this,
-            "Delete Invoice",
-            QString(
-                "Invoice ID %1 deleted successfully."
-            ).arg(invoiceId)
-        );
-    }
+    QMessageBox::information(this, "Invoice", "This page shows sample data. Editing and deletion are not available yet.");
 }
 
 void InvoicesPage::onRefresh()
 {
     loadInvoices();
-
-    QMessageBox::information(
-        this,
-        "Refresh",
-        "Invoice list refreshed."
-    );
 }
 
 void InvoicesPage::onSearch()

@@ -1,3 +1,4 @@
+#include "../UiStyle.h"
 //
 // Created by Nam B on 9/12/2026.
 //
@@ -31,6 +32,7 @@ ProductsPage::ProductsPage(const QString &position, QWidget* parent)
       ui(new Ui::ProductsPage),
       position(position) {
     ui->setupUi(this);
+    UiStyle::page(this);
 
     if (position == "Sales") {
         ui->btnAdd->setEnabled(false);
@@ -133,6 +135,7 @@ void ProductsPage::setupTable()
 
     ui->tblProducts->horizontalHeader()
         ->setSectionResizeMode(7, QHeaderView::ResizeToContents);
+    UiStyle::table(ui->tblProducts, 7);
 }
 
 void ProductsPage::loadProducts()
@@ -216,14 +219,6 @@ void ProductsPage::loadProducts()
         editButton->setIconSize(QSize(18, 18));
         deleteButton->setIconSize(QSize(18, 18));
 
-        const QString actionStyle =
-            "QPushButton { padding: 4px 8px; color: #3478F6; "
-            "background-color: #FFFFFF; border: 1px solid #D0D0D0; "
-            "border-radius: 4px; text-align: center; }"
-            "QPushButton:hover { background-color: #EAF1FF; }";
-        editButton->setStyleSheet(actionStyle);
-        deleteButton->setStyleSheet(actionStyle);
-
         // Let QSS from ProductsPage.ui control the appearance
         editButton->setProperty("action", "edit");
         deleteButton->setProperty("action", "delete");
@@ -237,9 +232,6 @@ void ProductsPage::loadProducts()
             "productId",
             product.getProductId()
         );
-
-        editButton->setMinimumSize(60, 30);
-        deleteButton->setMinimumSize(60, 30);
 
         editButton->setCursor(Qt::PointingHandCursor);
         deleteButton->setCursor(Qt::PointingHandCursor);
@@ -263,6 +255,8 @@ void ProductsPage::loadProducts()
 
         actionLayout->addWidget(editButton);
         actionLayout->addWidget(deleteButton);
+        UiStyle::actions(editButton, deleteButton, actionLayout);
+
 
 
 
@@ -274,9 +268,7 @@ void ProductsPage::loadProducts()
         actionWidget->ensurePolished();
         editButton->ensurePolished();
         deleteButton->ensurePolished();
-        editButton->setMinimumSize(editButton->sizeHint());
-        deleteButton->setMinimumSize(deleteButton->sizeHint());
-        ui->tblProducts->setRowHeight(row, actionLayout->sizeHint().height() + 20);
+        ui->tblProducts->setRowHeight(row, 45);
 
         connect(
             editButton,
@@ -360,6 +352,7 @@ void ProductsPage::showProductDialog(int productId)
     layout->addRow("Warranty:", spinWarranty);
     layout->addRow("Description:", txtDescription);
     auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    UiStyle::form(buttons, productId != 0);
     layout->addRow(buttons);
     connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     connect(buttons, &QDialogButtonBox::accepted, &dialog, [&]() {

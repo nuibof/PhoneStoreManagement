@@ -1,3 +1,4 @@
+#include "../UiStyle.h"
 //
 // Created by Nam B on 9/13/2026.
 //
@@ -22,6 +23,7 @@ StaffPage::StaffPage(AuthManager *authManager, QWidget *parent)
     , authManager(authManager)
 {
     ui->setupUi(this);
+    UiStyle::page(this);
 
     setupTable();
 
@@ -86,6 +88,7 @@ void StaffPage::setupTable()
     header->setSectionResizeMode(4, QHeaderView::ResizeToContents);
     header->setSectionResizeMode(5, QHeaderView::ResizeToContents);
     header->setSectionResizeMode(6, QHeaderView::ResizeToContents);
+    UiStyle::table(ui->tblStaff, 6);
 }
 
 void StaffPage::loadStaff()
@@ -165,49 +168,13 @@ void StaffPage::loadStaff()
         btnDelete->setCursor(Qt::PointingHandCursor);
 
         // ===== EDIT STYLE =====
-        btnEdit->setStyleSheet(
-            "QPushButton {"
-            "background-color: #EAF1FF;"
-            "color: #3478F6;"
-            "border: 1px solid #C7D8FF;"
-            "border-radius: 6px;"
-            "padding: 5px 10px;"
-            "font-size: 12px;"
-            "font-weight: bold;"
-            "}"
-            "QPushButton:hover {"
-            "background-color: #3478F6;"
-            "color: #FFFFFF;"
-            "border: 1px solid #3478F6;"
-            "}"
-            "QPushButton:pressed {"
-            "background-color: #2864D7;"
-            "}"
-        );
 
         // ===== DELETE STYLE =====
-        btnDelete->setStyleSheet(
-            "QPushButton {"
-            "background-color: #FFF0F0;"
-            "color: #D93025;"
-            "border: 1px solid #FFD0D0;"
-            "border-radius: 6px;"
-            "padding: 5px 10px;"
-            "font-size: 12px;"
-            "font-weight: bold;"
-            "}"
-            "QPushButton:hover {"
-            "background-color: #D93025;"
-            "color: #FFFFFF;"
-            "border: 1px solid #D93025;"
-            "}"
-            "QPushButton:pressed {"
-            "background-color: #B3261E;"
-            "}"
-        );
 
         actionLayout->addWidget(btnEdit);
         actionLayout->addWidget(btnDelete);
+        UiStyle::actions(btnEdit, btnDelete, actionLayout);
+
 
         ui->tblStaff->setCellWidget(
             row,
@@ -229,6 +196,7 @@ void StaffPage::loadStaff()
             &StaffPage::onDeleteStaff
         );
     }
+    onSearch();
 }
 
 
@@ -296,7 +264,7 @@ void StaffPage::onDeleteStaff()
             QString(
                 "Are you sure you want to delete staff ID %1?"
             ).arg(employeeId),
-            QMessageBox::Yes | QMessageBox::No
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No
         );
 
     if (reply != QMessageBox::Yes)

@@ -16,6 +16,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Svg)
 add_executable(PhoneStoreManagement
         main.cpp
         gui/resources/resources.qrc
+        gui/UiStyle.h
 
         gui/windows/LoginWindow.cpp
         gui/windows/LoginWindow.h

@@ -15,88 +15,6 @@
             <string>Add Staff</string>
         </property>
 
-        <property name="styleSheet">
-            <string notr="true">
-
-                QDialog {
-                background-color: #F5F7FA;
-                }
-
-                QLabel#lblTitle {
-                color: #202124;
-                font-size: 24px;
-                font-weight: bold;
-                }
-
-                QLabel#lblSubtitle {
-                color: #777777;
-                font-size: 13px;
-                }
-
-                QLabel.formLabel {
-                color: #444444;
-                font-size: 13px;
-                font-weight: bold;
-                }
-
-                QLineEdit,
-                QComboBox {
-                background-color: #FFFFFF;
-                color: #222222;
-                border: 1px solid #D0D0D0;
-                border-radius: 8px;
-                padding: 9px 12px;
-                font-size: 14px;
-                min-height: 20px;
-                }
-
-                QLineEdit:focus,
-                QComboBox:focus {
-                border: 1px solid #3478F6;
-                }
-
-                QComboBox::drop-down {
-                border: none;
-                width: 30px;
-                }
-
-                QPushButton#btnCancel {
-                background-color: #FFFFFF;
-                color: #555555;
-                border: 1px solid #D0D0D0;
-                border-radius: 8px;
-                padding: 10px 20px;
-                font-size: 14px;
-                font-weight: bold;
-                }
-
-                QPushButton#btnCancel:hover {
-                background-color: #F0F4FF;
-                color: #3478F6;
-                border: 1px solid #B8C9F5;
-                }
-
-                QPushButton#btnSave {
-                background-color: #3478F6;
-                color: #FFFFFF;
-                border: none;
-                border-radius: 8px;
-                padding: 10px 24px;
-                font-size: 14px;
-                font-weight: bold;
-                }
-
-                QPushButton#btnSave:hover {
-                background-color: #4A8CFF;
-                }
-
-                QPushButton#btnSave:pressed {
-                background-color: #2864D7;
-                }
-
-            </string>
-        </property>
-
         <layout class="QVBoxLayout" name="mainLayout">
 
             <property name="spacing">
@@ -159,9 +77,6 @@
                             <property name="text">
                                 <string>Full Name</string>
                             </property>
-                            <property name="styleSheet">
-                                <string notr="true">font-weight: bold; color: #444444;</string>
-                            </property>
                         </widget>
                     </item>
 
@@ -188,9 +103,6 @@
                         <widget class="QLabel" name="lblPhone">
                             <property name="text">
                                 <string>Phone</string>
-                            </property>
-                            <property name="styleSheet">
-                                <string notr="true">font-weight: bold; color: #444444;</string>
                             </property>
                         </widget>
                     </item>
@@ -219,9 +131,6 @@
                             <property name="text">
                                 <string>Email</string>
                             </property>
-                            <property name="styleSheet">
-                                <string notr="true">font-weight: bold; color: #444444;</string>
-                            </property>
                         </widget>
                     </item>
 
@@ -248,9 +157,6 @@
                         <widget class="QLabel" name="lblPosition">
                             <property name="text">
                                 <string>Position</string>
-                            </property>
-                            <property name="styleSheet">
-                                <string notr="true">font-weight: bold; color: #444444;</string>
                             </property>
                         </widget>
                     </item>
@@ -279,9 +185,6 @@
                             <property name="text">
                                 <string>Username</string>
                             </property>
-                            <property name="styleSheet">
-                                <string notr="true">font-weight: bold; color: #444444;</string>
-                            </property>
                         </widget>
                     </item>
 
@@ -297,9 +200,6 @@
                         <widget class="QLabel" name="lblPassword">
                             <property name="text">
                                 <string>Password</string>
-                            </property>
-                            <property name="styleSheet">
-                                <string notr="true">font-weight: bold; color: #444444;</string>
                             </property>
                         </widget>
                     </item>

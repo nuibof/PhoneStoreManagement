@@ -1,3 +1,4 @@
+#include "../UiStyle.h"
 #include "VariantsDialog.h"
 #include "ui_VariantsDialog.h"
 #include <QHeaderView>
@@ -10,6 +11,7 @@ VariantsDialog::VariantsDialog(int productId, const QString& productName, const 
     : QDialog(parent), ui(new Ui::VariantsDialog), productId(productId), editingVariantId(0), position(position)
 {
     ui->setupUi(this);
+    UiStyle::page(this);
 
     // Sales chỉ được xem variant
     if (position == "Sales")
@@ -47,6 +49,7 @@ void VariantsDialog::setupTable()
 
     ui->tblVariants->horizontalHeader()->setStretchLastSection(true);
     ui->tblVariants->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    UiStyle::table(ui->tblVariants, 7);
 }
 
 void VariantsDialog::loadColorOptions()
@@ -125,9 +128,6 @@ void VariantsDialog::loadVariants()
         deleteButton->setProperty("action", "delete");
         editButton->setProperty("variantId", row.variant.getVariantId());
         deleteButton->setProperty("variantId", row.variant.getVariantId());
-
-        editButton->setMinimumSize(55, 28);
-        deleteButton->setMinimumSize(55, 28);
         editButton->setCursor(Qt::PointingHandCursor);
         deleteButton->setCursor(Qt::PointingHandCursor);
 
@@ -139,6 +139,10 @@ void VariantsDialog::loadVariants()
         actionLayout->setSpacing(6);
         actionLayout->addWidget(editButton);
         actionLayout->addWidget(deleteButton);
+        UiStyle::actions(editButton, deleteButton, actionLayout);
+        editButton->setEnabled(position != "Sales");
+        deleteButton->setEnabled(position != "Sales");
+
 
         ui->tblVariants->setCellWidget(r, 7, actionWidget);
 
@@ -206,6 +210,7 @@ void VariantsDialog::onSaveClicked()
         return;
     }
 
+    QMessageBox::information(this, "Success", editingVariantId > 0 ? "Variant updated successfully." : "Variant added successfully.");
     clearForm();
     loadVariants();
 }
@@ -245,7 +250,7 @@ void VariantsDialog::onDeleteVariant()
         this,
         "Delete Variant",
         QString("Are you sure you want to delete variant ID %1?").arg(variantId),
-        QMessageBox::Yes | QMessageBox::No
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No
     );
 
     if (reply != QMessageBox::Yes) {
@@ -258,6 +263,7 @@ void VariantsDialog::onDeleteVariant()
         return;
     }
 
+    QMessageBox::information(this, "Success", "Variant deleted successfully.");
     if (editingVariantId == variantId) {
         clearForm();
     }

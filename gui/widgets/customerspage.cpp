@@ -1,3 +1,4 @@
+#include "../UiStyle.h"
 //
 // Created by Nam B on 9/13/2026.
 //
@@ -23,6 +24,7 @@
 
 CustomersPage::CustomersPage(QWidget *parent) : QWidget(parent), ui(new Ui::CustomersPage) {
     ui->setupUi(this);
+    UiStyle::page(this);
 
     setupTable();
 
@@ -79,6 +81,7 @@ void CustomersPage::setupTable()
     ui->tblCustomers->setColumnWidth(6, 88);
     ui->tblCustomers->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->tblCustomers->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    UiStyle::table(ui->tblCustomers, 6);
 }
 
 void CustomersPage::loadCustomers()
@@ -167,14 +170,6 @@ void CustomersPage::loadCustomers()
         btnEdit->setIconSize(QSize(18, 18));
         btnDelete->setIconSize(QSize(18, 18));
 
-        const QString actionStyle =
-            "QPushButton { padding: 0px; color: #3478F6; "
-            "background-color: #FFFFFF; border: 1px solid #D0D0D0; "
-            "border-radius: 4px; text-align: center; }"
-            "QPushButton:hover { background-color: #EAF1FF; }";
-        btnEdit->setStyleSheet(actionStyle);
-        btnDelete->setStyleSheet(actionStyle);
-
         // Let QSS from CustomersPage.ui control the appearance
         btnEdit->setProperty("action", "edit");
         btnDelete->setProperty("action", "delete");
@@ -210,6 +205,8 @@ void CustomersPage::loadCustomers()
 
         actionLayout->addWidget(btnEdit);
         actionLayout->addWidget(btnDelete);
+        UiStyle::actions(btnEdit, btnDelete, actionLayout);
+
 
         ui->tblCustomers->setCellWidget(
             row,
@@ -256,6 +253,7 @@ void CustomersPage::onAddCustomer()
     layout->addRow("Email:", txtEmail);
     layout->addRow("Address:", txtAddress);
     auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    UiStyle::form(buttons, false);
     layout->addRow(buttons);
     connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     connect(buttons, &QDialogButtonBox::accepted, &dialog, [&]() {
@@ -318,6 +316,7 @@ void CustomersPage::onEditCustomer()
     txtAddress->setText(current.getAddress());
 
     auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    UiStyle::form(buttons, true);
     layout->addRow(buttons);
     connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     connect(buttons, &QDialogButtonBox::accepted, &dialog, [&]() {

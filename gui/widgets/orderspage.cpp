@@ -1,3 +1,4 @@
+#include "../UiStyle.h"
 #include "OrdersPage.h"
 #include "ui_OrdersPage.h"
 
@@ -13,6 +14,8 @@ OrdersPage::OrdersPage(QWidget *parent)
       ui(new Ui::OrdersPage)
 {
     ui->setupUi(this);
+    UiStyle::page(this);
+    ui->lblSubtitle->setText("Sample data — this page is a preview. Changes are not saved.");
 
     setupTable();
     loadOrders();
@@ -67,6 +70,7 @@ void OrdersPage::setupTable()
     ui->tblOrders->setColumnWidth(4, 110);
     ui->tblOrders->setColumnWidth(5, 130);
     ui->tblOrders->setColumnWidth(6, 150);
+    UiStyle::table(ui->tblOrders, 6);
 }
 
 void OrdersPage::loadOrders()
@@ -145,32 +149,6 @@ void OrdersPage::loadOrders()
         btnEdit->setFixedHeight(30);
         btnDelete->setFixedHeight(30);
 
-        btnEdit->setStyleSheet(
-            "QPushButton {"
-            "background-color: #EAF1FF;"
-            "color: #3478F6;"
-            "border: none;"
-            "border-radius: 6px;"
-            "padding: 4px 10px;"
-            "}"
-            "QPushButton:hover {"
-            "background-color: #DCE8FF;"
-            "}"
-        );
-
-        btnDelete->setStyleSheet(
-            "QPushButton {"
-            "background-color: #FFF1F1;"
-            "color: #D93025;"
-            "border: none;"
-            "border-radius: 6px;"
-            "padding: 4px 8px;"
-            "}"
-            "QPushButton:hover {"
-            "background-color: #FFE0E0;"
-            "}"
-        );
-
         connect(btnEdit, &QPushButton::clicked,
                 this, &OrdersPage::onEdit);
 
@@ -179,9 +157,12 @@ void OrdersPage::loadOrders()
 
         actionLayout->addWidget(btnEdit);
         actionLayout->addWidget(btnDelete);
+        UiStyle::actions(btnEdit, btnDelete, actionLayout);
+
 
         ui->tblOrders->setCellWidget(row, 6, actionWidget);
     }
+    onSearch();
 }
 
 void OrdersPage::onAdd()
@@ -195,65 +176,17 @@ void OrdersPage::onAdd()
 
 void OrdersPage::onEdit()
 {
-    QPushButton *button =
-        qobject_cast<QPushButton *>(sender());
-
-    if (!button)
-        return;
-
-    int orderId =
-        button->property("orderId").toInt();
-
-    QMessageBox::information(
-        this,
-        "Edit Order",
-        QString("Edit order ID: %1").arg(orderId)
-    );
+    QMessageBox::information(this, "Order", "This page shows sample data. Editing and deletion are not available yet.");
 }
 
 void OrdersPage::onDelete()
 {
-    QPushButton *button =
-        qobject_cast<QPushButton *>(sender());
-
-    if (!button)
-        return;
-
-    int orderId =
-        button->property("orderId").toInt();
-
-    QMessageBox::StandardButton reply =
-        QMessageBox::question(
-            this,
-            "Delete Order",
-            QString("Are you sure you want to delete order ID %1?")
-                .arg(orderId),
-            QMessageBox::Yes | QMessageBox::No
-        );
-
-    if (reply == QMessageBox::Yes)
-    {
-        QMessageBox::information(
-            this,
-            "Delete Order",
-            QString("Order ID %1 deleted successfully.")
-                .arg(orderId)
-        );
-
-        // Sau này:
-        // OrderManager -> OrderRepository -> PostgreSQL
-    }
+    QMessageBox::information(this, "Order", "This page shows sample data. Editing and deletion are not available yet.");
 }
 
 void OrdersPage::onRefresh()
 {
     loadOrders();
-
-    QMessageBox::information(
-        this,
-        "Refresh",
-        "Order list refreshed."
-    );
 }
 
 void OrdersPage::onSearch()
