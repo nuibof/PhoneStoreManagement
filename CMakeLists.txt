@@ -46,6 +46,13 @@ add_executable(PhoneStoreManagement
         include/managers/VariantManager.h
         src/managers/VariantManager.cpp
 
+        src/entities/Order.cpp
+        src/entities/OrderDetail.cpp
+        src/entities/Invoice.cpp
+        src/entities/InvoiceDetail.cpp
+        tests/OrderInvoiceTest.cpp
+        tests/OrderInvoiceTest.h
+
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
 
@@ -72,6 +79,16 @@ add_executable(PhoneStoreManagement
         gui/widgets/addstaffdialog.cpp
         gui/widgets/addstaffdialog.h
         gui/widgets/addstaffdialog.ui
+        include/entities/OrderDetail.h
+        src/entities/OrderDetail.cpp
+        include/entities/Order.h
+        src/entities/Order.cpp
+        include/entities/InvoiceDetail.h
+        src/entities/InvoiceDetail.cpp
+        include/entities/Invoice.h
+        src/entities/Invoice.cpp
+        tests/OrderInvoiceTest.cpp
+        tests/OrderInvoiceTest.h
 )
 
 target_link_libraries(PhoneStoreManagement
