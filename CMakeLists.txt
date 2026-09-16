@@ -16,6 +16,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Svg)
 add_executable(PhoneStoreManagement
         main.cpp
         gui/resources/resources.qrc
+        gui/UiStyle.h
 
         gui/windows/LoginWindow.cpp
         gui/windows/LoginWindow.h
@@ -36,6 +37,15 @@ add_executable(PhoneStoreManagement
         src/managers/ProductManager.cpp
         include/managers/CustomerManager.h
         src/managers/CustomerManager.cpp
+        include/managers/OrderManager.h
+        src/managers/OrderManager.cpp
+        include/managers/InvoiceManager.h
+        src/managers/InvoiceManager.cpp
+
+        include/entities/Order.h
+        src/entities/Order.cpp
+        include/entities/Invoice.h
+        src/entities/Invoice.cpp
 
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
@@ -65,4 +75,3 @@ target_include_directories(PhoneStoreManagement
         PRIVATE
         include
 )
-
