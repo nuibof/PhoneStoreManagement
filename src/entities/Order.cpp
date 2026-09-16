@@ -1,7 +1,7 @@
 //
 // Created by Nam B on 9/15/2026.
 //
-#include "entities/Order.h"
+#include "../include/entities/Order.h"
 
 Order::Order()
     : orderId(0),
@@ -59,6 +59,11 @@ double Order::getTotalAmount() const
     return totalAmount;
 }
 
+std::vector<OrderDetail> Order::getDetails() const
+{
+    return details;
+}
+
 void Order::setOrderId(int id)
 {
     orderId = id;
@@ -84,12 +89,49 @@ void Order::setStatus(const QString& status)
     this->status = status;
 }
 
+void Order::addDetail(const OrderDetail& detail)
+{
+    details.push_back(detail);
+    totalAmount = calculateTotal();
+}
+
+void Order::removeDetail(int orderDetailId)
+{
+    for (auto it = details.begin(); it != details.end(); ++it)
+    {
+        if (it->getOrderDetailId() == orderDetailId)
+        {
+            details.erase(it);
+            break;
+        }
+    }
+
+    totalAmount = calculateTotal();
+}
+
+void Order::clearDetails()
+{
+    details.clear();
+    totalAmount = 0;
+}
+
+double Order::calculateTotal() const
+{
+    double total = 0;
+
+    for (const OrderDetail& detail : details)
+    {
+        total += detail.getSubtotal();
+    }
+
+    return total;
+}
+//qttt
 bool Order::operator==(const Order& other) const
 {
     return orderId == other.orderId;
 }
-
-void Order::setTotalAmount(double amount)
+void Order::setTotalAmount(double totalAmount)
 {
-    totalAmount = amount;
+    this->totalAmount = totalAmount;
 }

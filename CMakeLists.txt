@@ -32,6 +32,12 @@ add_executable(PhoneStoreManagement
         src/database/DatabaseConnection.cpp
         include/database/DatabaseConnection.h
 
+        include/config/AppConfig.h
+        src/config/AppConfig.cpp
+
+        include/entities/FileExportable.h
+        src/entities/FileExportable.cpp
+
         include/entities/Customer.h
         src/entities/Customer.cpp
         include/entities/Product.h
@@ -92,6 +98,16 @@ add_executable(PhoneStoreManagement
         gui/widgets/addstaffdialog.cpp
         gui/widgets/addstaffdialog.h
         gui/widgets/addstaffdialog.ui
+        include/entities/OrderDetail.h
+        src/entities/OrderDetail.cpp
+        include/entities/Order.h
+        src/entities/Order.cpp
+        include/entities/InvoiceDetail.h
+        src/entities/InvoiceDetail.cpp
+        include/entities/Invoice.h
+        src/entities/Invoice.cpp
+        tests/OrderInvoiceTest.cpp
+        tests/OrderInvoiceTest.h
 )
 
 target_link_libraries(PhoneStoreManagement
@@ -101,4 +117,11 @@ target_link_libraries(PhoneStoreManagement
 target_include_directories(PhoneStoreManagement
         PRIVATE
         include
+)
+
+# Sao chep file cau hinh CSDL ra cung thu muc voi file thuc thi
+add_custom_command(TARGET PhoneStoreManagement POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/config
+        $<TARGET_FILE_DIR:PhoneStoreManagement>/config
 )

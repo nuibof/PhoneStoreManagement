@@ -9,6 +9,7 @@
 #include "entities/Order.h"
 #include "entities/InvoiceDetail.h"
 #include "entities/Invoice.h"
+#include "config/AppConfig.h"
 
 #include <QDebug>
 #include <QDateTime>
@@ -316,6 +317,33 @@ void OrderInvoiceTest::run()
 
     qDebug() << "invoiceA == invoiceC:"
              << (invoiceA == invoiceC);
+
+
+    // =====================================================
+    // 12. FILE I/O: XUAT HOA DON RA FILE (GHI FILE)
+    // =====================================================
+
+    qDebug() << "\n[12] Testing Invoice::exportToFile (FileExportable)";
+
+    invoice.addDetail(invoiceDetail1);
+    invoice.addDetail(invoiceDetail2);
+
+    bool exported = invoice.exportToFile("invoice_export.txt");
+
+    qDebug() << "Export invoice to file thanh cong:" << exported;
+
+    // =====================================================
+    // 13. FILE I/O: DOC CAU HINH CSDL TU FILE (DOC FILE)
+    // =====================================================
+
+    qDebug() << "\n[13] Testing AppConfig::loadDatabaseConfig";
+
+    AppConfig::DatabaseConfig dbConfig =
+        AppConfig::loadDatabaseConfig();
+
+    qDebug() << "DB host:" << dbConfig.host;
+    qDebug() << "DB port:" << dbConfig.port;
+    qDebug() << "DB name:" << dbConfig.databaseName;
 
 
     // =====================================================

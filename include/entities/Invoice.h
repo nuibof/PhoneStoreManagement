@@ -5,9 +5,13 @@
 
 #include <QDateTime>
 #include <QString>
+#include <vector>
+
+#include "InvoiceDetail.h"
+#include "FileExportable.h"
 #ifndef PHONESTOREMANAGEMENT_INVOICE_H
 #define PHONESTOREMANAGEMENT_INVOICE_H
-class Invoice
+class Invoice : public FileExportable
 {
 private:
     int invoiceId;
@@ -16,6 +20,8 @@ private:
     QString paymentMethod;
     QString paymentStatus;
     double totalAmount;
+
+    std::vector<InvoiceDetail> details;
 
 public:
     Invoice();
@@ -35,13 +41,23 @@ public:
     QString getPaymentStatus() const;
     double getTotalAmount() const;
 
+    std::vector<InvoiceDetail> getDetails() const;
+
     void setInvoiceId(int id);
     void setOrderId(int id);
     void setInvoiceDate(const QDateTime& date);
     void setPaymentMethod(const QString& method);
     void setPaymentStatus(const QString& status);
-    void setTotalAmount(double amount);
 
+    void addDetail(const InvoiceDetail& detail);
+    void removeDetail(int invoiceDetailId);
+    void clearDetails();
+
+    double calculateTotal() const;
+    void setTotalAmount(double totalAmount);
     bool operator==(const Invoice& other) const;
+
+    // Ghi de ham thuan ao cua FileExportable - sinh noi dung hoa don de xuat ra file
+    QString toFileText() const override;
 };
 #endif //PHONESTOREMANAGEMENT_INVOICE_H

@@ -3,19 +3,22 @@
 //
 
 #include "../../include/database/DatabaseConnection.h"
+#include "config/AppConfig.h"
 #include <QDebug>
 #include <QSqlError>
 
 bool DatabaseConnection::connect()
 {
+    AppConfig::DatabaseConfig config = AppConfig::loadDatabaseConfig();
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
 
-    db.setHostName("localhost");
-    db.setPort(5432);
-    db.setDatabaseName("phone_store");
+    db.setHostName(config.host);
+    db.setPort(config.port);
+    db.setDatabaseName(config.databaseName);
 
-    db.setUserName("postgres");
-    db.setPassword("1234");
+    db.setUserName(config.userName);
+    db.setPassword(config.password);
 
     if (!db.open())
     {

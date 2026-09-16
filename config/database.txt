@@ -1,0 +1,6 @@
+# Cau hinh ket noi CSDL - AppConfig::loadDatabaseConfig() se doc file nay
+host=localhost
+port=5432
+database=phone_store
+username=postgres
+password=1234

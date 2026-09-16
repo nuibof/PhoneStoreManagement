@@ -4,6 +4,9 @@
 #pragma once
 
 #include <QDateTime>
+#include <QList>
+
+#include "OrderDetail.h"
 #ifndef PHONESTOREMANAGEMENT_ORDER_H
 #define PHONESTOREMANAGEMENT_ORDER_H
 class Order
@@ -15,6 +18,8 @@ private:
     QDateTime orderDate;
     QString status;
     double totalAmount;
+
+    std::vector<OrderDetail> details;
 
 public:
     Order();
@@ -34,13 +39,20 @@ public:
     QString getStatus() const;
     double getTotalAmount() const;
 
+    std::vector<OrderDetail> getDetails() const;
+
     void setOrderId(int id);
     void setCustomerId(int id);
     void setEmployeeId(int id);
     void setOrderDate(const QDateTime& date);
     void setStatus(const QString& status);
-    void setTotalAmount(double amount);
 
+    void addDetail(const OrderDetail& detail);
+    void removeDetail(int orderDetailId);
+    void clearDetails();
+
+    double calculateTotal() const;
+    void setTotalAmount(double totalAmount);
     bool operator==(const Order& other) const;
 };
 #endif //PHONESTOREMANAGEMENT_ORDER_H
