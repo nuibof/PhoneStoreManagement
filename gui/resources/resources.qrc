@@ -3,4 +3,7 @@
     <file>edit.svg</file>
     <file>delete.svg</file>
   </qresource>
+  <qresource prefix="/styles">
+    <file>app.qss</file>
+  </qresource>
 </RCC>

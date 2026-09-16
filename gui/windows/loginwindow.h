@@ -7,6 +7,8 @@
 
 #include <QMainWindow>
 
+#include "managers/AuthManager.h"
+
 
 QT_BEGIN_NAMESPACE
 
@@ -23,9 +25,11 @@ public:
     explicit LoginWindow(QWidget *parent = nullptr);
 
     ~LoginWindow() override;
+    void onLogin();
 
 private:
     Ui::LoginWindow *ui;
+    AuthManager authManager;
 };
 
 

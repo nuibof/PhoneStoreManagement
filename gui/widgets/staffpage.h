@@ -1,12 +1,9 @@
-//
-// Created by Nam B on 9/13/2026.
-//
-
 #ifndef PHONESTOREMANAGEMENT_STAFFPAGE_H
 #define PHONESTOREMANAGEMENT_STAFFPAGE_H
 
 #include <QWidget>
 
+class AuthManager;
 
 QT_BEGIN_NAMESPACE
 
@@ -20,20 +17,24 @@ class StaffPage : public QWidget {
     Q_OBJECT
 
 public:
-    explicit StaffPage(QWidget *parent = nullptr);
+    explicit StaffPage(AuthManager *authManager,
+                       QWidget *parent = nullptr);
 
     ~StaffPage() override;
+
 public slots:
     void onAddStaff();
     void onEditStaff();
     void onDeleteStaff();
     void onRefresh();
     void onSearch();
+
 private:
     Ui::StaffPage *ui;
+    AuthManager *authManager;
+
     void setupTable();
     void loadStaff();
 };
 
-
-#endif //PHONESTOREMANAGEMENT_STAFFPAGE_H
+#endif

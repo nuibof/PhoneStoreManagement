@@ -1,3 +1,4 @@
+#include "gui/UiStyle.h"
 #include <QApplication>
 #include "gui/windows/LoginWindow.h"
 #include "include/database/DatabaseConnection.h"
@@ -6,6 +7,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    UiStyle::install(app);
 
     // If the database connection fails, show an error message and exit the application
     if (!DatabaseConnection::connect()) {

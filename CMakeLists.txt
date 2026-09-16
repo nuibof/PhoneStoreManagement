@@ -21,6 +21,9 @@ add_executable(PhoneStoreManagement
         gui/windows/LoginWindow.cpp
         gui/windows/LoginWindow.h
         gui/windows/LoginWindow.ui
+        include/managers/AuthManager.h
+        src/managers/AuthManager.cpp
+        src/managers/EmployeeManager.cpp
 
         gui/windows/DashboardWindow.cpp
         gui/windows/DashboardWindow.h
@@ -37,15 +40,19 @@ add_executable(PhoneStoreManagement
         src/managers/ProductManager.cpp
         include/managers/CustomerManager.h
         src/managers/CustomerManager.cpp
+        include/entities/Order.h
+        src/entities/Order.cpp
         include/managers/OrderManager.h
         src/managers/OrderManager.cpp
+        include/entities/Invoice.h
+        src/entities/Invoice.cpp
         include/managers/InvoiceManager.h
         src/managers/InvoiceManager.cpp
 
-        include/entities/Order.h
-        src/entities/Order.cpp
-        include/entities/Invoice.h
-        src/entities/Invoice.cpp
+        include/entities/ProductVariant.h
+        src/entities/ProductVariant.cpp
+        include/managers/VariantManager.h
+        src/managers/VariantManager.cpp
 
         src/managers/DashboardManager.cpp
         include/managers/DashboardManager.h
@@ -65,6 +72,14 @@ add_executable(PhoneStoreManagement
         gui/widgets/invoicespage.cpp
         gui/widgets/invoicespage.h
         gui/widgets/invoicespage.ui
+
+        gui/widgets/VariantsDialog.cpp
+        gui/widgets/VariantsDialog.h
+        gui/widgets/VariantsDialog.ui
+        include/managers/EmployeeData.h
+        gui/widgets/addstaffdialog.cpp
+        gui/widgets/addstaffdialog.h
+        gui/widgets/addstaffdialog.ui
 )
 
 target_link_libraries(PhoneStoreManagement

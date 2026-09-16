@@ -1,3 +1,4 @@
+#include "../UiStyle.h"
 //
 // Created by Nam B on 9/12/2026.
 //
@@ -7,6 +8,7 @@
 #include "productspage.h"
 #include "ui_ProductsPage.h"
 
+#include "VariantsDialog.h"
 #include "managers/ProductManager.h"
 #include <QHeaderView>
 #include <QHBoxLayout>
@@ -25,16 +27,46 @@
 #include <QVariant>
 #include <QIcon>
 
-ProductsPage::ProductsPage(QWidget* parent) : QWidget(parent), ui(new Ui::ProductsPage) {
+ProductsPage::ProductsPage(const QString &position, QWidget* parent)
+    : QWidget(parent),
+      ui(new Ui::ProductsPage),
+      position(position) {
     ui->setupUi(this);
+    UiStyle::page(this);
 
-
+    if (position == "Sales") {
+        ui->btnAdd->setEnabled(false);
+    }
     setupTable();
     connect(ui->btnAdd, &QPushButton::clicked, this, &ProductsPage::onAddProduct);
     connect(ui->btnRefresh, &QPushButton::clicked, this, &ProductsPage::onRefresh);
     connect(ui->txtSearch, &QLineEdit::textChanged, this, &ProductsPage::onSearch);
 
     loadProducts();
+
+    connect(ui->tblProducts, &QTableWidget::cellDoubleClicked,
+        this, [this](int row, int column)
+{
+    Q_UNUSED(column);
+
+    QTableWidgetItem *idItem = ui->tblProducts->item(row, 0);
+    QTableWidgetItem *nameItem = ui->tblProducts->item(row, 1);
+
+    if (!idItem || !nameItem)
+        return;
+
+    int productId = idItem->text().toInt();
+    QString productName = nameItem->text();
+
+    VariantsDialog dialog(
+        productId,
+        productName,
+        this->position,
+        this
+    );
+
+    dialog.exec();
+});
 }
 
 ProductsPage::~ProductsPage() {
@@ -103,6 +135,7 @@ void ProductsPage::setupTable()
 
     ui->tblProducts->horizontalHeader()
         ->setSectionResizeMode(7, QHeaderView::ResizeToContents);
+    UiStyle::table(ui->tblProducts, 7);
 }
 
 void ProductsPage::loadProducts()
@@ -186,14 +219,6 @@ void ProductsPage::loadProducts()
         editButton->setIconSize(QSize(18, 18));
         deleteButton->setIconSize(QSize(18, 18));
 
-        const QString actionStyle =
-            "QPushButton { padding: 4px 8px; color: #3478F6; "
-            "background-color: #FFFFFF; border: 1px solid #D0D0D0; "
-            "border-radius: 4px; text-align: center; }"
-            "QPushButton:hover { background-color: #EAF1FF; }";
-        editButton->setStyleSheet(actionStyle);
-        deleteButton->setStyleSheet(actionStyle);
-
         // Let QSS from ProductsPage.ui control the appearance
         editButton->setProperty("action", "edit");
         deleteButton->setProperty("action", "delete");
@@ -208,11 +233,13 @@ void ProductsPage::loadProducts()
             product.getProductId()
         );
 
-        editButton->setMinimumSize(60, 30);
-        deleteButton->setMinimumSize(60, 30);
-
         editButton->setCursor(Qt::PointingHandCursor);
         deleteButton->setCursor(Qt::PointingHandCursor);
+        if (position == "Sales")
+        {
+            editButton->setEnabled(false);
+            deleteButton->setEnabled(false);
+        }
 
         auto *actionWidget = new QWidget();
         actionWidget->setObjectName("actionWidget");
@@ -228,6 +255,8 @@ void ProductsPage::loadProducts()
 
         actionLayout->addWidget(editButton);
         actionLayout->addWidget(deleteButton);
+        UiStyle::actions(editButton, deleteButton, actionLayout);
+
 
 
 
@@ -239,9 +268,7 @@ void ProductsPage::loadProducts()
         actionWidget->ensurePolished();
         editButton->ensurePolished();
         deleteButton->ensurePolished();
-        editButton->setMinimumSize(editButton->sizeHint());
-        deleteButton->setMinimumSize(deleteButton->sizeHint());
-        ui->tblProducts->setRowHeight(row, actionLayout->sizeHint().height() + 20);
+        ui->tblProducts->setRowHeight(row, 45);
 
         connect(
             editButton,
@@ -325,6 +352,7 @@ void ProductsPage::showProductDialog(int productId)
     layout->addRow("Warranty:", spinWarranty);
     layout->addRow("Description:", txtDescription);
     auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    UiStyle::form(buttons, productId != 0);
     layout->addRow(buttons);
     connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     connect(buttons, &QDialogButtonBox::accepted, &dialog, [&]() {
@@ -345,8 +373,8 @@ void ProductsPage::showProductDialog(int productId)
     if (dialog.exec() == QDialog::Accepted) {
         QMessageBox::information(this, "Success", productId == 0
             ? "Product added successfully." : "Product updated successfully.");
-        loadProducts();
     }
+    loadProducts();
 }
 
 void ProductsPage::onDeleteProduct()

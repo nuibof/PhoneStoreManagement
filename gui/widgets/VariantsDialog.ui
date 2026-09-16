@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>VariantsDialog</class>
+
+    <widget class="QDialog" name="VariantsDialog">
+
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>900</width>
+                <height>680</height>
+            </rect>
+        </property>
+
+        <property name="windowTitle">
+            <string>Product Variants</string>
+        </property>
+
+        <layout class="QVBoxLayout" name="mainLayout">
+
+            <property name="spacing">
+                <number>14</number>
+            </property>
+
+            <property name="leftMargin">
+                <number>24</number>
+            </property>
+            <property name="topMargin">
+                <number>24</number>
+            </property>
+            <property name="rightMargin">
+                <number>24</number>
+            </property>
+            <property name="bottomMargin">
+                <number>24</number>
+            </property>
+
+            <!-- Header -->
+            <item>
+                <layout class="QVBoxLayout" name="headerLayout">
+                    <property name="spacing">
+                        <number>2</number>
+                    </property>
+                    <item>
+                        <widget class="QLabel" name="lblTitle">
+                            <property name="text">
+                                <string>Product Variants</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="lblProductName">
+                            <property name="text">
+                                <string>Product name</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+
+            <!-- Variants table -->
+            <item>
+                <widget class="QTableWidget" name="tblVariants">
+
+                    <property name="minimumSize">
+                        <size>
+                            <width>0</width>
+                            <height>320</height>
+                        </size>
+                    </property>
+
+                    <property name="alternatingRowColors">
+                        <bool>true</bool>
+                    </property>
+
+                    <property name="selectionMode">
+                        <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+
+                    <property name="selectionBehavior">
+                        <enum>QAbstractItemView::SelectRows</enum>
+                    </property>
+
+                    <property name="showGrid">
+                        <bool>false</bool>
+                    </property>
+
+                    <property name="editTriggers">
+                        <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
+
+                    <property name="columnCount">
+                        <number>8</number>
+                    </property>
+
+                    <property name="rowCount">
+                        <number>0</number>
+                    </property>
+
+                    <column><property name="text"><string>SKU</string></property></column>
+                    <column><property name="text"><string>Color</string></property></column>
+                    <column><property name="text"><string>Storage</string></property></column>
+                    <column><property name="text"><string>RAM</string></property></column>
+                    <column><property name="text"><string>Cost Price</string></property></column>
+                    <column><property name="text"><string>Selling Price</string></property></column>
+                    <column><property name="text"><string>Stock</string></property></column>
+                    <column><property name="text"><string>Actions</string></property></column>
+
+                </widget>
+            </item>
+
+            <!-- Add / edit form -->
+            <item>
+                <widget class="QLabel" name="lblFormTitle">
+                    <property name="text">
+                        <string>ADD / EDIT VARIANT</string>
+                    </property>
+                </widget>
+            </item>
+
+            <item>
+                <layout class="QHBoxLayout" name="formRow1">
+                    <property name="spacing"><number>10</number></property>
+
+                    <item>
+                        <widget class="QComboBox" name="cboColor">
+                            <property name="minimumSize"><size><width>140</width><height>36</height></size></property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QComboBox" name="cboStorage">
+                            <property name="minimumSize"><size><width>140</width><height>36</height></size></property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QComboBox" name="cboRam">
+                            <property name="minimumSize"><size><width>140</width><height>36</height></size></property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLineEdit" name="txtSku">
+                            <property name="minimumSize"><size><width>160</width><height>36</height></size></property>
+                            <property name="placeholderText"><string>SKU</string></property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+
+            <item>
+                <layout class="QHBoxLayout" name="formRow2">
+                    <property name="spacing"><number>10</number></property>
+
+                    <item>
+                        <widget class="QDoubleSpinBox" name="spinCostPrice">
+                            <property name="minimumSize"><size><width>140</width><height>36</height></size></property>
+                            <property name="prefix"><string>Cost: </string></property>
+                            <property name="maximum"><double>999999999.000000000000000</double></property>
+                            <property name="decimals"><number>0</number></property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QDoubleSpinBox" name="spinSellingPrice">
+                            <property name="minimumSize"><size><width>140</width><height>36</height></size></property>
+                            <property name="prefix"><string>Sell: </string></property>
+                            <property name="maximum"><double>999999999.000000000000000</double></property>
+                            <property name="decimals"><number>0</number></property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QSpinBox" name="spinStock">
+                            <property name="minimumSize"><size><width>120</width><height>36</height></size></property>
+                            <property name="prefix"><string>Stock: </string></property>
+                            <property name="maximum"><number>999999</number></property>
+                        </widget>
+                    </item>
+
+                    <item>
+                        <spacer name="formSpacer">
+                            <property name="orientation"><enum>Qt::Horizontal</enum></property>
+                            <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+                        </spacer>
+                    </item>
+
+                    <item>
+                        <widget class="QPushButton" name="btnClear">
+                            <property name="minimumSize"><size><width>90</width><height>36</height></size></property>
+                            <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                            <property name="text"><string>Clear</string></property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="btnSave">
+                            <property name="minimumSize"><size><width>130</width><height>36</height></size></property>
+                            <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                            <property name="text"><string>+ Add Variant</string></property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+
+            <!-- Footer -->
+            <item>
+                <layout class="QHBoxLayout" name="footerLayout">
+                    <item>
+                        <spacer name="footerSpacer">
+                            <property name="orientation"><enum>Qt::Horizontal</enum></property>
+                            <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+                        </spacer>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="btnClose">
+                            <property name="minimumSize"><size><width>100</width><height>36</height></size></property>
+                            <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                            <property name="text"><string>Close</string></property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+
+        </layout>
+
+    </widget>
+
+    <resources/>
+    <connections/>
+
+</ui>
