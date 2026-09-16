@@ -12,6 +12,10 @@
 #include "../widgets/staffpage.h"
 #include "ui_DashboardWindow.h"
 #include "dashboardwindow.h"
+
+#include <iostream>
+#include <ostream>
+
 #include "loginwindow.h"
 #include <QPushButton>
 #include <QMessageBox>
@@ -19,16 +23,39 @@
 #include <QStyle>
 #include <QDebug>
 
-DashboardWindow::DashboardWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::DashboardWindow) {
+DashboardWindow::DashboardWindow(AuthManager *authManager, QWidget *parent) : QMainWindow(parent), ui(new Ui::DashboardWindow), authManager(authManager) {
     ui->setupUi(this);
 
+    //Check position and hide buttons
+    QString position = authManager->getCurrentPosition();
+    std::cout << "Current position: " << position.toStdString() << std::endl;
+    if (position == "Manager")
+    {
+        // hiện tất cả
+    }
+    else if (position == "Sales")
+    {
+        ui->btnCategories->hide();
+        ui->btnStaff->hide();
+    }
+    else if (position == "Warehouse")
+    {
+        ui->btnCustomers->hide();
+        ui->btnStaff->hide();
+        ui->btnInvoices->hide();
+        ui->btnOrders->hide();
+    }
+
     // Add Staff Page
-    StaffPage *staffPage = new StaffPage();
+    StaffPage *staffPage = new StaffPage(authManager);
     int staffIndex =
         ui->stackedWidget->addWidget(staffPage);
 
     // Add Products Page
-    ProductsPage *productsPage = new ProductsPage();
+    ProductsPage *productsPage =
+    new ProductsPage(
+        authManager->getCurrentPosition()
+    );
     int productsIndex =
         ui->stackedWidget->addWidget(productsPage);
 
